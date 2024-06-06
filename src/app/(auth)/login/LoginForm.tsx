@@ -1,5 +1,5 @@
 'use client';
-import { loginSchema } from '@/zod-schema/login-schema';
+import { loginSchema } from '@/zod-schemas/login-schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
