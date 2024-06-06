@@ -6,3 +6,69 @@
         text-wrap: balance;
     }
 }
+
+@layer base {
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    h1,
+    h2,
+    h3 {
+        font-weight: 500;
+    }
+
+    h1 {
+        font-size: 44px;
+        line-height: 56px;
+    }
+    h2 {
+        font-size: 32px;
+        line-height: 44px;
+    }
+
+    h3 {
+        font-size: 28px;
+        line-height: 38px;
+    }
+
+    h4 {
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    .body-1,
+    .body-2,
+    .body-3,
+    .body-4,
+    .body-5 {
+        font-weight: 400;
+    }
+
+    .body-1 {
+        font-size: 20px;
+        line-height: 28px;
+    }
+
+    .body-2 {
+        font-size: 18px;
+        line-height: 26px;
+    }
+
+    .body-3 {
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .body-4 {
+        font-size: 14px;
+        line-height: 20px;
+    }
+
+    .body-5 {
+        font-size: 12px;
+        line-height: 16px;
+    }
+}
