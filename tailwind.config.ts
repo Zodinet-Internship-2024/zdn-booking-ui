@@ -36,8 +36,8 @@ const config: Config = {
                 },
                 alerts: {
                     green: {
-                        light: '#6AB557',
-                        DEFAULT: '#EDF6EB',
+                        light: '#EDF6EB',
+                        DEFAULT: '#6AB557',
                     },
                     red: {
                         light: '#FDEBE7',
