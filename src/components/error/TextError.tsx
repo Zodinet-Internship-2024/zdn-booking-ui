@@ -5,7 +5,7 @@ type TextErrorProps = {
 const TextError = ({ error }: TextErrorProps) => {
     return (
         <span
-            className="inline-block h-4 text-sm text-alerts-red font-semibold w-full overflow-hidden truncate"
+            className="inline-block h-5 text-sm text-alerts-red font-semibold w-full overflow-hidden truncate"
             title={error}
         >
             {error}
