@@ -2,12 +2,12 @@
 
 import { usePathname } from 'next/navigation';
 
-type AuthHeaderProps = {
+type RouteConfig = {
     heading: string;
     subheading: string;
 };
 
-const routes: { [key: string]: { heading: string; subheading: string } } = {
+const routes: Record<string, RouteConfig> = {
     '/login': {
         heading: 'Đăng nhập',
         subheading: 'Nhập thông tin đăng nhập ngay bên dưới',
@@ -20,12 +20,13 @@ const routes: { [key: string]: { heading: string; subheading: string } } = {
 
 const AuthHeader = () => {
     const pathname = usePathname();
-    const { heading = 'Opps', subheading = 'Có lẽ bạn đã vào nhầm page' } = routes[pathname];
+    const route = routes[pathname] ?? { heading: 'Opps', subheading: 'Có lẽ bạn đã vào nhầm page' };
+
     return (
         <header className="h-56 w-full bg-primary-100 flex flex-col justify-center items-center rounded-b-[80px]">
             <div className="text-center space-y-3">
-                <h1 className="text-primary-600 font-bold">{heading}</h1>
-                <p className="body-1 font-medium">{subheading}</p>
+                <h1 className="text-primary-600 font-bold">{route.heading}</h1>
+                <p className="body-1 font-medium">{route.subheading}</p>
             </div>
         </header>
     );

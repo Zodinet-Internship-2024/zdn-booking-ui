@@ -1,11 +1,10 @@
 import AuthHeader from '@/components/auth/AuthHeader';
 
-export default function AuthLayout({
-    children, // will be a page or nested layout
-}: {
+type AuthLayoutProps = {
     children: React.ReactNode;
-    }) {
-    
+};
+
+export default function AuthLayout({ children }: AuthLayoutProps) {
     return (
         <main>
             <AuthHeader />
