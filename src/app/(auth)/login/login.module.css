@@ -1,0 +1,4 @@
+.main :global .ant-btn {
+  background-color: theme("colors.accent.500");
+  color: theme("colors.neutral.DEFAULT");
+}/*# sourceMappingURL=login.module.css.map */

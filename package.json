@@ -13,6 +13,8 @@
         "@ant-design/nextjs-registry": "^1.0.0",
         "@hookform/resolvers": "^3.6.0",
         "antd": "^5.18.0",
+        "axios": "^1.7.2",
+        "antd-img-crop": "^4.22.0",
         "clsx": "^2.1.1",
         "next": "14.2.3",
         "react": "^18",

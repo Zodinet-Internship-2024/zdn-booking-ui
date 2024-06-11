@@ -19,20 +19,3 @@
     }
   }
 }
-.main {
-  :global {
-    .ant-btn-primary {
-      @include accent-btn;
-      font-size: 16px;
-      padding: 14px 20px;
-      font-weight: 700;
-      border-radius: 40px;
-      line-height: 24px;
-      height: 52px;
-    }
-
-    .ant-btn-default {
-      @include neutral-btn;
-    }
-  }
-}

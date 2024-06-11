@@ -1,0 +1,13 @@
+@import '/src/styles/mixins.scss';
+
+.main {
+    :global {
+        .ant-btn-primary {
+            @include accent-btn;
+        }
+
+        .ant-btn-default {
+            @include neutral-btn;
+        }
+    }
+}
