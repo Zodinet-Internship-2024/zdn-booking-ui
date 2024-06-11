@@ -1,8 +1,13 @@
+@import '/src/styles/mixins.scss';
+
 .main {
-  :global {
-    .ant-btn {
-      background-color: theme("colors.accent.500");
-      color: theme("colors.neutral.DEFAULT");
+    :global {
+        .ant-btn-primary {
+            @include accent-btn;
+        }
+
+        .ant-btn-default {
+            @include neutral-btn;
+        }
     }
-  }
 }

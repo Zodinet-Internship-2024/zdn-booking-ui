@@ -1,0 +1,46 @@
+@mixin btn($textColor, $bgColor) {
+  border-radius: 40px;
+  background: $bgColor;
+  color: $textColor;
+  font-weight: 700;
+  font-size: 1.6rem;
+  line-height: 2.4rem;
+  padding: 12px 24px;
+  border: none;
+
+  &:hover {
+    background: $bgColor !important;
+    opacity: 0.95 !important;
+    color: $textColor !important;
+  }
+}
+
+@mixin accent-btn {
+  @include btn(theme("colors.neutral.DEFAULT"), theme("colors.accent.600"));
+}
+
+@mixin neutral-btn {
+  @include btn(theme("colors.accent.600"), theme("colors.neutral.DEFAULT"));
+}
+@mixin centered-placeholder {
+  border: 1px solid theme("colors.primary.400");
+
+  outline: none;
+  &::placeholder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: theme("colors.neutral.300");
+    pointer-events: none;
+  }
+  &:focus {
+    outline: none;
+    border-color: theme("colors.primary.400");
+  }
+  &:hover {
+    outline: none;
+    border-color: theme("colors.primary.400");
+  }
+}
