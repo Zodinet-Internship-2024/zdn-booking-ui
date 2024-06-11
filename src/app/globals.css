@@ -15,6 +15,9 @@
         box-sizing: border-box;
     }
 
+    html {
+        font-size: 62.5%;
+    }
     body {
         font-family: 'Montserrat', sans-serif;
     }
@@ -25,22 +28,22 @@
     }
 
     h1 {
-        font-size: 44px;
-        line-height: 56px;
+        font-size: 4.4rem;
+        line-height: 5.6rem;
     }
     h2 {
-        font-size: 32px;
-        line-height: 44px;
+        font-size: 3.2rem;
+        line-height: 4.4rem;
     }
 
     h3 {
-        font-size: 28px;
-        line-height: 38px;
+        font-size: 2.8rem;
+        line-height: 3.8rem;
     }
 
     h4 {
-        font-size: 24px;
-        line-height: 32px;
+        font-size: 2.4rem;
+        line-height: 3.2rem;
     }
 
     .body-1,
@@ -52,27 +55,27 @@
     }
 
     .body-1 {
-        font-size: 20px;
-        line-height: 28px;
+        font-size: 2rem;
+        line-height: 2.8rem;
     }
 
     .body-2 {
-        font-size: 18px;
-        line-height: 26px;
+        font-size: 1.8rem;
+        line-height: 2.6rem;
     }
 
     .body-3 {
-        font-size: 16px;
-        line-height: 24px;
+        font-size: 1.6rem;
+        line-height: 2.4rem;
     }
 
     .body-4 {
-        font-size: 14px;
-        line-height: 20px;
+        font-size: 1.4rem;
+        line-height: 2rem;
     }
 
     .body-5 {
-        font-size: 12px;
-        line-height: 16px;
+        font-size: 1.2rem;
+        line-height: 1.6rem;
     }
 }
