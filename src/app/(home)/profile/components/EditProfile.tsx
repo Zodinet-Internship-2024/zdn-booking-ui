@@ -9,7 +9,7 @@ import { FaArrowLeft } from "react-icons/fa6";
 
 export default function EditProfile() {
   return (
-    <div className="bg-primary-100 rounded-large flex flex-col gap-5 p-10 w-1/2">
+    <div className="bg-primary-100 rounded-large flex flex-col gap-5 p-10 w-full">
       <div className="flex items-center">
         <FaArrowLeft className="text-xl mr-4" />
         <span className="font-bold text-[28px] leading-7 cursor-pointer">

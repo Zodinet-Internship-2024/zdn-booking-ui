@@ -3,11 +3,11 @@ import React from "react";
 import { BiUser } from "react-icons/bi";
 import { FiHeart } from "react-icons/fi";
 import { HiOutlineShoppingBag } from "react-icons/hi";
-import Navbar from "./Navbar";
+import Navbar from "./components/Navbar";
 import Link from "next/link";
 import Image from "next/image";
 import { Input } from "antd";
-import SearchBar from "./Search";
+import SearchBar from "./components/Search";
 
 const Header = () => {
   return (
