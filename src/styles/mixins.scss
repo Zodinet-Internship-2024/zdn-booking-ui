@@ -24,6 +24,9 @@
 }
 @mixin centered-placeholder {
   border: 1px solid theme("colors.primary.400");
+  text-align: center;
+  font-weight: 700;
+  font-size: 16px;
 
   outline: none;
   &::placeholder {

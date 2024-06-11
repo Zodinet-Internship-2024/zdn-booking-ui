@@ -72,13 +72,13 @@
 
 // export default UploadAvatar;
 
-
 "use client";
 import React, { useState } from "react";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { message, Upload } from "antd";
 import type { UploadProps } from "antd";
 import { RcFile } from "antd/es/upload/interface";
+import ImgCrop from "antd-img-crop";
 
 const getBase64 = (img: RcFile, callback: (url: string) => void) => {
   const reader = new FileReader();
@@ -128,25 +128,27 @@ const UploadAvatar: React.FC = () => {
   );
 
   return (
-    <Upload
-      name="avatar"
-      listType="picture-circle"
-      className="avatar-uploader"
-      showUploadList={false}
-      beforeUpload={beforeUpload}
-      onChange={handleChange}
-      customRequest={({ file, onSuccess }) => {
-        setTimeout(() => {
-          onSuccess && onSuccess("ok");
-        }, 1000);
-      }}
-    >
-      {imageUrl ? (
-        <img src={imageUrl} alt="avatar" style={{ width: "100%" }} />
-      ) : (
-        uploadButton
-      )}
-    </Upload>
+    <ImgCrop rotationSlider>
+      <Upload
+        name="avatar"
+        listType="picture-circle"
+        className="avatar-uploader"
+        showUploadList={false}
+        beforeUpload={beforeUpload}
+        onChange={handleChange}
+        customRequest={({ file, onSuccess }) => {
+          setTimeout(() => {
+            onSuccess && onSuccess("ok");
+          }, 1000);
+        }}
+      >
+        {imageUrl ? (
+          <img src={imageUrl} alt="avatar" style={{ width: "100%" }} />
+        ) : (
+          uploadButton
+        )}
+      </Upload>
+    </ImgCrop>
   );
 };
 
