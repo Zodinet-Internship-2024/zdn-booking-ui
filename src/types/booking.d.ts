@@ -1,10 +1,4 @@
-enum BookingStatus {
-    disabled = 'disabled',
-    rejected = 'rejected',
-    available = 'available',
-    accepted = 'accepted',
-    booking = 'booking',
-}
+type BookingStatus = 'disabled' | 'rejected' | 'available' | 'accepted' | 'booking';
 
 type Booking = {
     id: string;
