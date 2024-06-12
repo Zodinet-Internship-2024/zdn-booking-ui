@@ -40,7 +40,10 @@ const SportFieldShortInfo = ({ sportField }: SportFieldShortInfoProps) => {
             </div>
             <div className="flex gap-2 items-center">
                 <Image src="/icons/phone-icon.svg" alt="location icon" width={20} height={20} />
-                <Link href={`tel:${sportField.phone}`} className="truncate body-4">
+                <Link
+                    href={`tel:${sportField.phone}`}
+                    className="truncate body-4 text-alerts-blue underline"
+                >
                     {sportField.phone}
                 </Link>
             </div>
