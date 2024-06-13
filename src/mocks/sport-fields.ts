@@ -14,7 +14,7 @@ export const sportField: SportField = {
     sportFieldImages: [
         {
             id: '1',
-            url: 'https://www.google.com',
+            url: '/images/sport-field-image.png',
             name: 'City Soccer Field',
         },
     ],

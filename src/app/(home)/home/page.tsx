@@ -1,10 +1,12 @@
 import SportFieldInfoCard from '@/components/sport-field/SportFieldInfoCard';
 import { sportField } from '@/mocks/sport-fields';
+import NearestFields from './components/NearestFields';
 
 const HomePage = () => {
+    const sportFields = Array(7).fill(sportField);
     return (
         <div>
-            <SportFieldInfoCard sportField={sportField} />
+            <NearestFields sportFields={sportFields} />
         </div>
     );
 };
