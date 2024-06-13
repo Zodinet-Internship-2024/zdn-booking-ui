@@ -1,0 +1,35 @@
+@import '/src/styles/mixins.scss';
+
+.timePickerContainer {
+    --background: theme('colors.neutral.100');
+    border-radius: 40px;
+    border: none;
+    background: var(--background);
+    width: fit-content;
+    padding: 4px;
+    overflow: hidden;
+    :global {
+        .ant-picker-range {
+            @include centered-placeholder;
+            padding: 12px 20px;
+            border: none;
+            background: var(--background);
+        }
+
+        .ant-picker-range:hover,
+        .ant-picker-range:focus,
+        .ant-picker-range:focus-within {
+            background: var(--background);
+            border: none;
+        }
+
+        .ant-btn-primary {
+            @include accent-btn;
+            height: 40px;
+            padding: 8px 24px;
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 24px;
+        }
+    }
+}
