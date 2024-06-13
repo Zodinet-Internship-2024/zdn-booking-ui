@@ -1,17 +1,28 @@
-"use client";
 import Image from "next/image";
 import UploadAvatar from "./UploadAvatar";
 import { Button, Input } from "antd";
 import { cn } from "@/libs/utils";
-import s from "./editProfile.module.scss";
+import s from "./profile.module.scss";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { FaArrowLeft } from "react-icons/fa6";
 
-export default function EditProfile() {
+type EditProfileProps = {
+  onCancel: () => void;
+};
+
+export default function EditProfile({ onCancel }: EditProfileProps) {
   return (
-    <div className="bg-primary-100 rounded-large flex flex-col gap-5 p-10 w-full">
+    <div
+      className={cn(
+        s.editProfileContainer,
+        "bg-primary-100 rounded-large flex flex-col gap-5 p-10 w-full"
+      )}
+    >
       <div className="flex items-center">
-        <FaArrowLeft className="text-xl mr-4" />
+        <button className="hover:opacity-75" key="back" onClick={onCancel}>
+          <FaArrowLeft className="text-xl mr-4" />
+        </button>
+
         <span className="font-bold text-[28px] leading-7 cursor-pointer">
           Edit profile
         </span>
@@ -28,7 +39,12 @@ export default function EditProfile() {
           >
             Tên
           </label>
-          <Input id="name" name="name" placeholder="Nhập tên" className="text-center" />
+          <Input
+            id="name"
+            name="name"
+            placeholder="Nhập tên"
+            className="text-center"
+          />
         </div>
 
         <div
@@ -48,50 +64,9 @@ export default function EditProfile() {
           />
         </div>
 
-        <div>
-          <div
-            className={cn(s.inputContainer, "flex flex-col items-center mt-6")}
-          >
-            <label
-              htmlFor="name"
-              className="text-primary-600 text-lg leading-6 font-bold mb-2"
-            >
-              Password
-            </label>
-            <Input.Password
-              placeholder="Nhập password"
-              id="name"
-              name="name"
-              iconRender={(visible) =>
-                visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
-              }
-            />
-          </div>
-        </div>
-        <div>
-          <div
-            className={cn(s.inputContainer, "flex flex-col items-center mt-6")}
-          >
-            <label
-              htmlFor="name"
-              className="text-primary-600 text-lg leading-6 font-bold mb-2"
-            >
-              Confirm password
-            </label>
-            <Input.Password
-              placeholder="Nhập password"
-              id="name"
-              name="name"
-              iconRender={(visible) =>
-                visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
-              }
-            />
-          </div>
-        </div>
-
-        <button className="my-6 bg-accent-600 text-neutral body-3 font-bold px-5 py-3.5 w-full rounded-large">
+        <Button type="primary" className="mt-12">
           Lưu
-        </button>
+        </Button>
       </div>
     </div>
   );

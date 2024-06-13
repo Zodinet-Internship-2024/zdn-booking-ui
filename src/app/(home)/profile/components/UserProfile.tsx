@@ -1,8 +1,10 @@
 "use client";
 import Image from "next/image";
-import EditProfile from "./EditProfile";
-import { Modal } from "antd";
+import { Button, Modal } from "antd";
 import { useState } from "react";
+import styles from "./profile.module.scss";
+import { cn } from "@/libs/utils";
+import EditProfile from "./EditProfile";
 
 export default function UserProfile() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,7 +23,12 @@ export default function UserProfile() {
 
   return (
     <>
-      <div className="bg-primary-100 rounded-large flex gap-5 p-10 w-1/2">
+      <div
+        className={cn(
+          styles.userProfileContainer,
+          "bg-primary-100 rounded-large flex gap-5 p-10 w-1/2"
+        )}
+      >
         <div className="relative w-[84px] h-[84px]">
           <Image
             src="/images/avt.png"
@@ -34,12 +41,10 @@ export default function UserProfile() {
         <div className="flex flex-col gap-2">
           <div className="flex items-center">
             <p className="body-2 font-bold text-neutral-600">Nguyễn Thu Hà</p>
-            <button
-              onClick={showModal}
-              className="ml-5 body-4 bg-neutral text-accent-600 py-1 px-3 font-medium rounded-large"
-            >
+            <Button type="primary" onClick={showModal} className="ml-5">
               Chỉnh sửa
-            </button>
+            </Button>
+
             <button className="relative ml-2 w-4 h-4">
               <Image
                 src="/icons/logout.svg"
@@ -77,9 +82,10 @@ export default function UserProfile() {
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
+        closable={false}
         footer={() => <></>}
       >
-        <EditProfile />
+        <EditProfile onCancel={handleCancel} />
       </Modal>
     </>
   );
