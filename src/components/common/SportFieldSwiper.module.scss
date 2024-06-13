@@ -1,0 +1,10 @@
+.sliderContainer {
+  :global {
+    .slick-slider {
+      border-radius: 40px;
+      .slick-list {
+        border-radius: 40px;
+      }
+    }
+  }
+}

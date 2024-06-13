@@ -1,10 +1,11 @@
 import React from "react";
-import SingUpForm from "./SingUpForm";
+
+import SignUpForm from "./SignUpForm";
 
 export default function page() {
   return (
     <div className="flex justify-center h-screen">
-      <SingUpForm />
+      <SignUpForm />
     </div>
   );
 }

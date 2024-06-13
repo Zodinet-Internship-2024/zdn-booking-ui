@@ -26,6 +26,14 @@ const config: Config = {
           500: "#242B35",
           600: "#40423F ",
         },
+        natural: {
+          // 100: "#F8F7F5",
+          // 200: "#F1EFE9",
+          300: "#C7C7C7",
+          400: "#939393",
+          // 500: "#B8B08D",
+          600: "#5D5E5B",
+        },
         accent: {
           100: "#FBF9FE",
           200: "#F5F2FD",
@@ -58,10 +66,12 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
-    },
-    borderRadius: {
-      large: "40px",
-      xl: "100px",
+      padding: {
+        "30": "7.5rem",
+      },
+      borderRadius: {
+        'large': "40px",
+      },
     },
   },
   plugins: [],
