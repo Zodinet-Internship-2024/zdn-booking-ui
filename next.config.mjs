@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    async headers() {
+  images: {
+    domains: ["picsum.photos"],
+  },
+  async headers() {
     return [
       {
         // matching all API routes
