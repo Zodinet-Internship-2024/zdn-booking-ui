@@ -11,6 +11,7 @@ import { z } from "zod";
 import s from './login.module.scss';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { signIn, useSession } from 'next-auth/react';
+import Link from 'next/link';
 
 type FormData = z.infer<typeof loginSchema>;
 
@@ -54,11 +55,8 @@ export default function LoginForm() {
     });
   }
 
-  const handleNavigateRegister = () => {
-    router.push(`/sign-up?role=${role}`);
-  };
   const searchParams = useSearchParams();
-  let role = searchParams.get('role');
+  const role = searchParams.get('role');
 
   return (
     <>
@@ -66,17 +64,12 @@ export default function LoginForm() {
       <div className="py-4 mx-auto">
         <div className="w-[620px] bg-primary-100 rounded-[40px] border border--primary-400 p-10 mx-auto">
           <div className="flex items-center">
-            <div
-              className="flex items-center cursor-pointer "
-              onClick={() => {
-                router.push(`/role`);
-              }}
-            >
+            <Link href="/role" className="flex items-center cursor-pointer">
               <FaArrowLeft className="text-xl mr-4 " />
               <span className="font-bold text-[28px] leading-7 ">
                 {role === 'owner' ? 'Chủ sân' : 'Người thuê'}
               </span>
-            </div>
+            </Link>
           </div>
           <form
             onSubmit={handleSubmit(onSubmit)}
@@ -146,12 +139,12 @@ export default function LoginForm() {
               Đăng nhập
             </Button>
             <div>
-              <span
-                onClick={handleNavigateRegister}
+              <Link
+                href={`/sign-up?role=${role}`}
                 className="text-base cursor-pointer underline underline-offset-4 font-medium text-primary-600 mt-3"
               >
                 Bạn chưa có tài khoản đăng nhập?
-              </span>
+              </Link>
             </div>
             <div className=" flex flex-col justify-center items-center mt-10">
               <span>Hoặc đăng nhập bằng</span>

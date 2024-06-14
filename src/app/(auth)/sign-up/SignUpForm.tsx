@@ -16,6 +16,7 @@ import Errors from "@/components/errors/errors";
 import { SignUpSchema } from "@/zod-schemas/signup-schema";
 import { useSearchParams, useRouter } from "next/navigation";
 import { signUpUser } from "../apis/auth.api";
+import Link from 'next/link';
 
 type SignUpSchemaType = z.infer<typeof SignUpSchema>;
 
@@ -28,21 +29,17 @@ export default function SignUpForm() {
     const updateSearchParams = () => {
       const params = new URLSearchParams(searchParams);
 
-      let role = searchParams.get("role");
+      let role = searchParams.get('role');
 
-      if (role === "" || role === null) {
-        params.set("role", "user");
+      if (role === '' || role === null) {
+        params.set('role', 'user');
         router.push(`sign-up?${params.toString()}`);
       }
     };
 
     updateSearchParams();
   }, [searchParams, router]);
-  let role = searchParams.get("role");
-  const handleNavigateLogin = () => {
-    router.push(`/login?role=${role}`);
-  };
-
+  const role = searchParams.get('role');
   const {
     control,
     handleSubmit,
@@ -58,16 +55,16 @@ export default function SignUpForm() {
       email: data.email,
       phone: data.phone,
       password: data.password,
-      role: role ? role : "user",
-      accountType: "manual",
+      role: role ? role : 'user',
+      accountType: 'manual',
     };
 
     const res = await signUpUser(dataBody);
     console.log(res);
-    if (res.status === "Success") {
+    if (res.status === 'Success') {
       messageApi.open({
-        type: "success",
-        content: "Đăng kí thành công",
+        type: 'success',
+        content: 'Đăng kí thành công',
       });
       router.push(`/login?role=${role}`);
       // data.name = "";
@@ -76,7 +73,7 @@ export default function SignUpForm() {
       // data.password = "";
     } else {
       messageApi.open({
-        type: "error",
+        type: 'error',
         content: res.message,
       });
     }
@@ -92,17 +89,15 @@ export default function SignUpForm() {
         >
           <div className="flex items-center">
             <FaArrowLeft className="text-xl mr-4" />
-            <span
+            <Link
+              href="/role"
               className="font-bold text-[28px] leading-7 cursor-pointer"
-              onClick={() => {
-                router.push("/role");
-              }}
             >
-              {role === "owner" ? "Chủ sân" : "Người thuê"}
-            </span>
+              {role === 'owner' ? 'Chủ sân' : 'Người thuê'}
+            </Link>
           </div>
-          <div className={cn(s.main, "mt-10")}>
-            <div className={cn(s.inputContainer, "flex flex-col items-center")}>
+          <div className={cn(s.main, 'mt-10')}>
+            <div className={cn(s.inputContainer, 'flex flex-col items-center')}>
               <label
                 htmlFor="name"
                 className="text-primary-600 text-lg leading-6 font-bold mb-2"
@@ -123,7 +118,7 @@ export default function SignUpForm() {
               <div
                 className={cn(
                   s.inputContainer,
-                  "flex flex-col items-center w-1/2 mr-2"
+                  'flex flex-col items-center w-1/2 mr-2',
                 )}
               >
                 <label
@@ -144,7 +139,7 @@ export default function SignUpForm() {
               <div
                 className={cn(
                   s.inputContainer,
-                  "flex flex-col items-center w-1/2 ml-2"
+                  'flex flex-col items-center w-1/2 ml-2',
                 )}
               >
                 <label
@@ -174,7 +169,7 @@ export default function SignUpForm() {
             <div
               className={cn(
                 s.inputContainer,
-                "flex flex-col items-center mt-6"
+                'flex flex-col items-center mt-6',
               )}
             >
               <label
@@ -202,7 +197,7 @@ export default function SignUpForm() {
             <div
               className={cn(
                 s.inputContainer,
-                "flex flex-col items-center mt-6"
+                'flex flex-col items-center mt-6',
               )}
             >
               <label
@@ -233,12 +228,12 @@ export default function SignUpForm() {
               </Button>
             </div>
             <div>
-              <span
-                onClick={handleNavigateLogin}
+              <Link
+                href={`/login?role=${role}`}
                 className="text-base cursor-pointer underline underline-offset-4 font-medium text-primary-600 mt-3"
               >
                 Bạn đã có tài khoản đăng nhập?
-              </span>
+              </Link>
             </div>
             <div className="flex flex-col justify-center items-center mt-10">
               <span>Hoặc đăng nhập bằng</span>

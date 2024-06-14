@@ -1,5 +1,6 @@
 import Footer from '@/components/footer/Footer';
 import Header from '@/components/header/Header';
+import PrivateRoute from './PrivateRoute';
 
 type HomeLayoutProps = {
   children: React.ReactNode;
@@ -7,9 +8,11 @@ type HomeLayoutProps = {
 
 export default function MainLayout({ children }: HomeLayoutProps) {
   return (
-    <main>
-      <Header />
-      {children}
-    </main>
+    <PrivateRoute>
+      <main>
+        <Header />
+        {children}
+      </main>
+    </PrivateRoute>
   );
 }
