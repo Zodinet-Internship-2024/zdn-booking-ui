@@ -1,5 +1,4 @@
-import Footer from '@/components/footer/Footer';
-import Header from '@/components/header/Header';
+import CustomerHeader from '@/components/header/customer-header/CustomerHeader';
 import PrivateRoute from './PrivateRoute';
 
 type HomeLayoutProps = {
@@ -10,8 +9,8 @@ export default function MainLayout({ children }: HomeLayoutProps) {
   return (
     <PrivateRoute>
       <main>
-        <Header />
-        {children}
+        <CustomerHeader />
+      {children}
       </main>
     </PrivateRoute>
   );

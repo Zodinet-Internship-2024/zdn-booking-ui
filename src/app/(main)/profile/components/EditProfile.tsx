@@ -15,7 +15,7 @@ export default function EditProfile({ onCancel }: EditProfileProps) {
     <div
       className={cn(
         s.editProfileContainer,
-        "bg-primary-100 rounded-large flex flex-col gap-5 p-10 w-full"
+        'bg-primary-100 rounded-large flex flex-col gap-5 p-10 w-full border-2 border-primary-400',
       )}
     >
       <div className="flex items-center">
@@ -32,7 +32,7 @@ export default function EditProfile({ onCancel }: EditProfileProps) {
         <div className="w-[84px] h-[84px] self-center mb-10">
           <UploadAvatar />
         </div>
-        <div className={cn(s.inputContainer, "flex flex-col items-center")}>
+        <div className={cn(s.inputContainer, 'flex flex-col items-center')}>
           <label
             htmlFor="name"
             className="text-primary-600 text-lg leading-6 font-bold mb-2"
@@ -48,7 +48,7 @@ export default function EditProfile({ onCancel }: EditProfileProps) {
         </div>
 
         <div
-          className={cn(s.inputContainer, "flex flex-col items-center mt-6")}
+          className={cn(s.inputContainer, 'flex flex-col items-center mt-6')}
         >
           <label
             htmlFor="phone"

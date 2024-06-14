@@ -1,5 +1,5 @@
-@import "/src/styles/CenteredInput.module.scss";
-@import "/src/styles/mixins.scss";
+@import '/src/styles/CenteredInput.module.scss';
+@import '/src/styles/mixins.scss';
 
 .inputContainer {
   :global {
@@ -12,7 +12,7 @@
     .ant-input-affix-wrapper.ant-input-password {
       border-radius: 24px;
       padding: 0 20px;
-      border: 1px solid theme("colors.primary.400");
+      border: 1px solid theme('colors.primary.400');
       .ant-input {
         @include centeredInput;
         padding: 14px 20px;
@@ -43,9 +43,18 @@
       font-size: 16px;
       padding: 14px 20px;
       font-weight: 700;
-      border-radius: 40px;
+      border-radius: theme('borderRadius.large');
       line-height: 24px;
       height: 52px;
+    }
+  }
+}
+
+.modalContainer {
+  :global {
+    .ant-modal-content {
+      border-radius: theme('borderRadius.large') !important;
+      padding: 0 !important;
     }
   }
 }

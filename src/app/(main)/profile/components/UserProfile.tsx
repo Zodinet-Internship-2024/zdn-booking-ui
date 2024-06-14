@@ -26,7 +26,7 @@ export default function UserProfile() {
       <div
         className={cn(
           styles.userProfileContainer,
-          "bg-primary-100 rounded-large flex gap-5 p-10 w-1/2"
+          'bg-primary-100 rounded-large flex gap-5 p-10 w-1/2',
         )}
       >
         <div className="relative w-[84px] h-[84px]">
@@ -84,6 +84,10 @@ export default function UserProfile() {
         onCancel={handleCancel}
         closable={false}
         footer={() => <></>}
+        style={{ padding: 0 }}
+        modalRender={(node) => (
+          <div className={cn(styles.modalContainer)}>{node}</div>
+        )}
       >
         <EditProfile onCancel={handleCancel} />
       </Modal>
