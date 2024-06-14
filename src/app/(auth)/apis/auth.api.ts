@@ -1,11 +1,13 @@
-import axios from "axios";
+'use server';
+import axios from 'axios';
+import { cookies } from 'next/headers';
 
-const client = process.env.NEXT_PUBLIC_CLIENT_HOST || "http://127.0.0.1:3000";
+const API_HOST = process.env.NEXT_PUBLIC_API_HOST || 'http://127.0.0.1:3000';
 export const signUpUser = async (signUpInfo: any): Promise<any> => {
   try {
-    const data = await axios.post(`${client}/v1/auth/sign-up`, signUpInfo, {
+    const data = await axios.post(`${API_HOST}/v1/auth/sign-up`, signUpInfo, {
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     });
     console.log(data.data);
@@ -16,18 +18,24 @@ export const signUpUser = async (signUpInfo: any): Promise<any> => {
   }
 };
 export const signIn = async (username: string, password: string) => {
-  const res = await fetch(`${client}/v1/auth/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
+  const res = await axios.post(
+    `${API_HOST}/v1/auth/login`,
+    {
+      email: username,
+      password,
     },
-    body: JSON.stringify({ email: username, phone: username, password }),
-    credentials: "include",
-  });
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data.message);
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+    },
+  );
+
+  const accessToken = res.data?.access_token;
+  if (accessToken) {
+    cookies().set('access_token', accessToken);
   }
 
-  return data;
+  return res.data;
 };

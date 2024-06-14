@@ -8,46 +8,57 @@ import Image from "next/image";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
-import s from "./login.module.scss";
-import { signIn } from "../apis/auth.api";
-import { useSearchParams, useRouter } from "next/navigation";
+import s from './login.module.scss';
+import { useSearchParams, useRouter } from 'next/navigation';
+import { signIn, useSession } from 'next-auth/react';
 
 type FormData = z.infer<typeof loginSchema>;
 
 export default function LoginForm() {
   const router = useRouter();
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState('');
   const [messageApi, contextHolder] = message.useMessage();
   const {
     handleSubmit,
     control,
     formState: { isSubmitting },
   } = useForm<FormData>({
-    mode: "onBlur",
+    mode: 'onBlur',
   });
 
+  const { data: session } = useSession();
+
+  if (session?.user) {
+    router.push('/home');
+  }
+
   async function onFocus() {
-    setErrorMessage("");
+    setErrorMessage('');
   }
 
   async function onSubmit({ username, password }: FormData) {
-    try {
-      await signIn(username, password);
+    const res = await signIn('credentials', {
+      username,
+      password,
+      redirect: false,
+    });
 
-      messageApi.open({
-        type: "success",
-        content: "Đăng nhập thành công",
-      });
-    } catch (error) {
-      console.error(error);
-      setErrorMessage("Tài khoản hoặc mật khẩu không đúng");
+    if (res?.error) {
+      setErrorMessage('Tài khoản hoặc mật khẩu không đúng');
+      return;
     }
+
+    messageApi.open({
+      type: 'success',
+      content: 'Đăng nhập thành công',
+    });
   }
+
   const handleNavigateRegister = () => {
     router.push(`/sign-up?role=${role}`);
   };
   const searchParams = useSearchParams();
-  let role = searchParams.get("role");
+  let role = searchParams.get('role');
 
   return (
     <>
@@ -63,18 +74,18 @@ export default function LoginForm() {
             >
               <FaArrowLeft className="text-xl mr-4 " />
               <span className="font-bold text-[28px] leading-7 ">
-                {role === "owner" ? "Chủ sân" : "Người thuê"}
+                {role === 'owner' ? 'Chủ sân' : 'Người thuê'}
               </span>
             </div>
           </div>
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className={cn(s.formContainer, "mt-10")}
+            className={cn(s.formContainer, 'mt-10')}
           >
             <div
               className={cn(
                 s.inputContainer,
-                "flex flex-col items-center space-y-1"
+                'flex flex-col items-center space-y-1',
               )}
             >
               <label
@@ -91,7 +102,7 @@ export default function LoginForm() {
                     id="username"
                     placeholder="Nhập email"
                     className=""
-                    status={errorMessage ? "error" : ""}
+                    status={errorMessage ? 'error' : ''}
                     {...field}
                     onFocus={onFocus}
                   />
@@ -101,7 +112,7 @@ export default function LoginForm() {
             <div
               className={cn(
                 s.inputContainer,
-                "flex flex-col items-center mt-6 mb-2 space-y-1"
+                'flex flex-col items-center mt-6 mb-2 space-y-1',
               )}
             >
               <label
@@ -118,7 +129,7 @@ export default function LoginForm() {
                   <Input.Password
                     placeholder="Nhập Password"
                     id="password"
-                    status={errorMessage ? "error" : ""}
+                    status={errorMessage ? 'error' : ''}
                     {...field}
                     onFocus={onFocus}
                   />
