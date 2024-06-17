@@ -1,8 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 import { Button, Input, message } from "antd";
-import { FaArrowLeft } from "react-icons/fa6";
-import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
+import { ArrowLeftOutlined, EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import Image from "next/image";
 import { z } from "zod";
 import { useForm, Controller } from "react-hook-form";
@@ -88,7 +87,7 @@ export default function SignUpForm() {
           className="w-[620px] bg-primary-100 rounded-[40px] border border--primary-400 p-10"
         >
           <div className="flex items-center">
-            <FaArrowLeft className="text-xl mr-4" />
+            <ArrowLeftOutlined className="text-xl mr-4" />
             <Link
               href="/role"
               className="font-bold text-[28px] leading-7 cursor-pointer"

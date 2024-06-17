@@ -1,14 +1,14 @@
 'use client';
 import SportFieldFilters from '@/components/filter/sport-field-filter/SportFieldFilter';
+import { FilterOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import React from 'react';
-import { RiFilter2Fill } from 'react-icons/ri';
 
 const PopularFilter = () => {
   return (
     <SportFieldFilters>
       <Button>
-        <RiFilter2Fill />
+        <FilterOutlined />
         <span>Lọc</span>
       </Button>
     </SportFieldFilters>
