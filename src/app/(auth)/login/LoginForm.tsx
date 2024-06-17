@@ -1,9 +1,9 @@
-"use client";
-import TextError from "@/components/error/TextError";
+'use client';
+import TextError from '@/components/error/TextError';
 
 import { cn } from '@/libs/utils';
 import { loginSchema } from '@/zod-schemas/login-schema';
-import { Button, Input, message } from 'antd';
+import { Button, Input, notification } from 'antd';
 import Image from 'next/image';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -19,7 +19,7 @@ type FormData = z.infer<typeof loginSchema>;
 export default function LoginForm() {
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState('');
-  const [messageApi, contextHolder] = message.useMessage();
+  const [api, contextHolder] = notification.useNotification();
   const {
     handleSubmit,
     control,
@@ -50,9 +50,11 @@ export default function LoginForm() {
       return;
     }
 
-    messageApi.open({
-      type: 'success',
-      content: 'Đăng nhập thành công',
+    api['success']({
+      message: 'Đăng nhập thành công',
+      placement: 'top',
+      showProgress: true,
+      pauseOnHover: false,
     });
   }
 
