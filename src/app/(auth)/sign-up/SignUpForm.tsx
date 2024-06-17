@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { Button, Input, message } from 'antd';
+import { Button, Input, message, notification } from 'antd';
 import {
   ArrowLeftOutlined,
   EyeInvisibleOutlined,
@@ -74,7 +74,6 @@ export default function SignUpForm() {
         showProgress: true,
         pauseOnHover: false,
       });
-
       router.push(`/login?role=${role}`);
       setLoading(false);
       // data.name = "";
@@ -171,6 +170,7 @@ export default function SignUpForm() {
                     <Input
                       id="phone"
                       placeholder="Nhập số điện thoại"
+                      pattern="[0-9]*"
                       {...field}
                     />
                   )}
