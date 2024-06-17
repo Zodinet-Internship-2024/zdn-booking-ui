@@ -1,13 +1,18 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { MdKeyboardArrowRight } from 'react-icons/md';
 import type { DatePickerProps, SelectProps } from 'antd';
 import { Button, Checkbox, DatePicker, Select } from 'antd';
+import { RightOutlined } from '@ant-design/icons';
 import { cn } from '@/libs/utils';
 import s from '@/app/(main)/field-reservation/infoField.module.scss';
 
+type TimeRange = {
+  start: string;
+  end: string;
+};
+
 export default function InfoField() {
-  const [times, setTimes] = useState([
+  const [times, setTimes] = useState<TimeRange[]>([
     {
       start: '',
       end: '',
@@ -27,12 +32,12 @@ export default function InfoField() {
   const handleChange = (value: string | string[]) => {
     console.log(`Selected: ${value}`);
   };
-  function splitTimeRange(startTime, endTime) {
+  function splitTimeRange(startTime: string, endTime: string) {
     const timeSlots = [];
     let [startHour, startMinute] = startTime.split(':').map(Number);
     let [endHour, endMinute] = endTime.split(':').map(Number);
 
-    const formatTime = (hour, minute) => {
+    const formatTime = (hour: number, minute: number) => {
       const h = hour.toString().padStart(2, '0');
       const m = minute.toString().padStart(2, '0');
       return `${h}:${m}`;
@@ -73,19 +78,19 @@ export default function InfoField() {
   return (
     <div>
       <div className="flex items-center">
-        <p className="text-natural-400 font-medium text-sm mr-3 cursor-pointer">
+        <p className="mr-3 cursor-pointer text-sm font-medium text-natural-400">
           Trang chủ
         </p>
-        <MdKeyboardArrowRight className="text-natural-400 w-4 h-4 mr-3" />
-        <p className="text-primary-600 font-medium text-sm cursor-pointer">
+        <RightOutlined className="mr-3 h-4 w-4 text-natural-400" />
+        <p className="cursor-pointer text-sm font-medium text-primary-600">
           Đặt chỗ ngay
         </p>
       </div>
 
       <div className={cn(s.main)}>
         <div className="flex flex-wrap">
-          <div className="flex flex-col mr-4">
-            <span className="font-bold text-base text-natural-700 mb-3 ">
+          <div className="mr-4 flex flex-col">
+            <span className="mb-3 text-base font-bold text-natural-700">
               Ngày
             </span>
             <DatePicker
@@ -98,13 +103,13 @@ export default function InfoField() {
             />
           </div>
           <div className="flex flex-col">
-            <span className="font-bold text-base text-natural-700 mb-3">
+            <span className="mb-3 text-base font-bold text-natural-700">
               Sân
             </span>
             <Select options={options} />
           </div>
         </div>
-        <div className="grid md:grid-cols-3  lg:grid-cols-6 sm:grid-cols-2 grid-cols-1 mt-8 gap-y-5 gap-x-18">
+        <div className="gap-x-18 mt-8 grid grid-cols-1 gap-y-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
           {/* {Array.from({ length: 24 }).map(() => (
             <div className="flex items-center flex-wrap ">
               <span className="font-normal text-base text-natural-700 mr-9">
@@ -114,23 +119,22 @@ export default function InfoField() {
             </div>
           ))} */}
           {times.map((slot, index) => (
-            <div className="flex items-center flex-wrap " key={index}>
-              <span className="font-normal text-base text-natural-700 mr-9">
+            <div className="flex flex-wrap items-center" key={index}>
+              <span className="mr-9 text-base font-normal text-natural-700">
                 {slot.start}-{slot.end}
               </span>
               <Checkbox value={`Slot-${index}`} />
             </div>
           ))}
         </div>
-        <div className="flex justify-between mt-8 flex-wrap">
+        <div className="mt-8 flex flex-wrap justify-between">
           <div>
             <p className="text-base font-normal text-natural-700">
-              Bạn đang chọn{' '}
-              <span className="font-bold ml-2 ">5 tiếng/ngày</span>
+              Bạn đang chọn <span className="ml-2 font-bold">5 tiếng/ngày</span>
             </p>
-            <p className="text-base font-normal mt-3">
+            <p className="mt-3 text-base font-normal">
               Tổng tiền{' '}
-              <span className="text-primary-600 font-bold ml-2 ">
+              <span className="ml-2 font-bold text-primary-600">
                 1.400.000đ
               </span>
             </p>

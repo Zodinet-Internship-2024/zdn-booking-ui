@@ -3,8 +3,7 @@ import UploadAvatar from "./UploadAvatar";
 import { Button, Input } from "antd";
 import { cn } from "@/libs/utils";
 import s from "./profile.module.scss";
-import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
-import { FaArrowLeft } from "react-icons/fa6";
+import { ArrowLeftOutlined, EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 
 type EditProfileProps = {
   onCancel: () => void;
@@ -15,27 +14,27 @@ export default function EditProfile({ onCancel }: EditProfileProps) {
     <div
       className={cn(
         s.editProfileContainer,
-        'bg-primary-100 rounded-large flex flex-col gap-5 p-10 w-full border-2 border-primary-400',
+        'flex w-full flex-col gap-5 rounded-large border-2 border-primary-400 bg-primary-100 p-10',
       )}
     >
       <div className="flex items-center">
         <button className="hover:opacity-75" key="back" onClick={onCancel}>
-          <FaArrowLeft className="text-xl mr-4" />
+          <ArrowLeftOutlined className="mr-4 text-xl" />
         </button>
 
-        <span className="font-bold text-[28px] leading-7 cursor-pointer">
+        <span className="cursor-pointer text-[28px] font-bold leading-7">
           Edit profile
         </span>
       </div>
 
       <div className="mt-10 flex flex-col">
-        <div className="w-[84px] h-[84px] self-center mb-10">
+        <div className="mb-10 h-[84px] w-[84px] self-center">
           <UploadAvatar />
         </div>
         <div className={cn(s.inputContainer, 'flex flex-col items-center')}>
           <label
             htmlFor="name"
-            className="text-primary-600 text-lg leading-6 font-bold mb-2"
+            className="mb-2 text-lg font-bold leading-6 text-primary-600"
           >
             Tên
           </label>
@@ -48,11 +47,11 @@ export default function EditProfile({ onCancel }: EditProfileProps) {
         </div>
 
         <div
-          className={cn(s.inputContainer, 'flex flex-col items-center mt-6')}
+          className={cn(s.inputContainer, 'mt-6 flex flex-col items-center')}
         >
           <label
             htmlFor="phone"
-            className="text-primary-600 text-lg leading-6 font-bold mb-2"
+            className="mb-2 text-lg font-bold leading-6 text-primary-600"
           >
             Số điện thoại
           </label>
