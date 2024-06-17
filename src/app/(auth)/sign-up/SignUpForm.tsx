@@ -25,7 +25,7 @@ import Link from 'next/link';
 type SignUpSchemaType = z.infer<typeof SignUpSchema>;
 
 export default function SignUpForm() {
-  const [messageApi, contextHolder] = message.useMessage();
+  const [api, contextHolder] = notification.useNotification();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -68,9 +68,11 @@ export default function SignUpForm() {
     const res = await signUpUser(dataBody);
     console.log(res);
     if (res.status === 'Success') {
-      messageApi.open({
-        type: 'success',
-        content: 'Đăng kí thành công',
+      api['success']({
+        message: 'Đăng kí thành công',
+        placement: 'top',
+        showProgress: true,
+        pauseOnHover: false,
       });
 
       router.push(`/login?role=${role}`);
@@ -80,9 +82,11 @@ export default function SignUpForm() {
       // data.phone = "";
       // data.password = "";
     } else {
-      messageApi.open({
-        type: 'error',
-        content: res.message,
+      api['error']({
+        message: 'Đăng kí thất bại',
+        placement: 'top',
+        showProgress: true,
+        pauseOnHover: false,
       });
       setLoading(false);
     }
