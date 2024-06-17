@@ -44,8 +44,8 @@ export default function LoginForm() {
       password,
       redirect: false,
     });
-
-    if (res?.error) {
+    
+    if (!res?.ok) {
       setErrorMessage('Tài khoản hoặc mật khẩu không đúng');
       return;
     }
