@@ -57,3 +57,7 @@
     border-color: theme('colors.primary.400');
   }
 }
+
+@mixin centeredInput {
+  @include centered-placeholder;
+}
