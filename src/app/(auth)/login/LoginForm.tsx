@@ -1,17 +1,18 @@
 "use client";
 import TextError from "@/components/error/TextError";
-import { FaArrowLeft } from "react-icons/fa6";
-import { cn } from "@/libs/utils";
-import { loginSchema } from "@/zod-schemas/login-schema";
-import { Button, Input, message } from "antd";
-import Image from "next/image";
-import { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { z } from "zod";
+
+import { cn } from '@/libs/utils';
+import { loginSchema } from '@/zod-schemas/login-schema';
+import { Button, Input, message } from 'antd';
+import Image from 'next/image';
+import { useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { z } from 'zod';
 import s from './login.module.scss';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { signIn, useSession } from 'next-auth/react';
 import Link from 'next/link';
+import { ArrowLeftOutlined } from '@ant-design/icons';
 
 type FormData = z.infer<typeof loginSchema>;
 
@@ -61,12 +62,12 @@ export default function LoginForm() {
   return (
     <>
       {contextHolder}
-      <div className="py-4 mx-auto">
-        <div className="w-[620px] bg-primary-100 rounded-[40px] border border--primary-400 p-10 mx-auto">
+      <div className="mx-auto py-4">
+        <div className="border--primary-400 mx-auto w-[620px] rounded-[40px] border bg-primary-100 p-10">
           <div className="flex items-center">
-            <Link href="/role" className="flex items-center cursor-pointer">
-              <FaArrowLeft className="text-xl mr-4 " />
-              <span className="font-bold text-[28px] leading-7 ">
+            <Link href="/role" className="flex cursor-pointer items-center">
+              <ArrowLeftOutlined className="mr-4 text-xl" />
+              <span className="text-[28px] font-bold leading-7">
                 {role === 'owner' ? 'Chủ sân' : 'Người thuê'}
               </span>
             </Link>
@@ -83,7 +84,7 @@ export default function LoginForm() {
             >
               <label
                 htmlFor="username"
-                className="text-primary-600 text-lg leading-6 font-bold mb-2"
+                className="mb-2 text-lg font-bold leading-6 text-primary-600"
               >
                 Email/Số điện thoại
               </label>
@@ -105,12 +106,12 @@ export default function LoginForm() {
             <div
               className={cn(
                 s.inputContainer,
-                'flex flex-col items-center mt-6 mb-2 space-y-1',
+                'mb-2 mt-6 flex flex-col items-center space-y-1',
               )}
             >
               <label
                 htmlFor="password"
-                className="text-primary-600 text-lg leading-6 font-bold mb-2"
+                className="mb-2 text-lg font-bold leading-6 text-primary-600"
               >
                 Password
               </label>
@@ -133,7 +134,7 @@ export default function LoginForm() {
 
             <Button
               htmlType="submit"
-              className="w-full mt-2 mb-6"
+              className="mb-6 mt-2 w-full"
               disabled={isSubmitting}
             >
               Đăng nhập
@@ -141,15 +142,15 @@ export default function LoginForm() {
             <div>
               <Link
                 href={`/sign-up?role=${role}`}
-                className="text-base cursor-pointer underline underline-offset-4 font-medium text-primary-600 mt-3"
+                className="mt-3 cursor-pointer text-base font-medium text-primary-600 underline underline-offset-4"
               >
                 Bạn chưa có tài khoản đăng nhập?
               </Link>
             </div>
-            <div className=" flex flex-col justify-center items-center mt-10">
+            <div className="mt-10 flex flex-col items-center justify-center">
               <span>Hoặc đăng nhập bằng</span>
-              <div className=" flex items-center  mt-4">
-                <div className="bg-primary-500 rounded-full w-fit p-3 mr-5 cursor-pointer">
+              <div className="mt-4 flex items-center">
+                <div className="mr-5 w-fit cursor-pointer rounded-full bg-primary-500 p-3">
                   <Image
                     src="/images/icon-facebook.svg"
                     alt=""
@@ -158,7 +159,7 @@ export default function LoginForm() {
                   />
                 </div>
 
-                <div className="bg-primary-500 rounded-full w-fit p-3 cursor-pointer">
+                <div className="w-fit cursor-pointer rounded-full bg-primary-500 p-3">
                   <Image
                     src="/images/icon-google.svg"
                     alt=""

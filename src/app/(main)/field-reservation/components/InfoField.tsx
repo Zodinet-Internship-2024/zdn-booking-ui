@@ -1,11 +1,10 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { MdKeyboardArrowRight } from 'react-icons/md';
 import type { DatePickerProps, SelectProps } from 'antd';
 import { Button, Checkbox, DatePicker, Select } from 'antd';
-import { cn } from '../../../../libs/utils';
-
-import s from '../infoField.module.scss';
+import { RightOutlined } from '@ant-design/icons';
+import { cn } from '@/libs/utils';
+import s from '@/app/(main)/field-reservation/infoField.module.scss';
 
 type TimeRange = {
   start: string;
@@ -82,7 +81,7 @@ export default function InfoField() {
         <p className="mr-3 cursor-pointer text-sm font-medium text-natural-400">
           Trang chủ
         </p>
-        <MdKeyboardArrowRight className="mr-3 h-4 w-4 text-natural-400" />
+        <RightOutlined className="mr-3 h-4 w-4 text-natural-400" />
         <p className="cursor-pointer text-sm font-medium text-primary-600">
           Đặt chỗ ngay
         </p>

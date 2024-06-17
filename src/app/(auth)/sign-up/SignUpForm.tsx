@@ -1,21 +1,25 @@
-"use client";
-import React, { useEffect } from "react";
-import { Button, Input, message } from "antd";
-import { FaArrowLeft } from "react-icons/fa6";
-import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
-import Image from "next/image";
-import { z } from "zod";
-import { useForm, Controller } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { cn } from "@/libs/utils";
-import s from "../sign-up/signUp.module.scss";
+'use client';
+import React, { useEffect } from 'react';
+import { Button, Input, message } from 'antd';
+import {
+  ArrowLeftOutlined,
+  EyeInvisibleOutlined,
+  EyeTwoTone,
+} from '@ant-design/icons';
 
-import fb from "../../../../public/images/icon-facebook.svg";
-import gg from "../../../../public/images/icon-google.svg";
-import Errors from "@/components/errors/errors";
-import { SignUpSchema } from "@/zod-schemas/signup-schema";
-import { useSearchParams, useRouter } from "next/navigation";
-import { signUpUser } from "../apis/auth.api";
+import Image from 'next/image';
+import { z } from 'zod';
+import { useForm, Controller } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { cn } from '@/libs/utils';
+import s from '../sign-up/signUp.module.scss';
+
+import fb from '../../../../public/images/icon-facebook.svg';
+import gg from '../../../../public/images/icon-google.svg';
+import Errors from '@/components/errors/errors';
+import { SignUpSchema } from '@/zod-schemas/signup-schema';
+import { useSearchParams, useRouter } from 'next/navigation';
+import { signUpUser } from '../apis/auth.api';
 import Link from 'next/link';
 
 type SignUpSchemaType = z.infer<typeof SignUpSchema>;
@@ -88,7 +92,7 @@ export default function SignUpForm() {
           className="border--primary-400 w-[620px] rounded-[40px] border bg-primary-100 p-10"
         >
           <div className="flex items-center">
-            <FaArrowLeft className="mr-4 text-xl" />
+            <ArrowLeftOutlined className="mr-4 text-xl" />
             <Link
               href="/role"
               className="cursor-pointer text-[28px] font-bold leading-7"
