@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { Button, Input, message, notification } from 'antd';
+import { Button, Input, message } from 'antd';
 import {
   ArrowLeftOutlined,
   EyeInvisibleOutlined,
@@ -25,7 +25,7 @@ import Link from 'next/link';
 type SignUpSchemaType = z.infer<typeof SignUpSchema>;
 
 export default function SignUpForm() {
-  const [api, contextHolder] = notification.useNotification();
+  const [messageApi, contextHolder] = message.useMessage();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -68,12 +68,11 @@ export default function SignUpForm() {
     const res = await signUpUser(dataBody);
     console.log(res);
     if (res.status === 'Success') {
-      api['success']({
-        message: 'Đăng kí thành công',
-        placement: 'top',
-        showProgress: true,
-        pauseOnHover: false,
+      messageApi.open({
+        type: 'success',
+        content: 'Đăng kí thành công',
       });
+
       router.push(`/login?role=${role}`);
       setLoading(false);
       // data.name = "";
@@ -81,11 +80,9 @@ export default function SignUpForm() {
       // data.phone = "";
       // data.password = "";
     } else {
-      api['error']({
-        message: 'Đăng kí thất bại',
-        placement: 'top',
-        showProgress: true,
-        pauseOnHover: false,
+      messageApi.open({
+        type: 'error',
+        content: res.message,
       });
       setLoading(false);
     }
@@ -170,7 +167,6 @@ export default function SignUpForm() {
                     <Input
                       id="phone"
                       placeholder="Nhập số điện thoại"
-                      pattern="[0-9]*"
                       {...field}
                     />
                   )}
