@@ -19,44 +19,46 @@ type FormData = z.infer<typeof loginSchema>;
 export default function LoginForm() {
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState('');
-  const [api, contextHolder] = notification.useNotification();
-  const {
-    handleSubmit,
-    control,
-    formState: { isSubmitting },
-  } = useForm<FormData>({
-    mode: 'onBlur',
-  });
-
-  const { data: session } = useSession();
-
-  if (session?.user) {
-    router.push('/home');
-  }
-
-  async function onFocus() {
-    setErrorMessage('');
-  }
-
-  async function onSubmit({ username, password }: FormData) {
-    const res = await signIn('credentials', {
-      username,
-      password,
-      redirect: false,
+    const [loading, setLoading] = useState(false);
+    const [api, contextHolder] = notification.useNotification();
+    const {
+      handleSubmit,
+      control,
+      formState: { isSubmitting },
+    } = useForm<FormData>({
+      mode: 'onBlur',
     });
 
-    if (res?.error) {
-      setErrorMessage('Tài khoản hoặc mật khẩu không đúng');
-      return;
+    const { data: session } = useSession();
+
+    if (session?.user) {
+      router.push('/home');
     }
 
-    api['success']({
-      message: 'Đăng nhập thành công',
-      placement: 'top',
-      showProgress: true,
-      pauseOnHover: false,
-    });
-  }
+    async function onFocus() {
+      setErrorMessage('');
+    }
+
+    async function onSubmit({ username, password }: FormData) {
+      setLoading(true);
+      const res = await signIn('credentials', {
+        username,
+        password,
+        redirect: false,
+      });
+      setLoading(false);
+      if (res?.error) {
+        setErrorMessage('Tài khoản hoặc mật khẩu không đúng');
+        return;
+      }
+
+      api['success']({
+        message: 'Đăng nhập thành công',
+        placement: 'top',
+        showProgress: true,
+        pauseOnHover: false,
+      });
+    }
 
   const searchParams = useSearchParams();
   const role = searchParams.get('role');
@@ -138,6 +140,7 @@ export default function LoginForm() {
               htmlType="submit"
               className="mb-6 mt-2 w-full"
               disabled={isSubmitting}
+              loading={loading}
             >
               Đăng nhập
             </Button>

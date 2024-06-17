@@ -34,12 +34,12 @@ export default function SignUpForm() {
     const updateSearchParams = () => {
       const params = new URLSearchParams(searchParams);
 
-      let role = searchParams.get('role');
+        let role = searchParams.get('role');
 
-      if (role === '' || role === 'null') {
-        params.set('role', defaultRole);
-        router.push(`sign-up?${params.toString()}`);
-      }
+        if (role === '' || role === 'null' || role === null) {
+          params.set('role', defaultRole);
+          router.push(`sign-up?${params.toString()}`);
+        }
     };
 
     updateSearchParams();
