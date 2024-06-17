@@ -21,6 +21,7 @@ import { SignUpSchema } from '@/zod-schemas/signup-schema';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { signUpUser } from '../apis/auth.api';
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 
 type SignUpSchemaType = z.infer<typeof SignUpSchema>;
 
@@ -30,16 +31,17 @@ export default function SignUpForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const defaultRole = process.env.NEXT_PUBLIC_ROLE_USER ?? 'user';
+
   useEffect(() => {
     const updateSearchParams = () => {
       const params = new URLSearchParams(searchParams);
 
-        let role = searchParams.get('role');
+      const role = searchParams.get('role');
 
-        if (role === '' || role === 'null' || role === null) {
-          params.set('role', defaultRole);
-          router.push(`sign-up?${params.toString()}`);
-        }
+      if (role === '' || role === 'null' || role === null) {
+        params.set('role', defaultRole);
+        router.push(`sign-up?${params.toString()}`);
+      }
     };
 
     updateSearchParams();
@@ -87,6 +89,12 @@ export default function SignUpForm() {
       setLoading(false);
     }
   };
+
+  const { data: session } = useSession();
+
+  if (session?.user) {
+    router.push('/home');
+  }
 
   return (
     <>
