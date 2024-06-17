@@ -4,11 +4,11 @@ const nextConfig = {
     // domains: ['picsum.photos', 'storage.googleapis.com/'],
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'storage.googleapis.com',
+        protocol: process.env.REMOTE_PROTOCOL,
+        hostname: process.env.REMOTE_HOSTNAME,
       },
       {
-        hostname: 'picsum.photos',
+        hostname: process.env.REMOTE_PHOTO_MOCK_DATA,
       },
     ],
   },
