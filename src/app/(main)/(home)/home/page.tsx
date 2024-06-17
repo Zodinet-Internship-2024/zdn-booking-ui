@@ -5,7 +5,12 @@ import Banner from "./components/Banner/Banner";
 import PopularPlaces from "./components/popular/PopularPlaces";
 import NearestFields from "./components/nearest/NearestFields";
 import SportFieldsByTime from './components/fields-by-time/SportFieldsByTime';
+import type { Metadata } from 'next';
 
+export const metadata: Metadata = {
+  title: 'Zodinet Booking - Home Page',
+  description: 'Zodinet Booking - Home: Find Your Sport Field with Ease',
+}
 const HomePage = () => {
   const sportFields = Array(12).fill(sportField);
   return (

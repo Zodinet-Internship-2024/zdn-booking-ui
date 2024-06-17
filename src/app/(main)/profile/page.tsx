@@ -1,4 +1,10 @@
 import UserProfile from "./components/UserProfile";
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Zodinet Booking - Profile Page',
+  description: 'Zodinet Booking - Profile: Manage Your Profile with Ease',
+}
 
 const ProfilePage = () => {
   return (

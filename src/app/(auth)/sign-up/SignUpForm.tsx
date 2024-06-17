@@ -1,11 +1,12 @@
 'use client';
 import React, { useEffect } from 'react';
-import { Button, Input, notification } from 'antd';
+import { Button, Input, message } from 'antd';
 import {
   ArrowLeftOutlined,
   EyeInvisibleOutlined,
   EyeTwoTone,
 } from '@ant-design/icons';
+
 import Image from 'next/image';
 import { z } from 'zod';
 import { useForm, Controller } from 'react-hook-form';
@@ -27,15 +28,15 @@ export default function SignUpForm() {
   const [api, contextHolder] = notification.useNotification();
   const router = useRouter();
   const searchParams = useSearchParams();
-
+  const defaultRole = process.env.NEXT_PUBLIC_ROLE_USER ?? 'user';
   useEffect(() => {
     const updateSearchParams = () => {
       const params = new URLSearchParams(searchParams);
 
       let role = searchParams.get('role');
 
-      if (role === '' || role === null) {
-        params.set('role', 'user');
+      if (role === '' || role === 'null') {
+        params.set('role', defaultRole);
         router.push(`sign-up?${params.toString()}`);
       }
     };
@@ -58,7 +59,7 @@ export default function SignUpForm() {
       email: data.email,
       phone: data.phone,
       password: data.password,
-      role: role ? role : 'user',
+      role: role ? role : process.env.NEXT_PUBLIC_ROLE_USER,
       accountType: 'manual',
     };
 
@@ -100,7 +101,9 @@ export default function SignUpForm() {
               href="/role"
               className="cursor-pointer text-[28px] font-bold leading-7"
             >
-              {role === 'owner' ? 'Chủ sân' : 'Người thuê'}
+              {role === process.env.NEXT_PUBLIC_ROLE_OWNER
+                ? 'Chủ sân'
+                : 'Người thuê'}
             </Link>
           </div>
           <div className={cn(s.main, 'mt-10')}>
