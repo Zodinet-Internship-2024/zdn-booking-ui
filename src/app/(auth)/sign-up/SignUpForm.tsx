@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Input, message } from 'antd';
 import {
   ArrowLeftOutlined,
@@ -26,6 +26,7 @@ type SignUpSchemaType = z.infer<typeof SignUpSchema>;
 
 export default function SignUpForm() {
   const [messageApi, contextHolder] = message.useMessage();
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
   const defaultRole = process.env.NEXT_PUBLIC_ROLE_USER ?? 'user';
@@ -33,12 +34,12 @@ export default function SignUpForm() {
     const updateSearchParams = () => {
       const params = new URLSearchParams(searchParams);
 
-      let role = searchParams.get('role');
+        let role = searchParams.get('role');
 
-      if (role === '' || role === 'null') {
-        params.set('role', defaultRole);
-        router.push(`sign-up?${params.toString()}`);
-      }
+        if (role === '' || role === 'null' || role === null) {
+          params.set('role', defaultRole);
+          router.push(`sign-up?${params.toString()}`);
+        }
     };
 
     updateSearchParams();
@@ -54,6 +55,7 @@ export default function SignUpForm() {
   });
 
   const onSubmit = async (data: any) => {
+    setLoading(true);
     const dataBody = {
       name: data.name,
       email: data.email,
@@ -70,7 +72,9 @@ export default function SignUpForm() {
         type: 'success',
         content: 'Đăng kí thành công',
       });
+
       router.push(`/login?role=${role}`);
+      setLoading(false);
       // data.name = "";
       // data.email = "";
       // data.phone = "";
@@ -80,6 +84,7 @@ export default function SignUpForm() {
         type: 'error',
         content: res.message,
       });
+      setLoading(false);
     }
   };
 
@@ -162,7 +167,6 @@ export default function SignUpForm() {
                     <Input
                       id="phone"
                       placeholder="Nhập số điện thoại"
-                      pattern="[0-9]*"
                       {...field}
                     />
                   )}
@@ -229,7 +233,12 @@ export default function SignUpForm() {
               {<Errors error={errors.confirmPassword} />}
             </div>
             <div className="mb-4 mt-6">
-              <Button htmlType="submit" type="primary" className="w-full">
+              <Button
+                htmlType="submit"
+                type="primary"
+                className="w-full"
+                loading={loading}
+              >
                 Đăng kí
               </Button>
             </div>
