@@ -2,12 +2,17 @@
 import React, { useEffect, useState } from 'react';
 import type { DatePickerProps, SelectProps } from 'antd';
 import { Button, Checkbox, DatePicker, Select } from 'antd';
+import { RightOutlined } from '@ant-design/icons';
 import { cn } from '@/libs/utils';
 import s from '@/app/(main)/field-reservation/infoField.module.scss';
-import { RightOutlined } from '@ant-design/icons';
+
+type TimeRange = {
+  start: string;
+  end: string;
+};
 
 export default function InfoField() {
-  const [times, setTimes] = useState([
+  const [times, setTimes] = useState<TimeRange[]>([
     {
       start: '',
       end: '',
@@ -27,12 +32,12 @@ export default function InfoField() {
   const handleChange = (value: string | string[]) => {
     console.log(`Selected: ${value}`);
   };
-  function splitTimeRange(startTime, endTime) {
+  function splitTimeRange(startTime: string, endTime: string) {
     const timeSlots = [];
     let [startHour, startMinute] = startTime.split(':').map(Number);
     let [endHour, endMinute] = endTime.split(':').map(Number);
 
-    const formatTime = (hour, minute) => {
+    const formatTime = (hour: number, minute: number) => {
       const h = hour.toString().padStart(2, '0');
       const m = minute.toString().padStart(2, '0');
       return `${h}:${m}`;
