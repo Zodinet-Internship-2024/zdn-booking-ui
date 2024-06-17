@@ -3,8 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { MdKeyboardArrowRight } from 'react-icons/md';
 import type { DatePickerProps, SelectProps } from 'antd';
 import { Button, Checkbox, DatePicker, Select } from 'antd';
-import { cn } from '@/libs/utils';
-import s from '@/app/(main)/field-reservation/infoField.module.scss';
+import { cn } from '../../../../libs/utils';
+
+import s from '../infoField.module.scss';
+
 type TimeRange = {
   start: string;
   end: string;
