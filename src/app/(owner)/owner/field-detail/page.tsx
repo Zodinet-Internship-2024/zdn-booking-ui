@@ -1,5 +1,5 @@
 import React from 'react';
-import InfoFieldDetail from './components/infoFieldDetail';
+import InfoFieldDetail from './components/InfoFieldDetail';
 
 export default function page() {
   return (

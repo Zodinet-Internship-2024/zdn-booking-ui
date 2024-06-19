@@ -3,9 +3,9 @@ import { LeftOutlined, StarFilled, StarOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
 import fieldImg from '../../../../../../public/images/Field.png';
 import Image from 'next/image';
-import DeleteFieldBooking from './deleteFieldBooking';
 import s from '../components/infoFieldDetail.module.scss';
 import { cn } from '@/libs/utils';
+import DeleteFieldBooking from './deleteFieldBooking';
 
 export default function InfoFieldDetail() {
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -76,7 +76,7 @@ export default function InfoFieldDetail() {
             Thời gian mở cửa{' '}
             <span className="ml-3 font-bold text-natural-700">24/7</span>
           </p>
-          <p className="mb-6 flex items-center text-base font-normal leading-6 text-natural-700">
+          <div className="mb-6 flex items-center text-base font-normal leading-6 text-natural-700">
             <div>
               <p className="mb-4 text-base font-medium text-natural-500">
                 Khung giờ
@@ -94,7 +94,7 @@ export default function InfoFieldDetail() {
               </p>
               <span className="font-bold">180.000đ / tiếng</span>
             </div>
-          </p>
+          </div>
           <div className="mb-6 text-base font-normal leading-6 text-natural-700">
             {}
             <p className="mb-4 text-base font-medium text-natural-500">
