@@ -10,10 +10,10 @@ type SportFieldsByTimeProps = {
 const SportFieldsByTime = ({ sportFields }: SportFieldsByTimeProps) => {
   const pagination = sportFields.slice(0, 4);
   return (
-    <div className="container mx-auto flex flex-col justify-center py-16">
-      <h4 className="font-bold py-5">Đặt chỗ theo giờ</h4>
+    <div className="container mx-auto flex flex-col justify-center px-8 py-16">
+      <h4 className="py-5 font-bold">Đặt chỗ theo giờ</h4>
       <TimeFilter />
-      <div className="grid grid-cols-4 gap-4 mb-6 mt-8">
+      <div className="mb-6 mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         {pagination.map((sportField) => (
           <SportFieldInfoCard key={sportField.id} sportField={sportField} />
         ))}

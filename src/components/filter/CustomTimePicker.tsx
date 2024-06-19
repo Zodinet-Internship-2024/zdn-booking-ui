@@ -7,7 +7,6 @@ import RangePickerComponent from '../common/RangePickerComponent';
 const CustomTimePicker = () => {
   return (
     <div className={cn(styles.timePickerContainer, 'flex flex-row gap-2')}>
-      {/* <TimePicker.RangePicker /> */}
       <RangePickerComponent />
       <Button type="primary">Tìm kiếm</Button>
     </div>

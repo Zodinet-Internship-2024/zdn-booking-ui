@@ -9,11 +9,11 @@ const Banner = () => {
     <div
       className={cn(
         styles.bannerContainer,
-        "h-[520px] bg-primary-100 py-12 px-30"
+        'h-[520px] bg-primary-100 px-8 py-12',
       )}
     >
-      <div className="container flex justify-between items-center gap-36 mx-auto">
-        <div className="gap-10 flex flex-col w-[738px]">
+      <div className="container mx-auto flex items-center justify-between gap-36">
+        <div className="flex w-[738px] flex-col gap-10">
           <h1 className="font-bold text-primary-600">
             Booking sân tập ngay hôm nay!
           </h1>
@@ -23,7 +23,7 @@ const Banner = () => {
             Hãy đăng ký ngay để trải nghiệm những giây phút sôi động trên sân!
           </p>
           <Button
-            className="flex items-center mt-4 text-h gap-3"
+            className="text-h mt-4 flex items-center gap-3"
             type="primary"
           >
             Booking now
@@ -35,13 +35,13 @@ const Banner = () => {
             />
           </Button>
         </div>
-        <div className="relative w-[612px] h-[424px] rounded-large overflow-hidden">
+        <div className="relative h-[424px] w-[612px] overflow-hidden rounded-large">
           <Image
             src="https://picsum.photos/612/425"
             fill
-            alt={"Banner Photo"}
+            alt={'Banner Photo'}
           />
-        </div>{" "}
+        </div>{' '}
       </div>
     </div>
   );
