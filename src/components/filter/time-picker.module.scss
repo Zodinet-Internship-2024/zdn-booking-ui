@@ -2,7 +2,7 @@
 
 .timePickerContainer {
   --background: theme('colors.neutral.100');
-  border-radius: 40px;
+  border-radius: theme('borderRadius.large');
   border: none;
   background: var(--background);
   width: fit-content;
@@ -14,6 +14,11 @@
       padding: 12px 20px;
       border: none;
       background: var(--background);
+    }
+    .ant-picker-suffix {
+      span {
+        display: none !important;
+      }
     }
 
     .ant-picker-range:hover,

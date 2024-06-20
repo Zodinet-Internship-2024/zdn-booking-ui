@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Dropdown, Space, Table, Tag } from 'antd';
 import { Tooltip } from 'antd';
 import { ColumnsType } from 'antd/es/table';
@@ -6,7 +6,13 @@ import { sportField } from '@/mocks/sport-fields';
 import { MoreOutlined } from '@ant-design/icons';
 import styles from './sportFieldManagement.module.scss';
 
-const SportFieldManagementTable = () => {
+interface SportFieldManagementTableProps {
+  filter: string; // Accept filter as prop
+}
+
+const SportFieldManagementTable: React.FC<SportFieldManagementTableProps> = ({
+  filter,
+}) => {
   type DataType = {
     key: React.Key;
     id: string;
@@ -14,6 +20,16 @@ const SportFieldManagementTable = () => {
     category: string;
     quantity: number;
     address: string;
+  };
+
+  const categoryMapping: { [key: string]: string } = {
+    basketball: 'Sân bóng rổ',
+    volleyball: 'Sân bóng chuyền',
+    badminton: 'Sân cầu lông',
+    tennis: 'Sân tennis',
+    football: 'Sân bóng đá',
+    tableTennis: 'Sân bóng bàn',
+    billiards: 'Bi-da',
   };
 
   const items = [
@@ -25,11 +41,17 @@ const SportFieldManagementTable = () => {
   // Extracting required fields
   const sportFields = Array(80).fill(sportField);
 
-  const dataSource = sportFields.map((field, index) => ({
+  // Filter data based on selected category
+  const filteredData =
+    filter === 'all'
+      ? sportFields
+      : sportFields.filter((field) => field.sportFieldType.name === filter);
+
+  const dataSource = filteredData.map((field, index) => ({
     key: index + 1,
     id: field.id,
     name: field.name,
-    category: field.sportFieldType.name,
+    category: categoryMapping[field.sportFieldType.name],
     quantity: field.quantity,
     address: field.location.addressDetail,
   }));

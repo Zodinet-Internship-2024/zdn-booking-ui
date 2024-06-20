@@ -1,27 +1,28 @@
 'use client';
-import React, { useEffect, useState } from 'react';
-import { Button, Input, message } from 'antd';
 import {
   ArrowLeftOutlined,
   EyeInvisibleOutlined,
   EyeTwoTone,
 } from '@ant-design/icons';
+import { Button, Input, message } from 'antd';
+import { useEffect, useState } from 'react';
 
-import Image from 'next/image';
-import { z } from 'zod';
-import { useForm, Controller } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { cn } from '@/libs/utils';
+import { zodResolver } from '@hookform/resolvers/zod';
+import Image from 'next/image';
+import { Controller, useForm } from 'react-hook-form';
+import { z } from 'zod';
 import s from '../sign-up/signUp.module.scss';
 
+import Errors from '@/components/errors/errors';
+import { AUTH_PROVIDERS, VALID_ROLES } from '@/constants/constant';
+import { SignUpSchema } from '@/zod-schemas/signup-schema';
+import { signIn } from 'next-auth/react';
+import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
 import fb from '../../../../public/images/icon-facebook.svg';
 import gg from '../../../../public/images/icon-google.svg';
-import Errors from '@/components/errors/errors';
-import { SignUpSchema } from '@/zod-schemas/signup-schema';
-import { useSearchParams, useRouter } from 'next/navigation';
 import { signUpUser } from '../apis/auth.api';
-import Link from 'next/link';
-import { useSession } from 'next-auth/react';
 
 type SignUpSchemaType = z.infer<typeof SignUpSchema>;
 
@@ -30,16 +31,15 @@ export default function SignUpForm() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const defaultRole = process.env.NEXT_PUBLIC_ROLE_USER ?? 'user';
 
   useEffect(() => {
     const updateSearchParams = () => {
       const params = new URLSearchParams(searchParams);
 
-      const role = searchParams.get('role');
+      const role = searchParams.get('role') as string;
 
-      if (role === '' || role === 'null' || role === null) {
-        params.set('role', defaultRole);
+      if (!VALID_ROLES.includes(role)) {
+        params.set('role', 'user');
         router.push(`sign-up?${params.toString()}`);
       }
     };
@@ -76,11 +76,6 @@ export default function SignUpForm() {
       });
 
       router.push(`/login?role=${role}`);
-      setLoading(false);
-      // data.name = "";
-      // data.email = "";
-      // data.phone = "";
-      // data.password = "";
     } else {
       messageApi.open({
         type: 'error',
@@ -90,12 +85,12 @@ export default function SignUpForm() {
     }
   };
 
-  const { data: session } = useSession();
-
-  if (session?.user) {
-    router.push('/home');
-  }
-
+  const handleSocialLogin = async () => {
+    await signIn(AUTH_PROVIDERS.KEYCLOAK, {
+      callbackUrl: `/verify-user?role=${role}`,
+      redirect: true,
+    });
+  };
   return (
     <>
       {contextHolder}
@@ -261,11 +256,17 @@ export default function SignUpForm() {
             <div className="mt-10 flex flex-col items-center justify-center">
               <span>Hoặc đăng nhập bằng</span>
               <div className="mt-4 flex items-center">
-                <div className="mr-5 w-fit cursor-pointer rounded-full bg-primary-500 p-3">
+                <div
+                  className="mr-5 w-fit cursor-pointer rounded-full bg-primary-500 p-3"
+                  onClick={() => handleSocialLogin()}
+                >
                   <Image src={fb} alt="Facebook" width={24} height={24} />
                 </div>
 
-                <div className="w-fit cursor-pointer rounded-full bg-primary-500 p-3">
+                <div
+                  className="w-fit cursor-pointer rounded-full bg-primary-500 p-3"
+                  onClick={() => handleSocialLogin()}
+                >
                   <Image src={gg} alt="Google" width={24} height={24} />
                 </div>
               </div>

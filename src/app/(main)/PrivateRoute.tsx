@@ -1,19 +1,18 @@
-'use client';
+// 'use client';
+import { getServerSession } from 'next-auth';
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 
 type PrivateRouteProps = {
   children: React.ReactNode;
 };
-const PrivateRoute = ({ children }: PrivateRouteProps) => {
-  const { data: session } = useSession();
-  const router = useRouter();
+const PrivateRoute = async ({ children }: PrivateRouteProps) => {
+  const session = await getServerSession();
 
-  // if (!session?.user) {
-  //   router.push('/login');
-  //   return;
-  // }
+  if (!session?.user) {
+    redirect('/login');
+  }
 
-  return <> {children}</>;
+  return <>{children}</>;
 };
 export default PrivateRoute;

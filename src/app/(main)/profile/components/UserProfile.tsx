@@ -5,6 +5,7 @@ import { useState } from "react";
 import styles from "./profile.module.scss";
 import { cn } from "@/libs/utils";
 import EditProfile from "./EditProfile";
+import { signOut } from 'next-auth/react';
 
 export default function UserProfile() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,10 +27,10 @@ export default function UserProfile() {
       <div
         className={cn(
           styles.userProfileContainer,
-          'bg-primary-100 rounded-large flex gap-5 p-10 w-1/2',
+          'flex w-1/2 gap-5 rounded-large bg-primary-100 p-10',
         )}
       >
-        <div className="relative w-[84px] h-[84px]">
+        <div className="relative h-[84px] w-[84px]">
           <Image
             src="/images/avt.png"
             className="rounded-xl"
@@ -45,17 +46,17 @@ export default function UserProfile() {
               Chỉnh sửa
             </Button>
 
-            <button className="relative ml-2 w-4 h-4">
+            <button className="relative ml-2 h-4 w-4" onClick={() => signOut()}>
               <Image
                 src="/icons/logout.svg"
-                className="rounded-xl "
+                className="rounded-xl"
                 alt="logout"
                 fill
               />
             </button>
           </div>
 
-          <p className="body-4 text-primary-600 font-medium flex gap-1">
+          <p className="body-4 flex gap-1 font-medium text-primary-600">
             <Image
               src="/icons/phone.svg"
               className="phone-icon rounded-xl"
@@ -65,7 +66,7 @@ export default function UserProfile() {
             />
             (+84) 333 594 124
           </p>
-          <p className="body-4 text-primary-600 font-medium flex gap-1">
+          <p className="body-4 flex gap-1 font-medium text-primary-600">
             <Image
               src="/icons/location-marker.svg"
               className="rounded-xl"

@@ -20,7 +20,12 @@ const routes: Record<string, RouteConfig> = {
 
 const AuthHeader = () => {
     const pathname = usePathname();
-    const route = routes[pathname] ?? { heading: 'Opps', subheading: 'Có lẽ bạn đã vào nhầm page' };
+
+    const route = routes[pathname];
+
+    if (!route) {
+      return null;
+    }
 
     return (
         <header className="h-56 w-full bg-primary-100 flex flex-col justify-center items-center rounded-b-[80px]">

@@ -72,6 +72,7 @@ const config: Config = {
       },
       borderRadius: {
         large: '40px',
+        form: '20px',
       },
       spacing: {
         card: '360px',

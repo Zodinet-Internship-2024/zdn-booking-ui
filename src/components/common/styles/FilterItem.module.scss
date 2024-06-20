@@ -14,10 +14,10 @@
       line-height: 20px;
       text-align: left;
       color: theme('colors.natural.700');
-      width: 40px !important;
+      width: 42px !important;
 
       input {
-        width: 36px !important;
+        width: 40px;
       }
     }
     .ant-picker-separator {
@@ -25,7 +25,7 @@
     }
 
     .ant-picker-suffix {
-      display: flex !important;
+      // display: flex !important;
       flex-grow: 1 !important;
       justify-content: end;
       align-items: end;

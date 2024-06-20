@@ -14,6 +14,7 @@ import locale from 'antd/es/date-picker/locale/vi_VN';
 import styles from '../styles/FilterItem.module.scss';
 import Arrow from '@public/icons/ArrowNarrowRight.svg';
 import Image from 'next/image';
+import RangePickerComponent from '../RangePickerComponent';
 
 interface OptionItem {
   label: string;
@@ -66,7 +67,8 @@ export const FilterItem: React.FC<FilterItemProps> = ({
         (filter.name === 'time' ? (
           <div className={`flex flex-col gap-3 w-full`}>
             <DatePickerComponent></DatePickerComponent>
-            <div
+            <RangePickerComponent label="Thời gian"></RangePickerComponent>
+            {/* <div
               className={`${styles.rangePicker} flex flex-row gap-3 items-center`}
             >
               <label className={`body-3 text-natural-700`}>Thời gian</label>
@@ -92,7 +94,7 @@ export const FilterItem: React.FC<FilterItemProps> = ({
                   // Your logic to handle the selection after clicking OK
                 }}
               />
-            </div>
+            </div> */}
           </div>
         ) : (
           <div className={`flex flex-col gap-3 w-full`}>

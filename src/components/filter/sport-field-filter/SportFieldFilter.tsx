@@ -5,13 +5,12 @@ import React from 'react';
 
 type SportFieldFiltersProps = {
   children: React.ReactNode;
+  className?: string;
 };
 
-const SportFieldFilters: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+const SportFieldFilters = ({ children, className }: SportFieldFiltersProps) => {
   return (
-    <div className={cn('flex items-center justify-between')}>
+    <div className={cn('flex items-center justify-between gap-3', className)}>
       <FieldTypeFilter onSelect={() => {}} />
       {children}
     </div>

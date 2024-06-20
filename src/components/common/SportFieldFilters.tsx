@@ -41,6 +41,7 @@ const timeFilter = {
 };
 
 export const SportFieldFilters: React.FC = () => {
+  const [isOpened, setIsOpened] = React.useState<boolean>(true);
   const [price, setPrice] = React.useState<string>(
     priceFilter.options[0].value,
   );
@@ -60,13 +61,19 @@ export const SportFieldFilters: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col justify-between items-center w-[480px] px-10 rounded-s-[40px] shadow-2xl h-screen absolute top-0 right-0 bg-neutral">
-      <div className="flex flex-col w-[400px] gap-6">
+    <div
+      className={`fixed right-0 top-0 flex h-screen w-[480px] flex-col items-center justify-between rounded-s-[40px] bg-neutral px-10 shadow-2xl ${
+        isOpened
+          ? 'z-10 translate-x-0 transform duration-1000'
+          : 'z-0 translate-x-full transform duration-1000'
+      }`}
+    >
+      <div className="flex w-[400px] flex-col gap-6">
         <div
-          className={`flex flex-row justify-between items-center  body-1 font-bold py-6 h-[88px]`}
+          className={`body-1 flex h-[88px] flex-row items-center justify-between py-6 font-bold`}
         >
           <span>Bộ lọc</span>
-          <button className="w-10 h-10">
+          <button className="h-10 w-10" onClick={() => setIsOpened(false)}>
             <CloseOutlined style={{ fontSize: '24px' }} spin />
           </button>
         </div>
@@ -94,7 +101,7 @@ export const SportFieldFilters: React.FC = () => {
         </div>
       </div>
 
-      <div className={`w-full flex flex-row gap-10 pb-10`}>
+      <div className={`flex w-full flex-row gap-10 pb-10`}>
         <AccentButton
           label="Áp dụng"
           value="apply"
@@ -103,10 +110,10 @@ export const SportFieldFilters: React.FC = () => {
           style="flex-grow"
         ></AccentButton>
         <button
-          className={`border-b-2 text-natural-400 border-natural-400 hover:text-accent-600 hover:border-accent-600`}
+          className={`border-b-2 border-natural-400 text-natural-400 hover:border-accent-600 hover:text-accent-600`}
           onClick={handleClearFilter}
         >
-          <span className="w w-fit body-3 font-bold">Xoa bo loc</span>
+          <span className="w body-3 w-fit font-bold">Xoa bo loc</span>
         </button>
       </div>
     </div>
