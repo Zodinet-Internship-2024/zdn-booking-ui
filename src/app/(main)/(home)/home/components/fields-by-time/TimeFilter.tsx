@@ -1,13 +1,13 @@
 'use client';
-import FieldTypeFilter from '@/components/common/FieldTypeFilter';
 import CustomTimePicker from '@/components/filter/CustomTimePicker';
-import { cn } from '@/libs/utils';
+import SportFieldFilters from '@/components/filter/sport-field-filter/SportFieldFilter';
 
 const TimeFilter = () => {
   return (
-    <div className={cn('flex items-center justify-between')}>
-      <FieldTypeFilter onSelect={() => {}} name="timeType" />
-      <CustomTimePicker />
+    <div>
+      <SportFieldFilters className="flex-wrap">
+        <CustomTimePicker />
+      </SportFieldFilters>
     </div>
   );
 };

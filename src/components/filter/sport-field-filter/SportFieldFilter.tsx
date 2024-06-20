@@ -1,19 +1,16 @@
 'use client';
 import FieldTypeFilter from '@/components/common/FieldTypeFilter';
 import { cn } from '@/libs/utils';
-import { Button } from 'antd';
-import React, { PropsWithChildren } from 'react';
-import { RiFilter2Fill } from 'react-icons/ri';
+import React from 'react';
 
 type SportFieldFiltersProps = {
   children: React.ReactNode;
+  className?: string;
 };
 
-const SportFieldFilters: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+const SportFieldFilters = ({ children, className }: SportFieldFiltersProps) => {
   return (
-    <div className={cn('flex justify-between items-center')}>
+    <div className={cn('flex items-center justify-between gap-3', className)}>
       <FieldTypeFilter onSelect={() => {}} />
       {children}
     </div>

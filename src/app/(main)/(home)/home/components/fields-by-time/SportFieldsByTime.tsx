@@ -25,10 +25,10 @@ const SportFieldsByTime = ({ sportFields }: SportFieldsByTimeProps) => {
   };
 
   return (
-    <div className="container mx-auto flex flex-col justify-center py-16">
+    <div className="container mx-auto flex flex-col justify-center px-8 py-16">
       <h4 className="py-5 font-bold">Đặt chỗ theo giờ</h4>
       <TimeFilter />
-      <div className="mb-6 mt-8 grid grid-cols-4 gap-4">
+      <div className="mb-6 mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         {paginatedSportFields.map((sportField) => (
           <SportFieldInfoCard key={sportField.id} sportField={sportField} />
         ))}

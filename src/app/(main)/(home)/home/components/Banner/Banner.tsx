@@ -15,7 +15,7 @@ const Banner = () => {
     <div
       className={cn(
         styles.bannerContainer,
-        'h-[520px] bg-primary-100 px-30 py-12',
+        'h-[520px] bg-primary-100 px-8 py-12',
       )}
     >
       <div className="container mx-auto flex items-center justify-between gap-36">

@@ -38,7 +38,7 @@ const FieldTypeFilter: React.FC<FieldTypeFilterProps> = ({
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
   return (
-    <div className={`flex flex-row gap-3`}>
+    <div className={`grid grid-cols-2 gap-3 md:grid-cols-4 xl:flex`}>
       {tabs.map((tab) => (
         <AccentButton
           key={tab.value}
