@@ -12,3 +12,7 @@ export function isEmail(value: string) {
 export function formatDateToTime(dateTime: Date) {
     return dateTime.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
 }
+
+export function getValidFilterType(tabs: any[], type: string) {
+  return tabs.find((tab) => tab.value === type) ? type : 'all';
+}

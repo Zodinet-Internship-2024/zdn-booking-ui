@@ -4,17 +4,17 @@ import Image from "next/image";
 
 const Navbar = () => {
   return (
-    <div className="flex justify-between items-center w-fit gap-10 mx-auto body-3 font-medium py-4  ">
-      <Link className="hover:text-natural-400 text-natural-700" href="#">
+    <div className="body-3 mx-auto flex w-fit items-center justify-between gap-10 py-4 font-medium">
+      <Link className="text-natural-700 hover:text-natural-400" href="/owner">
         Kênh chủ sân
       </Link>
-      <Link className="hover:text-natural-400 text-natural-700" href="#">
-        {"Thông báo (12)"}
+      <Link className="text-natural-700 hover:text-natural-400" href="#">
+        {'Thông báo (12)'}
       </Link>
-      <Link className="hover:text-natural-400 text-natural-700" href="#">
+      <Link className="text-natural-700 hover:text-natural-400" href="#">
         Đặt chỗ
       </Link>
-      <Link className="hover:text-natural-400 text-natural-700" href="/profile">
+      <Link className="text-natural-700 hover:text-natural-400" href="/profile">
         <Image
           src="/images/avt.png"
           className="rounded-xl"

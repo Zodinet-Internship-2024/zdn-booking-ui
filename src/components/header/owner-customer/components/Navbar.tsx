@@ -3,9 +3,9 @@ import React from 'react';
 import Image from 'next/image';
 
 const links = [
-  { href: '#', label: 'Kênh người bán' },
-  { href: '#', label: 'Quản lý sân' },
-  { href: '#', label: 'Tạo sân' },
+  { href: '/home', label: 'Kênh người bán' },
+  { href: '/owner', label: 'Quản lý sân' },
+  { href: '/create-sport-field', label: 'Tạo sân' },
   { href: '#', label: 'Lịch sử giao dịch' },
   { href: '#', label: 'Đặt chỗ (12)' },
 ];

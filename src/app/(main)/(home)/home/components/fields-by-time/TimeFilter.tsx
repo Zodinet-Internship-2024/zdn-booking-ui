@@ -1,15 +1,13 @@
+'use client';
+import FieldTypeFilter from '@/components/common/FieldTypeFilter';
 import CustomTimePicker from '@/components/filter/CustomTimePicker';
-import SportFieldFilters from '@/components/filter/sport-field-filter/SportFieldFilter';
-import { Button } from 'antd';
-import React from 'react';
-import { RiFilter2Fill } from 'react-icons/ri';
+import { cn } from '@/libs/utils';
 
 const TimeFilter = () => {
   return (
-    <div>
-      <SportFieldFilters>
-        <CustomTimePicker />
-      </SportFieldFilters>
+    <div className={cn('flex items-center justify-between')}>
+      <FieldTypeFilter onSelect={() => {}} name="timeType" />
+      <CustomTimePicker />
     </div>
   );
 };

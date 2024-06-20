@@ -1,6 +1,8 @@
 'use client';
 import React, { useState } from 'react';
 import AccentButton from './components/AccentButton';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { getValidFilterType } from '@/libs/utils';
 
 const tabs = [
   { label: 'Tất cả', value: 'all' },
@@ -15,13 +17,25 @@ const tabs = [
 
 interface FieldTypeFilterProps {
   onSelect: (value: string) => void;
+  name?: string;
 }
 
-const FieldTypeFilter: React.FC<FieldTypeFilterProps> = ({ onSelect }) => {
-  const [activeTab, setActiveTab] = useState('all');
+const FieldTypeFilter: React.FC<FieldTypeFilterProps> = ({
+  onSelect,
+  name = 'type',
+}) => {
+  // const [activeTab, setActiveTab] = useState('all');
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const activeTab = getValidFilterType(tabs, searchParams.get(name) as string);
   const handleClick = (value: string) => {
-    setActiveTab(value);
+    // setActiveTab(value);
     onSelect(value);
+    const params = new URLSearchParams(searchParams);
+    params.set(name, value);
+
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
   return (
     <div className={`flex flex-row gap-3`}>
