@@ -6,7 +6,7 @@ import SearchBar from './components/Search';
 
 const CustomerHeader = () => {
   return (
-    <div className="h-20 w-full bg-primary-100 px-8 py-6">
+    <div className="w-full bg-primary-100 px-8 py-6">
       <div className="container mx-auto flex justify-between">
         <section className="flex items-center justify-between gap-6">
           <Link href={'/home'} className="">
