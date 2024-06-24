@@ -49,7 +49,7 @@ export default function UserProfile() {
         <div className="flex flex-col gap-2">
           <div className="flex items-center">
             <p className="body-2 font-bold text-neutral-600">
-              {session?.user.name || 'Người dùng của tôi'}
+              {session?.user?.name || 'Người dùng của tôi'}
             </p>
             <Button type="primary" onClick={showModal} className="ml-5">
               Chỉnh sửa

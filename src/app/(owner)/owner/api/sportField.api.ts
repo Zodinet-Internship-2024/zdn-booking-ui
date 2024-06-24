@@ -1,4 +1,5 @@
 'use server';
+import axiosAuth from '@/libs/axios';
 import axios from 'axios';
 
 import { cookies } from 'next/headers';
@@ -30,15 +31,8 @@ export const getUserSportFields = async (
   }
 };
 export const getSportFieldById = async (id: string): Promise<any> => {
-  const accessToken = cookies().get('access_token')?.value as string;
-
   try {
-    const data = await axios.get(`${API_HOST}/sport-field/${id}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const data = await axiosAuth.get(`${API_HOST}/sport-field/${id}`);
     console.log(data.data);
     return data.data;
   } catch (error) {

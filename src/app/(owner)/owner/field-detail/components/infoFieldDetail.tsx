@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import fieldImg from '../../../../../../public/images/Field.png';
 import Image from 'next/image';
 import s from '../components/infoFieldDetail.module.scss';
-import { cn } from '@/libs/utils';
+import { cn, formatCurrency } from '@/libs/utils';
 import DeleteFieldBooking from './deleteFieldBooking';
 import { useRouter } from 'next/navigation';
 
@@ -105,7 +105,10 @@ export default function InfoFieldDetail({ sportField }: { sportField: any }) {
               >
                 Giá tiền
               </p>
-              <span className="font-bold"> {sportField.price}/ tiếng</span>
+              <span className="font-bold">
+                {' '}
+                {formatCurrency(sportField.price)}/ tiếng
+              </span>
             </div>
           </div>
           <div className="mb-6 text-base font-normal leading-6 text-natural-700">

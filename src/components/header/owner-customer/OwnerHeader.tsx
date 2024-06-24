@@ -21,7 +21,7 @@ const OwnerHeader = () => {
               width={35}
               height={40}
             />
-            {session?.user.name || 'Người dùng của tôi'}
+            {session?.user?.name || 'Người dùng của tôi'}
           </Link>
         </section>
         <section className="flex">

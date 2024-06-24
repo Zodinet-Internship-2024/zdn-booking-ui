@@ -9,8 +9,7 @@ type FieldDetailPageProps = {
 export default async function page({ params }: FieldDetailPageProps) {
   const res = await getSportFieldById(params.id);
 
-  const sportField = res.sportField || {};
-  console.log(123, sportField);
+  const sportField = res?.sportField || {};
   return (
     <div className="">
       <InfoFieldDetail sportField={sportField} />

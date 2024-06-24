@@ -25,3 +25,11 @@ export function getValidRole(role: string = 'user') {
 export function getValidFilterType(tabs: any[], type: string) {
   return tabs.find((tab) => tab.value === type) ? type : 'all';
 }
+
+export function formatCurrency(value: number = 0) {
+  return value.toLocaleString('vi-VN', {
+    style: 'currency',
+    currency: 'VND',
+    currencyDisplay: 'code',
+  });
+}
