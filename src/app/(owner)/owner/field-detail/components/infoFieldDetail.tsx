@@ -21,6 +21,7 @@ export default function InfoFieldDetail({ sportField }: { sportField: any }) {
   const handleBack = () => {
     route.push('/owner');
   };
+  console.log(sportField);
   return (
     <div className="flex h-full w-full justify-center">
       <DeleteFieldBooking isOpen={openModal} onClose={handleCloseModal} />

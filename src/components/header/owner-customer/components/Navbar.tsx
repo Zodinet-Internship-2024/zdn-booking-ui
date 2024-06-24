@@ -1,7 +1,9 @@
+'use client';
 import Link from 'next/link';
 import React from 'react';
 import Image from 'next/image';
 import { cn } from '@/libs/utils';
+import { usePathname } from 'next/navigation';
 
 const links = [
   { href: '/home', label: 'Kênh người bán' },
@@ -15,15 +17,18 @@ const NavbarLink = ({
   href,
   label,
   hidden = false,
+  isActive = false,
 }: {
   href: string;
   label: string;
   hidden?: boolean;
+  isActive?: boolean;
 }) => (
   <Link
     href={href}
     className={cn(
       'truncate px-5 py-2.5 text-natural-700 hover:font-bold hover:text-primary-600',
+      isActive && 'font-bold text-primary-600',
       hidden && 'hidden xl:block',
     )}
   >
@@ -32,10 +37,11 @@ const NavbarLink = ({
 );
 
 const Navbar = () => {
+  const pathname = usePathname();
   return (
     <div className="body-3 mx-auto flex w-fit items-center justify-between gap-5 py-4 font-medium">
       {links.map((link, index) => (
-        <NavbarLink key={index} {...link} />
+        <NavbarLink key={index} {...link} isActive={pathname === link.href} />
       ))}
       <Link
         href="/profile"
