@@ -17,7 +17,7 @@ export const SignUpSchema = z
       .string({
         required_error: 'SDT không được để trống',
       })
-      .regex(/^\d{10}$/, 'Số điện thoại không hợp lệ'),
+      .regex(/(84|0[3|5|7|8|9])+([0-9]{8})\b/g, 'Số điện thoại không hợp lệ'),
     confirmPassword: z.string({
       required_error: ' Mật khẩu không được để trống',
     }),
@@ -25,8 +25,8 @@ export const SignUpSchema = z
       .string({
         required_error: ' Mật khẩu không được để trống',
       })
-      .min(5, { message: 'Tên phải chứa ít nhất 5 ký tự' })
-      .max(20, { message: 'Tên không được vượt quá 20 ký tự' }),
+      .min(5, { message: 'Mật khẩu phải chứa ít nhất 5 ký tự' })
+      .max(20, { message: 'Mật khẩu không được vượt quá 20 ký tự' }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: 'Mật khẩu phải trùng khớp',

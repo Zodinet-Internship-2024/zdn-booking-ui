@@ -54,6 +54,7 @@ export default function SignUpForm() {
     // eslint-disable-next-line react-hooks/rules-of-hooks
   } = useForm<SignUpSchemaType>({
     resolver: zodResolver(SignUpSchema),
+    mode: 'onBlur',
   });
 
   const onSubmit = async (data: any) => {
