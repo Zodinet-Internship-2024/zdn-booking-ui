@@ -76,7 +76,7 @@ export default function UserProfile() {
               width="15"
               height="15"
             />
-            (+84) {session?.user?.phone || 'Chưa cập nhật'}
+            {session?.user?.phone || 'Chưa cập nhật'}
           </p>
           <p className="body-4 flex gap-1 font-medium text-primary-600">
             <Image

@@ -239,15 +239,12 @@ const SportFieldForm: React.FC<SportFieldFormProps> = ({
               { required: true, message: 'Vui lòng nhập Số điện thoại' },
               {
                 type: 'string',
-                max: 9,
+                max: 10,
                 message: 'Số điện thoại không vượt quá 9 số',
               },
             ]}
           >
-            <Input
-              prefix="(+84) "
-              style={{ width: '100%', borderRadius: '40px' }}
-            />
+            <Input style={{ width: '100%', borderRadius: '40px' }} />
           </Form.Item>
           <Form.Item
             label="Thời gian mở cửa"

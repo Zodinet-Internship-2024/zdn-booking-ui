@@ -79,14 +79,14 @@ export default function InfoFieldDetail({ sportField }: { sportField: any }) {
           <p className="mb-6 text-base font-normal leading-6 text-natural-500">
             Số điện thoại{' '}
             <span className="ml-3 font-bold text-natural-700">
-              (+84) {sportField.phone}
+              {sportField.phone}
             </span>
           </p>
           <p className="mb-6 text-base font-normal leading-6 text-natural-500">
             Thời gian mở cửa{' '}
             <span className="ml-3 font-bold text-natural-700">
               {' '}
-              {sportField.startTime}-{sportField.endTime}
+              {sportField.startTime} - {sportField.endTime}
             </span>
           </p>
           <div className="mb-6 flex items-center text-base font-normal leading-6 text-natural-700">
