@@ -23,8 +23,7 @@ const OwnerHomePage = async ({ searchParams }: OwnerHomePageProps) => {
     +size,
     sportFieldTypeId as string,
   );
-  const sportFields = res.data;
-  console.log(sportFields);
+  const sportFields: SportField[] = res.data ?? [];
 
   return (
     <div className="flex h-full w-full items-end justify-center">

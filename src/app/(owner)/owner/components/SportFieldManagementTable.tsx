@@ -8,13 +8,7 @@ import { useRouter } from 'next/navigation';
 
 interface SportFieldManagementTableProps {
   filter: string;
-  sportFields: {
-    id: string;
-    name: string;
-    category: string;
-    quantity: number;
-    address: string;
-  }[];
+  sportFields: SportField[];
 }
 
 const SportFieldManagementTable: React.FC<SportFieldManagementTableProps> = ({
@@ -40,15 +34,14 @@ const SportFieldManagementTable: React.FC<SportFieldManagementTableProps> = ({
     console.log(id);
     router.push(`owner/field-detail/${id}`);
   };
-  const dataSource = sportFields?.map((field, index) => ({
+  const dataSource = sportFields?.map((sportField, index) => ({
     key: index + 1,
-    id: field.id,
-    name: field.name,
-    category: index % 3 === 0 ? 'Sân bóng đá ' : 'Sân  tennis',
-    quantity: field.quantity,
-    address: 'Lô 4, Cư xá Thanh Đa, Bình Thạnh, Tp. Hồ Chí Minh',
+    id: sportField.id,
+    name: sportField?.name ?? '',
+    category: sportField?.sportFieldType?.name ?? '',
+    quantity: sportField?.quantity ?? '',
+    address: sportField?.location?.addressDetail ?? '',
   }));
-  console.log(dataSource);
 
   const columns: ColumnsType<DataType> = [
     // Changed to ColumnsType<DataType>

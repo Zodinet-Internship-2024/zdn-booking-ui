@@ -4,9 +4,12 @@ import FieldTypeFilter from '@/components/common/FieldTypeFilter';
 import React, { useState } from 'react';
 import SportFieldManagementTable from './SportFieldManagementTable';
 
-const SportFieldManagement = ({ sportFields }: { sportFields: [] }) => {
+const SportFieldManagement = ({
+  sportFields,
+}: {
+  sportFields: SportField[];
+}) => {
   const [filter, setFilter] = useState('all');
-
   return (
     <div className="mx-36 h-[95%] rounded-t-large bg-white p-10">
       <h4 className="mb-5 font-bold text-natural-700">Quản lý sân</h4>
