@@ -133,7 +133,7 @@ export default function LoginForm() {
                 htmlFor="password"
                 className="mb-2 text-lg font-bold leading-6 text-primary-600"
               >
-                Password
+                Mật khẩu
               </label>
 
               <Controller
@@ -141,7 +141,7 @@ export default function LoginForm() {
                 control={control}
                 render={({ field }) => (
                   <Input.Password
-                    placeholder="Nhập Password"
+                    placeholder="Nhập mật khẩu"
                     id="password"
                     status={errorMessage ? 'error' : ''}
                     {...field}
