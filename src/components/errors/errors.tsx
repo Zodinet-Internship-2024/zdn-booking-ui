@@ -1,13 +1,13 @@
-import React from "react";
-import { FieldError } from "react-hook-form";
+import React from 'react';
+import { FieldError } from 'react-hook-form';
 
 interface ErrorsProps {
   error?: FieldError;
 }
 
-const Errors: React.FC<ErrorsProps> = ({ error }) => {
+const Errors: React.FC<ErrorsProps> = async ({ error }) => {
   return (
-    <span className={`text-red-400 h-3 font-semibold text-xs `}>
+    <span className={`h-3 text-xs font-semibold text-red-400`}>
       {error?.message}
     </span>
   );

@@ -1,8 +1,23 @@
 'use client';
 
+import { signOut } from 'next-auth/react';
 import Link from 'next/link';
+import { useEffect } from 'react';
 
-const Error = () => {
+const Error = ({ error }: { error: any; reset: () => void }) => {
+  const isUnauthorized = error.message === 'Unauthorized';
+
+  useEffect(() => {
+    console.log('err', error);
+    if (isUnauthorized) {
+      signOut();
+    }
+  }, []);
+
+  if (isUnauthorized) {
+    return null;
+  }
+
   return (
     <section className="bg-white">
       <div className="mx-auto max-w-screen-xl px-4 py-8 lg:px-6 lg:py-16">

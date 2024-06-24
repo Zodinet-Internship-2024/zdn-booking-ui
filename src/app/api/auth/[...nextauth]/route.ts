@@ -31,9 +31,6 @@ export async function auth(req: NextApiRequest, res: NextApiResponse) {
         clientId: process.env.KEYCLOAK_CLIENT_ID as string,
         clientSecret: process.env.KEYCLOAK_CLIENT_SECRET as string,
         issuer: process.env.KEYCLOAK_ISSUER,
-        authorization: {
-          params: { role: 'user' || 'owners' },
-        },
       }),
     ],
     callbacks: {

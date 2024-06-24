@@ -6,6 +6,7 @@ import styles from "./profile.module.scss";
 import { cn } from "@/libs/utils";
 import EditProfile from "./EditProfile";
 import { signOut } from 'next-auth/react';
+import { removeTokens } from '@/app/(auth)/apis/auth.api';
 
 export default function UserProfile() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -20,6 +21,11 @@ export default function UserProfile() {
 
   const handleCancel = () => {
     setIsModalOpen(false);
+  };
+
+  const handleSignOut = () => {
+    removeTokens();
+    signOut();
   };
 
   return (
@@ -46,7 +52,10 @@ export default function UserProfile() {
               Chỉnh sửa
             </Button>
 
-            <button className="relative ml-2 h-4 w-4" onClick={() => signOut()}>
+            <button
+              className="relative ml-2 h-4 w-4"
+              onClick={() => handleSignOut()}
+            >
               <Image
                 src="/icons/logout.svg"
                 className="rounded-xl"
