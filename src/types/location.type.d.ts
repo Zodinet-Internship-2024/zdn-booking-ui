@@ -1,4 +1,3 @@
-import { sportField } from './../mocks/sport-fields';
 type LocationType = {
   id: string;
   sportFieldId?: string;

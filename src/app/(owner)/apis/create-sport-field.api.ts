@@ -1,5 +1,4 @@
 'use server';
-import { District, Province, Ward } from '@/types/location.type';
 import { cookies } from 'next/headers';
 
 export async function getLocation() {
@@ -7,7 +6,6 @@ export async function getLocation() {
   let districts: District[] = [];
   let wards: Ward[] = [];
   const auth = `Bearer ${cookies().get('access_token')?.value}`;
-  console.log(auth);
   try {
     // Fetch provinces
     const provincesResponse = await fetch(
