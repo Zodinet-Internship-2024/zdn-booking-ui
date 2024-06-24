@@ -1,5 +1,6 @@
 type Field = {
-    id: string;
-    name: string;
-    bookings: Booking[];
+  id?: string;
+  name: string;
+  sportFieldId?: string;
+  bookings?: Booking[];
 };

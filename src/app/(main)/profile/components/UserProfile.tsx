@@ -5,11 +5,12 @@ import { useState } from "react";
 import styles from "./profile.module.scss";
 import { cn } from "@/libs/utils";
 import EditProfile from "./EditProfile";
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import { removeTokens } from '@/app/(auth)/apis/auth.api';
 
 export default function UserProfile() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { data: session } = useSession();
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -47,7 +48,9 @@ export default function UserProfile() {
 
         <div className="flex flex-col gap-2">
           <div className="flex items-center">
-            <p className="body-2 font-bold text-neutral-600">Nguyễn Thu Hà</p>
+            <p className="body-2 font-bold text-neutral-600">
+              {session?.user.name || 'Người dùng của tôi'}
+            </p>
             <Button type="primary" onClick={showModal} className="ml-5">
               Chỉnh sửa
             </Button>
@@ -73,7 +76,7 @@ export default function UserProfile() {
               width="15"
               height="15"
             />
-            (+84) 333 594 124
+            (+84) {session?.user?.phone || 'Chưa cập nhật'}
           </p>
           <p className="body-4 flex gap-1 font-medium text-primary-600">
             <Image

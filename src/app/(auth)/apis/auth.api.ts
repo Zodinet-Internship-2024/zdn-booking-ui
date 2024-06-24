@@ -13,10 +13,9 @@ export const signUpUser = async (signUpInfo: any): Promise<any> => {
         'Content-Type': 'application/json',
       },
     });
-    console.log(data.data);
+
     return data.data;
   } catch (error) {
-    console.log(error);
     return error;
   }
 };

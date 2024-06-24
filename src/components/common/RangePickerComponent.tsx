@@ -14,14 +14,16 @@ const { RangePicker } = TimePicker;
 interface rangePickerProps {
   // onCalendarChange: (dates: any, dateStrings: [string, string]) => void;
   // onOk: (value: any) => void;
+  onChange?: (value: any) => void;
   label?: string;
 }
-
-function RangePickerComponent({ label }: rangePickerProps) {
+const RangePickerComponent: React.FC<rangePickerProps> = (props) => {
+  const { label, onChange } = props;
   return (
-    <div className={`${styles.rangePicker} flex flex-row gap-3 items-center`}>
+    <div className={`${styles.rangePicker} flex flex-row items-center gap-3`}>
       <label className={`body-3 text-natural-700`}>{label}</label>
       <RangePicker
+        // value={value ?? [dayjs(), dayjs()]}
         showTime={{
           minuteStep: 30,
         }}
@@ -31,18 +33,19 @@ function RangePickerComponent({ label }: rangePickerProps) {
           <ClockCircleOutlined style={{ fontSize: '20px', color: '#939393' }} />
         }
         separator={<Image src={Arrow} alt="arrow" className={``} />}
-        className={`flex-grow flex items-center justify-start gap-3`}
+        className={`flex flex-grow items-center justify-start gap-3`}
         onCalendarChange={(_, [start, end]) => {
-          console.log('Start: ', start);
-          console.log('End: ', end);
+          console.log('Time range changed:', start, end);
         }}
         onOk={(value) => {
           console.log('Time range selected:', value);
+          onChange && onChange(value);
+
           // Your logic to handle the selection after clicking OK
         }}
       />
     </div>
   );
-}
+};
 
 export default RangePickerComponent;

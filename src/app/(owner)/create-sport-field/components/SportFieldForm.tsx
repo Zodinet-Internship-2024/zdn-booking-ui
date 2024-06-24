@@ -2,86 +2,61 @@
 import RangePickerComponent from '@/components/common/RangePickerComponent';
 import { cn } from '@/libs/utils';
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
-import type { FormProps } from 'antd';
-import { Button, Form, Input, InputNumber, Select, Upload } from 'antd';
+import type { FormProps, GetProp, UploadProps } from 'antd';
+import {
+  Button,
+  Form,
+  Input,
+  InputNumber,
+  Select,
+  Upload,
+  message,
+} from 'antd';
 import Image from 'next/image';
 import React, { useState } from 'react';
-import styles from './formCreateSportField.module.scss';
+import styles from './SportFieldForm.module.scss';
 import iconUpImage from '/public/images/icons_add_image.png';
+import { District, Province, Ward } from '@/types/location.type';
+import { getLocation, postData } from '../../apis/create-sport-field.api';
+import CustomNumberInput from './CustomNumberInput';
+import { uploadImage } from '../../apis/upload-img.api';
 const { TextArea } = Input;
 
-const normFile = (e: any) => {
+type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
+
+const normalFiles = (e: any) => {
   if (Array.isArray(e)) {
     return e;
   }
   return e?.fileList;
 };
 
-/* eslint-disable no-template-curly-in-string */
-const validateMessages = {
-  required: '${label} không được để trống!',
-  types: {
-    email: '${label} is not a valid email!',
-    number: '${label} is not a valid number!',
-  },
-  number: {
-    range: '${label} must be between ${min} and ${max}',
-  },
-};
-/* eslint-enable no-template-curly-in-string */
-
-type FieldType = {
-  name: string;
-  category: string;
-  address: {
-    province: number | undefined;
-    district: number | undefined;
-    ward: number | undefined;
-    addressDetail: string;
-  };
-  phoneNumber: string;
-  openTime: [string, string];
-  price: number | undefined;
-  rules: string;
-  quantity: number;
-  images: string[];
+const beforeUpload = (file: FileType) => {
+  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+  if (!isJpgOrPng) {
+    message.error('You can only upload JPG/PNG file!');
+  }
+  const isLt2M = file.size / 1024 / 1024 < 2;
+  if (!isLt2M) {
+    message.error('Image must smaller than 2MB!');
+  }
+  return isJpgOrPng && isLt2M;
 };
 
-const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
-  console.log('Success:', values);
-};
-
-const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
-  console.log('Failed:', errorInfo);
-};
-
-const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
-};
-
-const tailLayout = {
-  wrapperCol: { offset: 8, span: 16 },
-};
-
-type FormCreateSportFieldProps = {
+type SportFieldFormProps = {
   provinces: Province[];
   districts: District[];
   wards: Ward[];
+  sportFieldTypes: SportFieldType[];
 };
 
-const FormCreateSportField: React.FC<FormCreateSportFieldProps> = ({
+const SportFieldForm: React.FC<SportFieldFormProps> = ({
   provinces,
   districts,
   wards,
+  sportFieldTypes,
 }) => {
-  const [quantity, setQuantity] = useState(0);
-
-  const handleQuantityChange = (value: number | null) => {
-    if (value !== null) {
-      setQuantity(value);
-    }
-  };
+  // const { provinces, districts, wards } = await getLocation();
 
   const [selectedProvince, setSelectedProvince] = useState<number | undefined>(
     undefined,
@@ -97,13 +72,41 @@ const FormCreateSportField: React.FC<FormCreateSportFieldProps> = ({
     setSelectedProvince(value);
     setSelectedDistrict(undefined); // Reset district when province changes
     setSelectedWard(undefined); // Reset ward when province changes
-    console.log('Province changed', value);
   };
 
   const handleDistrictChange = (value: number) => {
     setSelectedDistrict(value);
     setSelectedWard(undefined); // Reset ward when district changes
-    console.log('District changed', value);
+  };
+
+  const onFinish: FormProps<any>['onFinish'] = async (values) => {
+    console.log('Success:', values);
+    const { images, time, ...rest } = values;
+    let uploadImages: any[] = [];
+
+    for (let i = 0; i < images.length; i++) {
+      const formData = new FormData();
+      formData.append('file', images[i].originFileObj as File);
+      const img = await uploadImage(formData);
+      uploadImages.push(img);
+    }
+
+    const startTime = time[0].format('HH:mm');
+    const endTime = time[1].format('HH:mm');
+
+    postData(
+      {
+        ...rest,
+        sportFieldImages: [...uploadImages],
+        startTime,
+        endTime,
+      },
+      'create',
+    );
+  };
+
+  const onFinishFailed: FormProps<any>['onFinishFailed'] = (errorInfo) => {
+    console.log('Failed:', errorInfo);
   };
 
   return (
@@ -127,7 +130,6 @@ const FormCreateSportField: React.FC<FormCreateSportFieldProps> = ({
         onFinishFailed={onFinishFailed}
         autoComplete="off"
         size="large"
-        validateMessages={validateMessages}
       >
         <div className="flex flex-col">
           <p className="body-2 mb-5 font-bold text-natural-700">
@@ -135,7 +137,7 @@ const FormCreateSportField: React.FC<FormCreateSportFieldProps> = ({
           </p>
           <Form.Item
             label="Tên sân"
-            name="username"
+            name="name"
             validateTrigger="onBlur"
             rules={[
               { required: true, message: 'Vui lòng nhập Tên sân!' },
@@ -156,68 +158,79 @@ const FormCreateSportField: React.FC<FormCreateSportFieldProps> = ({
           </Form.Item>
           <Form.Item
             label="Danh mục"
-            name="category"
+            name="sportFieldTypeId"
             rules={[{ required: true, message: 'Vui lòng nhập Danh mục' }]}
           >
             <Select placeholder="Nhập Danh mục">
-              <Select.Option value="basketball">Sân bóng rổ</Select.Option>
-              <Select.Option value="volleyball">Sân bóng chuyền</Select.Option>
-              <Select.Option value="badminton">Sân cầu lông</Select.Option>
-              <Select.Option value="tennis">Sân tennis</Select.Option>
-              <Select.Option value="football">Sân bóng đá</Select.Option>
-              <Select.Option value="tableTennis">Sân bóng bàn</Select.Option>
-              <Select.Option value="billiards">Bi-da</Select.Option>
-            </Select>
-          </Form.Item>
-          <Form.Item
-            label="Địa chỉ"
-            name="address"
-            rules={[{ required: true, message: 'Vui lòng nhập Địa chỉ' }]}
-          >
-            <Input placeholder="Nhập địa chỉ" />
-            <Select
-              placeholder="Tỉnh"
-              onChange={handleProvinceChange}
-              value={selectedProvince}
-            >
-              {provinces.map((province) => (
-                <Select.Option key={province.id} value={province.id}>
-                  {province.name}
+              {sportFieldTypes.map((sportFieldType) => (
+                <Select.Option
+                  key={sportFieldType.id}
+                  value={sportFieldType.id}
+                >
+                  {sportFieldType.name}
                 </Select.Option>
               ))}
             </Select>
-            <Select
-              placeholder="Quận/Huyện"
-              onChange={handleDistrictChange}
-              value={selectedDistrict}
-            >
-              {districts
-                .filter(
-                  (district) =>
-                    district.province_id === selectedProvince?.toString(),
-                )
-                .map((district) => (
-                  <Select.Option key={district.id} value={district.id}>
-                    {district.name}
-                  </Select.Option>
-                ))}
-            </Select>
-            <Select
-              placeholder="Phường/Xã"
-              value={selectedWard}
-              onChange={(value) => setSelectedWard(value)}
-            >
-              {wards
-                .filter(
-                  (ward) => ward.district_id === selectedDistrict?.toString(),
-                )
-                .map((ward) => (
-                  <Select.Option key={ward.id} value={ward.id}>
-                    {ward.name}
-                  </Select.Option>
-                ))}
-            </Select>
           </Form.Item>
+
+          <div>
+            <p className="body-2 mb-5 font-bold text-natural-700">Địa chỉ</p>
+            <Form.Item label="Tỉnh/Thành Phố" name="province">
+              <Select
+                placeholder="Tỉnh"
+                onChange={handleProvinceChange}
+                value={selectedProvince}
+              >
+                {provinces.map((province) => (
+                  <Select.Option key={province.id} value={province.id}>
+                    {province.name}
+                  </Select.Option>
+                ))}
+              </Select>
+            </Form.Item>
+            <Form.Item label="Quận/Huyện" name="district">
+              <Select
+                placeholder="Quận/Huyện"
+                onChange={handleDistrictChange}
+                value={selectedDistrict}
+              >
+                {districts
+                  .filter(
+                    (district) =>
+                      district.provinceId === selectedProvince?.toString(),
+                  )
+                  .map((district) => (
+                    <Select.Option key={district.id} value={district.id}>
+                      {district.name}
+                    </Select.Option>
+                  ))}
+              </Select>
+            </Form.Item>
+            <Form.Item label="Phường/Xã" name="ward">
+              <Select
+                placeholder="Phường/Xã"
+                value={selectedWard}
+                onChange={(value) => setSelectedWard(value)}
+              >
+                {wards
+                  .filter(
+                    (ward) => ward.districtId === selectedDistrict?.toString(),
+                  )
+                  .map((ward) => (
+                    <Select.Option key={ward.id} value={ward.id}>
+                      {ward.name}
+                    </Select.Option>
+                  ))}
+              </Select>
+            </Form.Item>
+            <Form.Item
+              label="Địa chỉ"
+              name="address"
+              rules={[{ required: true, message: 'Vui lòng nhập Địa chỉ' }]}
+            >
+              <Input placeholder="Nhập địa chỉ" />
+            </Form.Item>
+          </div>
           <Form.Item
             label="Số điện thoại"
             name="phone"
@@ -238,11 +251,12 @@ const FormCreateSportField: React.FC<FormCreateSportFieldProps> = ({
           </Form.Item>
           <Form.Item
             label="Thời gian mở cửa"
-            name="OpenTime"
+            name={'time'}
             style={{ width: '100%', borderRadius: '40px' }}
             rules={[
               { required: true, message: 'Vui lòng nhập Thời gian mở cửa' },
             ]}
+            getValueFromEvent={(e) => e}
           >
             <RangePickerComponent />
           </Form.Item>
@@ -280,6 +294,7 @@ const FormCreateSportField: React.FC<FormCreateSportFieldProps> = ({
 
         <div className="flex flex-col">
           <p className="body-2 mb-5 font-bold text-natural-700">Số sân</p>
+
           <Form.Item
             name="quantity"
             rules={[
@@ -289,43 +304,9 @@ const FormCreateSportField: React.FC<FormCreateSportFieldProps> = ({
                 message: 'Vui lòng nhập Số sân',
               },
             ]}
+            getValueFromEvent={(e) => e}
           >
-            <Button
-              type="text"
-              style={{
-                background: '#F4F1FF',
-                border: 'none',
-                borderRadius: '40px',
-                width: '44px',
-                height: '44px',
-              }}
-              icon={<MinusOutlined style={{ color: '#967DDD' }} />}
-              onClick={() => handleQuantityChange(quantity - 1)}
-            />
-            <InputNumber
-              value={quantity}
-              onChange={handleQuantityChange}
-              style={{
-                margin: '0 10px',
-                borderRadius: '40px',
-                borderColor: '#F4F1FF',
-                backgroundColor: '#F4F1FF',
-                width: '44px',
-                textAlign: 'center',
-              }}
-            />
-            <Button
-              type="text"
-              style={{
-                background: '#F4F1FF',
-                border: 'none',
-                borderRadius: '40px',
-                width: '44px',
-                height: '44px',
-              }}
-              icon={<PlusOutlined style={{ color: '#967DDD' }} />}
-              onClick={() => handleQuantityChange(quantity + 1)}
-            />
+            <CustomNumberInput />
           </Form.Item>
         </div>
 
@@ -338,11 +319,15 @@ const FormCreateSportField: React.FC<FormCreateSportFieldProps> = ({
           </p>
           <Form.Item
             valuePropName="fileList"
-            getValueFromEvent={normFile}
+            getValueFromEvent={normalFiles}
             name="images"
-            rules={[{ required: true, message: 'Vui lòng nhập Hình ảnh' }]}
+            rules={[{ required: true, message: 'Vui lòng thêm hình ảnh' }]}
           >
-            <Upload action="/upload.do" listType="picture-card">
+            <Upload
+              action=""
+              beforeUpload={beforeUpload}
+              listType="picture-card"
+            >
               <button
                 style={{
                   border: '2px',
@@ -380,4 +365,4 @@ const FormCreateSportField: React.FC<FormCreateSportFieldProps> = ({
   );
 };
 
-export default FormCreateSportField;
+export default SportFieldForm;

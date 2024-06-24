@@ -10,7 +10,7 @@ const PrivateRoute = async ({ children }: PrivateRouteProps) => {
   const session = await getServerSession();
 
   if (!session?.user) {
-    redirect('/login');
+    redirect('/role');
   }
 
   return <>{children}</>;

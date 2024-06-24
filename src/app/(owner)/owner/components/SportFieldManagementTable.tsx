@@ -1,17 +1,25 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Dropdown, Space, Table, Tag } from 'antd';
 import { Tooltip } from 'antd';
 import { ColumnsType } from 'antd/es/table';
-import { sportField } from '@/mocks/sport-fields';
 import { MoreOutlined } from '@ant-design/icons';
 import styles from './sportFieldManagement.module.scss';
+import { useRouter } from 'next/navigation';
 
 interface SportFieldManagementTableProps {
-  filter: string; // Accept filter as prop
+  filter: string;
+  sportFields: {
+    id: string;
+    name: string;
+    category: string;
+    quantity: number;
+    address: string;
+  }[];
 }
 
 const SportFieldManagementTable: React.FC<SportFieldManagementTableProps> = ({
   filter,
+  sportFields,
 }) => {
   type DataType = {
     key: React.Key;
@@ -21,40 +29,26 @@ const SportFieldManagementTable: React.FC<SportFieldManagementTableProps> = ({
     quantity: number;
     address: string;
   };
+  const router = useRouter();
 
-  const categoryMapping: { [key: string]: string } = {
-    basketball: 'Sân bóng rổ',
-    volleyball: 'Sân bóng chuyền',
-    badminton: 'Sân cầu lông',
-    tennis: 'Sân tennis',
-    football: 'Sân bóng đá',
-    tableTennis: 'Sân bóng bàn',
-    billiards: 'Bi-da',
-  };
-
-  const items = [
+  const items = (fieldId: string) => [
     { key: '1', label: 'Chỉnh sửa' },
-    { key: '2', label: 'Chi tiết' },
+    { key: '2', label: 'Chi tiết', onClick: () => handleEdit(fieldId) },
     { key: '3', label: 'Quản lý đặt chỗ' },
   ];
-
-  // Extracting required fields
-  const sportFields = Array(80).fill(sportField);
-
-  // Filter data based on selected category
-  const filteredData =
-    filter === 'all'
-      ? sportFields
-      : sportFields.filter((field) => field.sportFieldType.name === filter);
-
-  const dataSource = filteredData.map((field, index) => ({
+  const handleEdit = (id: string) => {
+    console.log(id);
+    router.push(`owner/field-detail/${id}`);
+  };
+  const dataSource = sportFields?.map((field, index) => ({
     key: index + 1,
     id: field.id,
     name: field.name,
-    category: categoryMapping[field.sportFieldType.name],
+    category: index % 3 === 0 ? 'Sân bóng đá ' : 'Sân  tennis',
     quantity: field.quantity,
-    address: field.location.addressDetail,
+    address: 'Lô 4, Cư xá Thanh Đa, Bình Thạnh, Tp. Hồ Chí Minh',
   }));
+  console.log(dataSource);
 
   const columns: ColumnsType<DataType> = [
     // Changed to ColumnsType<DataType>
@@ -132,9 +126,9 @@ const SportFieldManagementTable: React.FC<SportFieldManagementTableProps> = ({
       fixed: 'right',
       width: 72,
       ellipsis: true,
-      render: () => (
+      render: (_, record) => (
         <Space size="middle">
-          <Dropdown menu={{ items }} placement="bottomRight">
+          <Dropdown menu={{ items: items(record.id) }} placement="bottomRight">
             <a>
               <MoreOutlined style={{ color: '#939393' }} />
             </a>

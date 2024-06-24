@@ -34,9 +34,10 @@ export async function auth(req: NextApiRequest, res: NextApiResponse) {
       }),
     ],
     callbacks: {
-      async jwt({ token, account }: any) {
+      async jwt({ token, account, user }: any) {
         if (account) {
           token.account = account;
+          token.user = user;
           account.access_token &&
             cookies().set('access_token', account.access_token);
         }
@@ -45,6 +46,9 @@ export async function auth(req: NextApiRequest, res: NextApiResponse) {
 
       async session({ session, token }: any) {
         session.token = token?.account?.access_token ?? '';
+        session.user = token.user;
+
+            console.log(session.user);
         return session;
       },
     },

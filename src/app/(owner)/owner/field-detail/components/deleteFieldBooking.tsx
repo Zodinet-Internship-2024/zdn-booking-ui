@@ -94,6 +94,11 @@ export default function DeleteFieldBooking({
     console.log(12);
     setFieldBooking([]);
   };
+  const handleDeleteBookings = () => {
+    if (fieldBooking.length === 0) {
+      onClose();
+    }
+  };
   return (
     <div
       className={`${isOpen ? 'absolute flex' : 'hidden'} z-1 right-0 top-0 h-full w-full items-center justify-center rounded-[20px] transition`}
@@ -146,6 +151,7 @@ export default function DeleteFieldBooking({
             Hủy bỏ
           </button>
           <button
+            onClick={handleDeleteBookings}
             className={`${fieldBooking.length > 0 ? 'bg-natural-300' : 'bg-accent-600 hover:bg-accent-500'} rounded-[40px] px-10 py-4 leading-6 text-natural-100`}
           >
             Xác nhận
