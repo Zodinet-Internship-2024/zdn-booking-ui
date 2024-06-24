@@ -2,13 +2,18 @@
 import { LeftOutlined, StarFilled, StarOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
 import fieldImg from '../../../../../../public/images/Field.png';
-import Image from 'next/image';
+// import Image from 'next/image';
 import s from '../components/infoFieldDetail.module.scss';
 import { cn, formatCurrency } from '@/libs/utils';
 import DeleteFieldBooking from './deleteFieldBooking';
 import { useRouter } from 'next/navigation';
+import { Image } from 'antd';
 
-export default function InfoFieldDetail({ sportField }: { sportField: any }) {
+export default function InfoFieldDetail({
+  sportField,
+}: {
+  sportField: SportField;
+}) {
   const route = useRouter();
   const [openModal, setOpenModal] = useState<boolean>(false);
 
@@ -74,7 +79,7 @@ export default function InfoFieldDetail({ sportField }: { sportField: any }) {
           <p className="mb-6 text-base font-normal leading-6 text-natural-500">
             Địa chỉ{' '}
             <span className="ml-3 font-bold text-natural-700">
-              12 Nguyễn Thị Nhung, Hiệp Bình Phước, Thủ Đức, Tp. Hồ Chí Minh
+              {sportField.location.addressDetail}
             </span>
           </p>
           <p className="mb-6 text-base font-normal leading-6 text-natural-500">
@@ -118,18 +123,16 @@ export default function InfoFieldDetail({ sportField }: { sportField: any }) {
               Hình ảnh
             </p>
             <div className="flex flex-wrap items-center gap-3">
-              {Array.from({ length: 5 }, (_, index) => index + 1).map(
-                (image) => (
-                  <Image
-                    key={image}
-                    className="rounded-xl"
-                    src={fieldImg}
-                    alt={`Image ${image}`}
-                    width={144}
-                    height={100}
-                  />
-                ),
-              )}
+              {sportField.sportFieldImages.map((sportFieldImage) => (
+                <Image
+                  key={sportFieldImage.id}
+                  className="rounded-xl"
+                  src={sportFieldImage.url}
+                  alt={`Image ${sportFieldImage.name}`}
+                  width={144}
+                  height={100}
+                />
+              ))}
             </div>
           </div>
         </div>
