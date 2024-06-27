@@ -10,7 +10,7 @@ type SportFieldImage = {
 };
 
 type SportField = {
-  id?: string;
+  id: string;
   name: string;
   quantity: number;
   phone: string;

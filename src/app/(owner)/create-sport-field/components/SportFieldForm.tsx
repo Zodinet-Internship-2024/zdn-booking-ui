@@ -170,7 +170,7 @@ const SportFieldForm: React.FC<SportFieldFormProps> = ({
     if (result.statusCode === 201 || result.statusCode === 200) {
       setLoading(false);
       message.success(result.message);
-      route.push('/owner');
+      route.push('/owner?type=all');
 
       // } else if (result.status === 200) {
       //   message.success(result.message);

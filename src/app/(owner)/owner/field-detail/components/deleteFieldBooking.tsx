@@ -1,11 +1,19 @@
 'use client';
 import { CloseOutlined } from '@ant-design/icons';
-import { Table, TableProps } from 'antd';
-import React, { useState } from 'react';
+import { message, notification, Table, TableProps } from 'antd';
+import React, { useEffect, useState } from 'react';
+import {
+  getBookingSportField,
+  removeBookingOfSportField,
+  removeSportField,
+} from '../../api/sportField.api';
+import { redirect, useRouter } from 'next/navigation';
+import Router from 'next/router';
 
 type DeleteFieldBookingProps = {
   isOpen: boolean;
   onClose(): void;
+  sportField: SportField;
 };
 interface DataType {
   key: string;
@@ -15,50 +23,29 @@ interface DataType {
   name: string;
   phone: string;
 }
+interface ApiResponseItem {
+  id: string;
+  createdAt: string;
+  phone: string;
+  fullName: string;
+  fieldId: string;
+  startTime: string;
+  endTime: string;
+  field: { name: string };
+}
 export default function DeleteFieldBooking({
   isOpen,
   onClose,
+  sportField,
 }: DeleteFieldBookingProps) {
-  const data: DataType[] = [
-    {
-      key: '1',
-      field: '1',
-      time: '20:00 - 22:00',
-      date: 'T2 - 13/5',
-      name: 'Phạm Cao Huy',
-      phone: '(+84) 939 617 632',
-    },
-    {
-      key: '2',
-      field: '4',
-      time: '20:00 - 22:00',
-      date: 'T2 - 13/5',
-      name: 'Phạm Cao Huy',
-      phone: '(+84) 939 617 632',
-    },
-    {
-      key: '3',
-      field: '6',
-      time: '20:00 - 22:00',
-      date: 'T2 - 13/5',
-      name: 'Phạm Cao Huy',
-      phone: '(+84) 939 617 632',
-    },
-    {
-      key: '4',
-      field: '7',
-      time: '20:00 - 22:00',
-      date: 'T2 - 13/5',
-      name: 'Phạm Cao Huy',
-      phone: '(+84) 939 617 632',
-    },
-  ];
-  const [fieldBooking, setFieldBooking] = useState<DataType[]>(data);
+  const route = useRouter();
+  const [fieldBooking, setFieldBooking] = useState<DataType[]>();
+  const [api, contextHolder] = notification.useNotification();
   const columns: TableProps<DataType>['columns'] = [
     {
       title: 'Sân',
-      dataIndex: 'name',
-      key: 'name',
+      dataIndex: 'field',
+      key: 'field',
     },
     {
       title: 'Khung giờ',
@@ -80,7 +67,7 @@ export default function DeleteFieldBooking({
       key: 'phone',
       dataIndex: 'phone',
       render: (text) => (
-        <p className="0 cursor-pointer text-sm font-medium text-accent-600 underline underline-offset-1">
+        <p className="cursor-pointer text-sm font-medium text-accent-600 underline underline-offset-1">
           {text}
         </p>
       ),
@@ -88,75 +75,125 @@ export default function DeleteFieldBooking({
   ];
 
   const handleBackgroundClick = () => {
-    onClose(); // Call the function to close the modal
+    onClose();
   };
-  const handleDeleteAllField = () => {
-    setFieldBooking([]);
-  };
-  const handleDeleteBookings = () => {
-    if (fieldBooking.length === 0) {
-      onClose();
+  const handleDeleteAllField = async () => {
+    if (fieldBooking && fieldBooking?.length > 0) {
+      await removeBookingOfSportField(sportField.id);
+      api.success({
+        message: 'Xóa lịch đặt chỗ  thành công ',
+        placement: 'top',
+        showProgress: true,
+        pauseOnHover: false,
+      });
+      fetchSportFieldBooking();
     }
   };
-  return (
-    <div
-      className={`${isOpen ? 'absolute flex' : 'hidden'} z-1 right-0 top-0 h-full w-full items-center justify-center rounded-[20px] transition`}
-    >
-      <div
-        className="absolute inset-0 bg-black opacity-40"
-        onClick={handleBackgroundClick}
-      ></div>
-      <div className="py relative z-10 w-[740px] rounded-2xl bg-white px-10 py-6 shadow-lg">
-        <div className="mb-9 flex items-center justify-between">
-          {' '}
-          <p className="text-xl font-bold text-natural-700">Xóa sân</p>
-          <CloseOutlined
-            className="cursor-pointer"
-            onClick={handleBackgroundClick}
-          />
-        </div>
+  const handleDeleteBookings = async () => {
+    if (fieldBooking && fieldBooking.length > 0) {
+      api.error({
+        message: 'Bạn  phải xóa lịch đặt c của sân',
+        placement: 'top',
+        showProgress: true,
+        pauseOnHover: false,
+      });
+    } else {
+      await removeSportField(sportField.id);
+      message.success('Xóa sân thành công');
+      onClose();
+      route.push('/owner?type=all');
+    }
+  };
 
-        <div>
-          <span className="text-base font-bold leading-6 text-natural-700">
-            Sân bóng đá Vạn Phúc
-          </span>
-          <p className="text-xs font-normal text-natural-500">
-            12 Nguyễn Thị Nhung, Hiệp Bình Phước, Thủ Đức, Tp. Hồ Chí Minh
-          </p>
-        </div>
-        <div className="mb-5 mt-8 flex items-center justify-between">
-          <span className="text-base font-bold leading-6 text-natural-700">
-            Lịch đặt chỗ đang có
-          </span>
-          <span
-            className="cursor-pointer text-sm font-medium text-alerts-red underline underline-offset-1"
-            onClick={handleDeleteAllField}
-          >
-            Xóa tất cả
-          </span>
-        </div>
-        <div>
-          {fieldBooking.length > 0 ? (
-            <Table columns={columns} dataSource={data} />
-          ) : (
-            <p className="text-xs font-normal text-natural-500">Không có</p>
-          )}
-        </div>
-        <div className="mt-10 flex w-full justify-end text-base font-bold">
-          <button
-            onClick={handleBackgroundClick}
-            className="mr-3 rounded-[40px] bg-accent-200 px-10 py-4 leading-6 text-accent-600 hover:bg-accent-300"
-          >
-            Hủy bỏ
-          </button>
-          <button
-            onClick={handleDeleteBookings}
-            className={`${fieldBooking.length > 0 ? 'bg-natural-300' : 'bg-accent-600 hover:bg-accent-500'} rounded-[40px] px-10 py-4 leading-6 text-natural-100`}
-          >
-            Xác nhận
-          </button>
+  const mapToDataType = (item: ApiResponseItem): DataType => ({
+    key: item.id,
+    field: item.field.name,
+    time: `${new Date(item.startTime).toLocaleTimeString()} - ${new Date(item.endTime).toLocaleTimeString()}`,
+    date: new Date(item.startTime).toLocaleDateString(),
+    name: item.fullName,
+    phone: item.phone,
+  });
+
+  const fetchSportFieldBooking = async () => {
+    const res = await getBookingSportField(sportField.id);
+
+    if (res.data) {
+      const transformedData = res.data.map(mapToDataType);
+      setFieldBooking(transformedData);
+    }
+  };
+  useEffect(() => {
+    fetchSportFieldBooking();
+  }, [sportField]);
+  return (
+    <>
+      {contextHolder}
+      <div
+        className={`${isOpen ? 'absolute flex' : 'hidden'} z-1 right-0 top-0 h-full w-full items-center justify-center rounded-[20px] transition`}
+      >
+        <div
+          className="absolute inset-0 bg-black opacity-40"
+          onClick={handleBackgroundClick}
+        ></div>
+        <div className="py relative z-10 w-[740px] rounded-2xl bg-white px-10 py-6 shadow-lg">
+          <div className="mb-9 flex items-center justify-between">
+            {' '}
+            <p className="text-xl font-bold text-natural-700">Xóa sân</p>
+            <CloseOutlined
+              className="cursor-pointer"
+              onClick={handleBackgroundClick}
+            />
+          </div>
+
+          <div>
+            <span className="text-base font-bold leading-6 text-natural-700">
+              {sportField.name ?? 'Unknown'}
+            </span>
+            <p className="text-xs font-normal text-natural-500">
+              {sportField?.location
+                ? sportField?.location?.addressDetail
+                : 'Chưa cập nhật'}
+            </p>
+          </div>
+          <div className="mb-5 mt-8 flex items-center justify-between">
+            <span className="text-base font-bold leading-6 text-natural-700">
+              Lịch đặt chỗ đang có
+            </span>
+            <span
+              className="cursor-pointer text-sm font-medium text-alerts-red underline underline-offset-1"
+              onClick={handleDeleteAllField}
+            >
+              {fieldBooking && fieldBooking?.length ? 'Xóa tất cả' : ''}
+            </span>
+          </div>
+          <div>
+            {fieldBooking && fieldBooking.length > 0 ? (
+              <Table
+                columns={columns}
+                dataSource={fieldBooking}
+                pagination={{ pageSize: 5 }}
+              />
+            ) : (
+              <p className="text-xs font-normal text-natural-500">Không có</p>
+            )}
+          </div>
+          <div className="mt-10 flex w-full justify-end text-base font-bold">
+            <button
+              onClick={handleBackgroundClick}
+              className="mr-3 rounded-[40px] bg-accent-200 px-10 py-4 leading-6 text-accent-600 hover:bg-accent-300"
+            >
+              Hủy bỏ
+            </button>
+            <button
+              onClick={handleDeleteBookings}
+              disabled={fieldBooking && fieldBooking.length > 0}
+              className={`${fieldBooking && fieldBooking.length > 0 ? 'bg-natural-300' : 'bg-accent-600 hover:bg-accent-500'} rounded-[40px] px-10 py-4 leading-6 text-natural-100`}
+            >
+              Xác nhận
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

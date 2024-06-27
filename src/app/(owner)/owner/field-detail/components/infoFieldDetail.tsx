@@ -14,7 +14,7 @@ export default function InfoFieldDetail({
 }: {
   sportField: SportField;
 }) {
-  console.log(sportField);
+
   const route = useRouter();
   const [openModal, setOpenModal] = useState<boolean>(false);
 
@@ -32,10 +32,13 @@ export default function InfoFieldDetail({
     route.push(`/edit-sport-field/${sportField.id}`);
   };
 
-  console.log(sportField);
   return (
     <div className="flex h-full w-full justify-center">
-      <DeleteFieldBooking isOpen={openModal} onClose={handleCloseModal} />
+      <DeleteFieldBooking
+        isOpen={openModal}
+        onClose={handleCloseModal}
+        sportField={sportField}
+      />
       <div className="mt mt-12 w-[850px] rounded-t-[20px] bg-neutral p-10">
         <div className="mb-7 flex items-center justify-between">
           <div
@@ -133,16 +136,18 @@ export default function InfoFieldDetail({
               Hình ảnh
             </p>
             <div className="flex flex-wrap items-center gap-3">
-              {sportField.sportFieldImages.map((sportFieldImage) => (
-                <Image
-                  key={sportFieldImage.id}
-                  className="rounded-xl"
-                  src={sportFieldImage.url}
-                  alt={`Image ${sportFieldImage.name}`}
-                  width={144}
-                  height={100}
-                />
-              ))}
+              {sportField.sportFieldImages
+                ? sportField.sportFieldImages.map((sportFieldImage) => (
+                    <Image
+                      key={sportFieldImage.id}
+                      className="rounded-xl"
+                      src={sportFieldImage.url}
+                      alt={`Image ${sportFieldImage.name}`}
+                      width={144}
+                      height={100}
+                    />
+                  ))
+                : 'Chưa cập nhật'}
             </div>
           </div>
         </div>

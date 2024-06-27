@@ -12,7 +12,7 @@ type OwnerHomePageProps = {
   params: { slug: string };
   searchParams?: { [key: string]: string | string[] | undefined };
 };
-
+export const revalidate = 0;
 const OwnerHomePage = async ({ searchParams }: OwnerHomePageProps) => {
   const page = searchParams?.page || 1;
   const size = searchParams?.size || 10;
