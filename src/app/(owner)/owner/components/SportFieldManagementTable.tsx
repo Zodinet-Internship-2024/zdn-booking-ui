@@ -7,12 +7,10 @@ import styles from './sportFieldManagement.module.scss';
 import { useRouter } from 'next/navigation';
 
 interface SportFieldManagementTableProps {
-  filter: string;
   sportFields: SportField[];
 }
 
 const SportFieldManagementTable: React.FC<SportFieldManagementTableProps> = ({
-  filter,
   sportFields,
 }) => {
   type DataType = {

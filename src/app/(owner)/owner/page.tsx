@@ -1,6 +1,8 @@
+import { tabs } from '@/components/common/FieldTypeFilter';
 import { getUserSportFields } from './api/sportField.api';
 import SportFieldManagement from './components/SportFieldManagement';
 import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 
 export const metadata: Metadata = {
   title: 'Zodinet Booking - Owner Home Page',
@@ -16,13 +18,13 @@ export const revalidate = 0;
 const OwnerHomePage = async ({ searchParams }: OwnerHomePageProps) => {
   const page = searchParams?.page || 1;
   const size = searchParams?.size || 10;
-  const sportFieldTypeId = searchParams?.sportFieldTypeId || 'all';
+  const typeId = searchParams?.type;
 
-  const res = await getUserSportFields(
-    +page,
-    +size,
-    sportFieldTypeId as string,
-  );
+  if (!typeId) {
+    redirect('/owner');
+  }
+
+  const res = await getUserSportFields(+page, +size, typeId as string);
   const sportFields: SportField[] = res.data ?? [];
 
   return (

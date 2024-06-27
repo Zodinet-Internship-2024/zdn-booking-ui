@@ -1,6 +1,7 @@
-'use server';
+// 'use server';
 import axios from 'axios';
-import { cookies } from 'next/headers';
+import { getCookie } from 'cookies-next';
+// import { cookies } from 'next/headers';
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST || 'http://locahost:5000';
 const axiosAuth = axios.create({
   baseURL: `${API_HOST}`,
@@ -11,7 +12,8 @@ const axiosAuth = axios.create({
 
 axiosAuth.interceptors.request.use(
   (config) => {
-    const token = cookies().get('access_token')?.value;
+    const token = getCookie('access_token');
+    // const token = cookies().get('access_token')?.value;
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

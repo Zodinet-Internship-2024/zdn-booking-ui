@@ -14,7 +14,6 @@ export default function InfoFieldDetail({
 }: {
   sportField: SportField;
 }) {
-
   const route = useRouter();
   const [openModal, setOpenModal] = useState<boolean>(false);
 

@@ -3,49 +3,84 @@ import React, { useState } from 'react';
 import AccentButton from './components/AccentButton';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { getValidFilterType } from '@/libs/utils';
+import useSportFieldType from '@/hooks/useSportFieldType';
+import { Skeleton } from 'antd';
 
-const tabs = [
-  { label: 'Tất cả', value: 'all' },
-  { label: 'Sân bóng rổ', value: 'basketball' },
-  { label: 'Sân bóng chuyền', value: 'volleyball' },
-  { label: 'Sân cầu lông', value: 'badminton' },
-  { label: 'Sân tennis', value: 'tennis' },
-  { label: 'Sân bóng đá', value: 'football' },
-  { label: 'Sân bóng bàn', value: 'tableTennis' },
-  { label: 'Bi-da', value: 'billiards' },
-];
+export const tabs: { [key: string]: string } = {
+  all: 'Tất cả',
+  basketball: 'Bóng rổ',
+  volleyball: 'Bóng chuyền',
+  badminton: 'Cầu lông',
+  tennis: 'Tennis',
+  football: 'Bóng đá',
+  tableTennis: 'Bóng bàn',
+  billiards: 'Bi-da',
+};
 
 interface FieldTypeFilterProps {
-  onSelect: (value: string) => void;
   name?: string;
 }
 
-const FieldTypeFilter: React.FC<FieldTypeFilterProps> = ({
-  onSelect,
-  name = 'type',
-}) => {
-  // const [activeTab, setActiveTab] = useState('all');
+const FieldTypeFilter: React.FC<FieldTypeFilterProps> = ({ name = 'type' }) => {
+  const { types, isLoading } = useSportFieldType();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const activeTab = getValidFilterType(tabs, searchParams.get(name) as string);
-  const handleClick = (value: string) => {
-    // setActiveTab(value);
-    onSelect(value);
+  const currentTab = searchParams.get(name);
+  const handleChangeTab = (value: string) => {
     const params = new URLSearchParams(searchParams);
     params.set(name, value);
 
-    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+    const url = `${pathname}?${params.toString()}`;
+
+    router.replace(url, { scroll: false });
+  };
+
+  if (!types.find((type) => type.id === currentTab)) {
+    handleChangeTab('all');
+  }
+
+  const handleClick = (value: string) => {
+    handleChangeTab(value);
+  };
+
+  if (isLoading) {
+    const NUMBER_OF_SKELETON = 6;
+    return <FieldTypeFilterSkeleton size={NUMBER_OF_SKELETON} />;
+  }
+  const allBtn = {
+    value: 'all',
+    label: 'Tất cả',
   };
   return (
     <div className={`grid grid-cols-2 gap-3 md:grid-cols-4 xl:flex`}>
-      {tabs.map((tab) => (
+      <AccentButton
+        key={allBtn.value}
+        label={allBtn.label}
+        value={allBtn.value}
+        isActive={currentTab === allBtn.value}
+        onClick={handleClick}
+      />
+      {types?.map((type) => (
         <AccentButton
-          key={tab.value}
-          label={tab.label}
-          value={tab.value}
-          isActive={activeTab === tab.value}
-          onClick={handleClick}
+          key={type.id}
+          label={tabs[type.name] ?? type.name}
+          value={type.id}
+          isActive={currentTab === type.id}
+          onClick={() => handleClick(type.id)}
+        />
+      ))}
+    </div>
+  );
+};
+
+export const FieldTypeFilterSkeleton = ({ size }: { size: number }) => {
+  return (
+    <div className="flex gap-4">
+      {Array.from({ length: size }).map(() => (
+        <Skeleton.Button
+          active
+          style={{ width: '80px', height: '32px', borderRadius: '40px' }}
         />
       ))}
     </div>
