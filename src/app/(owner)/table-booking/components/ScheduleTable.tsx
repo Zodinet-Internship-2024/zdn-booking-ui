@@ -1,7 +1,7 @@
 import { parseDateFromString, parseTimeToMinutes } from '@/libs/utils';
-import styles from './ScheduleTable.module.scss';
-import { CheckStatus } from './ScheduleSection';
 import { Tooltip } from 'antd';
+import { CheckStatus } from './ScheduleSection';
+import styles from './ScheduleTable.module.scss';
 
 const ScheduleTable = ({
   columns,
@@ -32,14 +32,15 @@ const ScheduleTable = ({
         }),
       );
       const inputDate = parseDateFromString(date);
-      const bookingDate = new Date(booking.startTime.split('T')[0]);
+      const bookingDate = new Date(booking.startTime);
 
       if (
         inputDate &&
-        inputDate.toISOString().slice(0, 10) ===
-          bookingDate.toISOString().slice(0, 10)
+        new Date(inputDate).toLocaleDateString() ===
+          new Date(bookingDate).toLocaleDateString()
       ) {
-        return columnStart >= bookingStart && columnEnd <= bookingEnd;
+        if (columnStart >= bookingStart && columnEnd <= bookingEnd)
+          return columnStart >= bookingStart && columnEnd <= bookingEnd;
       }
       return false;
     });
@@ -125,7 +126,7 @@ const ScheduleTable = ({
                           <div className="font-bold">Name:</div>
                           <div>{booking.fullName}</div>
                           <div className="font-bold">Phone:</div>
-                          <div>{booking.phone.trim()}</div>
+                          <div>{booking.phone}</div>
                           <div className="font-bold">Start:</div>
                           <div>
                             {new Date(booking.startTime).toLocaleString()}

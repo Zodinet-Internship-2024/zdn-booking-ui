@@ -27,6 +27,7 @@ import { CATEGORY_MAPPING, CRUD_ACTIONS } from '@/constants/constant';
 
 import { cn } from '@/libs/utils';
 import { isObject } from 'util';
+import { ArrowLeftOutlined } from '@ant-design/icons';
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -90,7 +91,7 @@ const SportFieldForm: React.FC<SportFieldFormProps> = ({
 
   const [loading, setLoading] = useState<boolean>(false);
 
-  const route = useRouter();
+  const router = useRouter();
   const [form] = Form.useForm();
 
   const handleChangeFile: UploadProps['onChange'] = ({
@@ -170,7 +171,7 @@ const SportFieldForm: React.FC<SportFieldFormProps> = ({
     if (result.statusCode === 201 || result.statusCode === 200) {
       setLoading(false);
       message.success(result.message);
-      route.push('/owner?type=all');
+      router.push('/owner?type=all');
 
       // } else if (result.status === 200) {
       //   message.success(result.message);
@@ -223,14 +224,27 @@ const SportFieldForm: React.FC<SportFieldFormProps> = ({
     }
   }, [defaultValues]);
 
+  const onCancel = () => {
+    router.back();
+  };
+
   return (
     <div
       className={cn(
         styles.createSportFileContainer,
-        '3xl:w-1/2 mx-auto mt-12 flex w-1/2 flex-col gap-8 rounded-form bg-neutral p-10 md:w-11/12 lg:w-4/5 xl:w-3/4 2xl:w-2/3',
+        '3xl:w-1/2 rounded-form mx-auto mt-12 flex w-1/2 flex-col gap-8 bg-neutral p-10 md:w-11/12 lg:w-4/5 xl:w-3/4 2xl:w-2/3',
       )}
     >
-      <h4 className="font-bold text-natural-700">{`${CRUD_ACTIONS[label]} sân`}</h4>
+      <div className="flex items-center">
+        <button className="hover:opacity-75" key="back" onClick={onCancel}>
+          <ArrowLeftOutlined className="mr-4 text-xl" />
+        </button>
+
+        <h4 className="font-bold text-natural-700">
+          {`${CRUD_ACTIONS[label]} sân`}
+        </h4>
+      </div>
+
       <Form
         form={form}
         name="Create Sport Field"
