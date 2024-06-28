@@ -134,12 +134,12 @@ export default function InfoFieldDetail({
             <p className="mb-4 text-base font-medium text-natural-500">
               Hình ảnh
             </p>
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="z-0 flex flex-wrap items-center gap-3">
               {sportField.sportFieldImages
                 ? sportField.sportFieldImages.map((sportFieldImage) => (
                     <Image
                       key={sportFieldImage.id}
-                      className="rounded-xl"
+                      className="z-0 rounded-xl"
                       src={sportFieldImage.url}
                       alt={`Image ${sportFieldImage.name}`}
                       width={144}

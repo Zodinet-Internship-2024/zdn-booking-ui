@@ -9,7 +9,7 @@ type PopularItemProps = {
   sportField: SportField;
 };
 const PopularItem = ({ sportField }: PopularItemProps) => {
-  const imageUrls = sportField.sportFieldImages.map((image) => image.url);
+  const imageUrls = sportField.sportFieldImages?.map((image) => image.url);
   return (
     <div className="grid grid-cols-2 gap-4 pt-6 xl:grid-cols-4">
       <SportFieldInfoCard sportField={sportField} />

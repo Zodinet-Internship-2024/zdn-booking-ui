@@ -22,7 +22,6 @@ export default function EditProfile({ onCancel }: EditProfileProps) {
         </button>
 
         <span className="cursor-pointer text-[28px] font-bold leading-7">
-        <span className="cursor-pointer text-[28px] font-bold leading-7">
           Edit profile
         </span>
       </div>

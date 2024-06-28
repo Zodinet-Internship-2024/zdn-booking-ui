@@ -40,6 +40,10 @@ const timeFilter = {
   options: [],
 };
 
+interface FilterProps {
+  isOpen: boolean;
+}
+
 export const SportFieldFilters: React.FC = () => {
   const [isOpened, setIsOpened] = React.useState<boolean>(true);
   const [price, setPrice] = React.useState<string>(
@@ -71,7 +75,10 @@ export const SportFieldFilters: React.FC = () => {
         >
           <span>Bộ lọc</span>
           <button className="h-10 w-10" onClick={() => setIsOpened(false)}>
-            <CloseOutlined style={{ fontSize: '24px' }} spin />
+            <CloseOutlined
+              style={{ fontSize: '24px' }}
+              className="hover-spin"
+            />
           </button>
         </div>
         <div className="flex flex-col gap-8">

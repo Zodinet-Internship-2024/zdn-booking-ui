@@ -5,7 +5,7 @@ interface ErrorsProps {
   error?: FieldError;
 }
 
-const Errors: React.FC<ErrorsProps> = async ({ error }) => {
+const Errors: React.FC<ErrorsProps> = ({ error }) => {
   return (
     <span className={`h-3 text-xs font-semibold text-red-400`}>
       {error?.message}

@@ -3,7 +3,9 @@ import { getUserSportFields } from './api/sportField.api';
 import SportFieldManagement from './components/SportFieldManagement';
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
+import { revalidateTag } from 'next/cache';
 
+export const revalidate = false;
 export const metadata: Metadata = {
   title: 'Zodinet Booking - Owner Home Page',
   description:
@@ -14,7 +16,7 @@ type OwnerHomePageProps = {
   params: { slug: string };
   searchParams?: { [key: string]: string | string[] | undefined };
 };
-export const revalidate = 0;
+
 const OwnerHomePage = async ({ searchParams }: OwnerHomePageProps) => {
   const page = searchParams?.page || 1;
   const size = searchParams?.size || 10;
@@ -25,6 +27,7 @@ const OwnerHomePage = async ({ searchParams }: OwnerHomePageProps) => {
   }
 
   const res = await getUserSportFields(+page, +size, typeId as string);
+  revalidateTag('sportField');
   const sportFields: SportField[] = res.data ?? [];
 
   return (

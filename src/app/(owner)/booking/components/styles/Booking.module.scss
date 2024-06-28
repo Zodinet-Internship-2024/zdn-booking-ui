@@ -1,0 +1,27 @@
+.modalContainer {
+  width: 100% !important;
+  max-width: 800px !important;
+  border-radius: theme('borderRadius.form');
+
+  :global {
+    .ant-modal-content {
+      border-radius: theme('borderRadius.form') !important;
+      padding: 0 40px !important;
+
+      width: 100% !important;
+    }
+  }
+}
+
+.bookingContainer {
+}
+
+.itemContainer {
+  :global {
+    .ant-btn-default {
+      width: 40px;
+      height: 40px;
+      padding: 10px !important;
+    }
+  }
+}

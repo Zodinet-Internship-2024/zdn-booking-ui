@@ -124,21 +124,3 @@ export const postData = async (data: any, method: string) => {
       break;
   }
 };
-
-//
-// try {
-//   const response = await fetch('http://localhost:5000/sport-field', {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify(data),
-//   });
-//   if (!response.ok) {
-//     throw new Error(`HTTP error! status: ${response.status}`);
-//   }
-//   const result = await response.json();
-//   return result;
-// } catch (error) {
-//   console.error('Error sending data:', error);
-// }

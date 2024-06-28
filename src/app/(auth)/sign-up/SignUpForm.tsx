@@ -31,22 +31,6 @@ export default function SignUpForm() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
-
-  useEffect(() => {
-    const updateSearchParams = () => {
-      const params = new URLSearchParams(searchParams);
-
-      const role = searchParams.get('role') as string;
-
-      if (!VALID_ROLES.includes(role)) {
-        params.set('role', 'user');
-        router.push(`sign-up?${params.toString()}`);
-      }
-    };
-
-    updateSearchParams();
-  }, [searchParams, router]);
-  const role = searchParams.get('role');
   const {
     control,
     handleSubmit,
@@ -56,6 +40,20 @@ export default function SignUpForm() {
     resolver: zodResolver(SignUpSchema),
     mode: 'onBlur',
   });
+  useEffect(() => {
+    const updateSearchParams = () => {
+      const params = new URLSearchParams(searchParams);
+      const role = searchParams.get('role') as string;
+      const newParams = params.toString();
+      if (!VALID_ROLES.includes(role)) {
+        params.set('role', 'user');
+        router.push(`sign-up?${newParams}`);
+      }
+    };
+
+    updateSearchParams();
+  }, [searchParams, router]);
+  const role = searchParams.get('role');
 
   const onSubmit = async (data: any) => {
     setLoading(true);
@@ -70,10 +68,7 @@ export default function SignUpForm() {
 
     const res = await signUpUser(dataBody);
     if (res.status === 'Success') {
-      messageApi.open({
-        type: 'success',
-        content: 'Đăng kí thành công',
-      });
+      messageApi.success('Đăng kí thành công');
 
       router.push(`/login?role=${role}`);
     } else {

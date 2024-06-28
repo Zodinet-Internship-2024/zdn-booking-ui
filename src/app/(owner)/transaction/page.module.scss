@@ -1,0 +1,87 @@
+@import '/src/styles/mixins.scss';
+
+.page {
+  :global {
+    button.ant-btn.ant-input-search-button {
+      border-radius: 40px !important;
+      height: 32px;
+      width: 32px;
+    }
+
+    .ant-input-wrapper {
+      height: 40px;
+      border-radius: 40px !important;
+      border: 1px solid theme('colors.natural.200');
+      padding: 4px 4px;
+      display: flex;
+      flex-direction: row;
+      gap: 8px;
+      justify-content: center;
+      align-items: center;
+    }
+    .ant-input {
+      border: none;
+      padding: 4px 12px;
+      line-height: 24px;
+      color: theme('colors.natural.400');
+      border-radius: 40px !important;
+      text-align: center;
+    }
+
+    span.ant-input-group-addon {
+      width: 40px;
+    }
+
+    .ant-btn {
+      height: 40px;
+      gap: 10px;
+      padding: 8px 20px 8px 16px;
+      border-radius: theme('borderRadius.large');
+    }
+
+    .ant-input-group-addon {
+      background-color: white;
+
+      .ant-btn {
+        background-color: theme('colors.accent.200');
+        border: none;
+        padding: 4px 4px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+
+    button.ant-btn span.anticon.anticon-search {
+      color: theme('colors.accent.600');
+    }
+  }
+}
+
+.select {
+  :global {
+    .ant-select-single.ant-select-lg .ant-select-selector {
+      border-radius: 40px;
+    }
+
+    .ant-select-selector {
+      border: 1px solid theme('colors.natural.200');
+      border-radius: 40px !important;
+      padding: 0 12px !important;
+    }
+
+    .ant-select {
+      height: 100% !important;
+    }
+
+    .ant-select-selection-item {
+      padding: 4px !important;
+
+      line-height: 40px;
+    }
+    .ant-input-number-focused .ant-input-number-handler-wrap,
+    .ant-input-number-lg .ant-input-number-handler-wrap {
+      display: none;
+    }
+  }
+}

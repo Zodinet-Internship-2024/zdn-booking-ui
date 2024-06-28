@@ -9,9 +9,9 @@
   border: none;
 
   &:hover {
-    background: $bgColor !important;
-    opacity: 0.95 !important;
-    color: $textColor !important;
+    background: $textColor !important;
+    opacity: 0.85 !important;
+    color: $bgColor !important;
   }
 }
 @mixin accent-btn {

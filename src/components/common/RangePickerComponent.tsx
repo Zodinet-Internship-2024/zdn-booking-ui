@@ -19,9 +19,10 @@ interface rangePickerProps {
   // onOk: (value: any) => void;
   onChange?: (value: any) => void;
   label?: string;
+  disabled?: boolean;
 }
 const RangePickerComponent: React.FC<rangePickerProps> = (props) => {
-  const { label, onChange, defaultValue, value } = props;
+  const { label, onChange, defaultValue, value, disabled } = props;
   const [time, setTime] = React.useState<[dayjs.Dayjs, dayjs.Dayjs]>(
     defaultValue
       ? [dayjs(defaultValue[0], 'HH:mm'), dayjs(defaultValue[1], 'HH:mm')]
@@ -32,6 +33,7 @@ const RangePickerComponent: React.FC<rangePickerProps> = (props) => {
     <div className={`${styles.rangePicker} flex flex-row items-center gap-3`}>
       <label className={`body-3 text-natural-700`}>{label}</label>
       <RangePicker
+        disabled={disabled && disabled}
         defaultValue={
           defaultValue
             ? [dayjs(defaultValue[0], 'HH:mm'), dayjs(defaultValue[1], 'HH:mm')]
@@ -48,6 +50,10 @@ const RangePickerComponent: React.FC<rangePickerProps> = (props) => {
         className={`flex flex-grow items-center justify-start gap-3`}
         onCalendarChange={(_, [start, end]) => {
           setTime([dayjs(start, 'HH:mm'), dayjs(end, 'HH:mm')]);
+          console.log(start, end);
+          if (start || end)
+            onChange && onChange([dayjs(start, 'HH:mm'), dayjs(end, 'HH:mm')]);
+          else onChange && onChange(null);
         }}
         onOk={(e) => {
           onChange && onChange(e);

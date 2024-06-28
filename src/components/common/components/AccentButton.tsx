@@ -4,11 +4,12 @@ import { Button } from 'antd';
 import styles from '../styles/AccentButton.module.scss';
 
 interface AccentButtonProps {
-  label: string;
+  label: any;
   value: string;
   isActive: boolean;
   onClick: (value: string) => void;
   style?: string | '';
+  disabled?: boolean;
 }
 
 const AccentButton: React.FC<AccentButtonProps> = ({
@@ -17,13 +18,15 @@ const AccentButton: React.FC<AccentButtonProps> = ({
   isActive,
   onClick,
   style,
+  disabled,
 }) => {
   return (
     <div className={`${styles.buttonContainer} ${style}`}>
       <Button
+        disabled={disabled && disabled}
         type={isActive ? 'primary' : 'default'}
         onClick={() => onClick(value)}
-        className={`${style} w-full`}
+        className={`${style} w-full xl:w-fit`}
       >
         {label}
       </Button>

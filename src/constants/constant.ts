@@ -20,3 +20,30 @@ export const CRUD_ACTIONS: { [key: string]: string } = {
   view: 'Xem',
   delete: 'Xóa',
 };
+
+export const BOOKING_STATUS_MAPPING: { [key: string]: string } = {
+  all: 'Tất cả',
+  accepted: 'Đặt sân thành công',
+  rejected: 'Hủy đặt sân',
+  disabled: 'Hoàn thành',
+  available: 'Sẵn sàng',
+  booking: 'Đang đặt sân',
+};
+
+export const TRANSACTION_STATUS: { [key: string]: string } = {
+  all: 'Tất cả',
+  rejected: 'Hủy đặt sân',
+  accepted: 'Đặt sân thành công',
+  disabled: 'Đặt sân thành công',
+  available: 'Sẵn sàng',
+  booking: 'Đang đặt sân',
+};
+
+export const BOOKING_STATUS = [
+  'all',
+  'accepted',
+  'rejected',
+  'disabled',
+  'booking',
+  'available',
+];

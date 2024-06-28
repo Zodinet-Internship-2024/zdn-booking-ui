@@ -1,0 +1,58 @@
+@import 'src/styles/mixins.scss';
+.wrapper {
+  table {
+    // width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+
+    th,
+    td {
+      padding: 8px;
+      text-align: center;
+      border: 1px solid #ccc;
+      color: theme('colors.natural.700');
+    }
+
+    th,
+    td:first-child,
+    tr {
+      border: none;
+    }
+    th {
+      background-color: white;
+      color: theme('colors.primary.600');
+    }
+  }
+}
+
+.pastSlot,
+.checkedBooking,
+.uncheckedBooking {
+  background-color: theme('colors.natural.100');
+}
+
+.modal {
+  :global {
+    .ant-btn {
+      @include accent-btn-2;
+      padding: 14px 40px;
+      background: th;
+      font-size: 16px;
+      height: 52px;
+      &:hover {
+        background-color: none !important;
+        border-color: none !important;
+      }
+    }
+    .ant-btn-primary {
+      @include accent-btn-6;
+      padding: 14px 40px;
+      font-size: 16px;
+      height: 52px;
+      &:hover {
+        background-color: none !important;
+        border-color: none !important;
+      }
+    }
+  }
+}

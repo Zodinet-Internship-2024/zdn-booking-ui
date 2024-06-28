@@ -1,8 +1,9 @@
 .picker {
   :global {
     .ant-picker {
+      width: 100%;
       border-radius: 20px;
-      padding: 10px 16px;
+      padding: 8px 12px;
       color: #40423f;
     }
     .ant-picker-outlined {

@@ -31,7 +31,7 @@ const FieldTypeFilter: React.FC<FieldTypeFilterProps> = ({ name = 'type' }) => {
     const params = new URLSearchParams(searchParams);
     params.set(name, value);
 
-    const url = `${pathname}?${params.toString()}`;
+    const url = `${pathname}?${params.toString()}` as any;
 
     router.replace(url, { scroll: false });
   };
@@ -53,7 +53,9 @@ const FieldTypeFilter: React.FC<FieldTypeFilterProps> = ({ name = 'type' }) => {
     label: 'Tất cả',
   };
   return (
-    <div className={`grid grid-cols-2 gap-3 md:grid-cols-4 xl:flex`}>
+    <div
+      className={`grid grid-cols-2 gap-3 pb-2 md:grid-cols-4 xl:flex xl:overflow-hidden xl:hover:overflow-x-auto`}
+    >
       <AccentButton
         key={allBtn.value}
         label={allBtn.label}

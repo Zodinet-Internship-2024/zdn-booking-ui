@@ -25,5 +25,5 @@
   "editor.formatOnSave": true,
   "editor.formatOnSaveMode": "modifications",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "cSpell.words": ["", "Keycloak"]
+  "cSpell.words": ["", "Keycloak", "Zodinet"]
 }

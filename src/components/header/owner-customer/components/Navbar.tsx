@@ -6,11 +6,11 @@ import { cn } from '@/libs/utils';
 import { usePathname } from 'next/navigation';
 
 const links = [
-  { href: '/home', label: 'Kênh người bán' },
+  // { href: '/home', label: 'Kênh người bán', hidden: true },
   { href: '/owner', label: 'Quản lý sân' },
   { href: '/create-sport-field', label: 'Tạo sân' },
-  { href: '#', label: 'Lịch sử giao dịch', hidden: true },
-  { href: '#', label: 'Đặt chỗ (12)' },
+  { href: '/transaction', label: 'Lịch sử giao dịch' },
+  { href: '/booking', label: 'Đặt chỗ (12)' },
 ];
 
 const NavbarLink = ({
@@ -19,7 +19,7 @@ const NavbarLink = ({
   hidden = false,
   isActive = false,
 }: {
-  href: string;
+  href: any;
   label: string;
   hidden?: boolean;
   isActive?: boolean;

@@ -1,0 +1,34 @@
+.modalContainer {
+  :global {
+    .ant-input-wrapper {
+      height: 40px;
+      border-radius: 40px !important;
+      border: 1px solid theme('colors.natural.200');
+      display: flex;
+      flex-direction: row;
+      gap: 8px;
+      justify-content: center;
+      align-items: center;
+    }
+    .ant-input {
+      height: 40px;
+      padding: 10px 12px 10px 16px;
+      line-height: 20px;
+      color: theme('colors.natural.400');
+      border-radius: 40px !important;
+      // text-align: center;
+    }
+  }
+}
+
+.customBtn {
+  :global {
+    .ant-btn-default,
+    ant-btn-primary,
+    .ant-btn {
+      // width: 40px;
+      height: 52px;
+      padding: 14px 40px !important;
+    }
+  }
+}

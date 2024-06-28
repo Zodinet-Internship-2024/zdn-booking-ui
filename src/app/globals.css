@@ -79,13 +79,40 @@
 /* CSS tùy chỉnh */
 ::-webkit-scrollbar {
   width: 4px; /* Độ rộng của thanh cuộn dọc */
-  height: 4px; /* Độ cao của thanh cuộn ngang */
+  height: 6px; /* Độ cao của thanh cuộn ngang */
 }
+
+/* Handle */
+
+/* Handle on hover */
 ::-webkit-scrollbar-thumb {
   background-color: rgba(0, 0, 0, 0.3); /* Màu của thanh cuộn */
-  border-radius: 3px; /* Bo tròn góc */
+  border-radius: 40px; /* Bo tròn góc */
+}
+::-webkit-scrollbar-thumb:hover {
+  height: 8px;
+  cursor: pointer;
 }
 
 ::-webkit-scrollbar-track {
   background: transparent; /* Nền thanh cuộn */
+  border-radius: 40px; /* Bo tròn góc */
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.hover-spin {
+  display: inline-block;
+  transition: transform 0.5s ease-in-out;
+}
+
+.hover-spin:hover {
+  animation: spin 1s linear infinite;
 }
