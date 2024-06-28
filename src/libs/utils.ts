@@ -1,5 +1,6 @@
 import { VALID_ROLES } from '@/constants/constant';
 import { ClassValue, clsx } from 'clsx';
+import dayjs from 'dayjs';
 import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
@@ -99,3 +100,16 @@ export function parseDateFromString(dateStr: string) {
 
   return date;
 }
+export const getTime = (date: string | null, startTime: string) => {
+  if (!date) {
+    return new Date();
+  }
+
+  const [day, month, year] = date.split('/').map(Number);
+  const currentDate = new Date(`${year}-${month}-${day}`);
+  const [hour, minute] = startTime.split(':').map(Number);
+  currentDate.setHours(hour, minute);
+
+  console.log(date, startTime, currentDate);
+  return currentDate;
+};
