@@ -8,14 +8,17 @@ import AccentButton from '@/components/common/components/AccentButton';
 type BookingProps = {
   isOpen: boolean;
   isClose: () => void;
-  bookingId: string;
+  // bookingId: string;
+  data: any;
 };
-export default function BookingModal({ isOpen }: BookingProps) {
+export default function BookingModal({ isOpen, data, isClose }: BookingProps) {
+  const startTime = new Date(data.startTimeISO);
+  const endTime = new Date(data.endTimeISO);
   return (
     <div
       className={cn(
         styles.modal,
-        `${true ? 'absolute flex' : 'hidden'} right-0 top-0 z-[999] h-full w-full items-center justify-center transition`,
+        `${isOpen ? 'absolute flex' : 'hidden'} right-0 top-0 z-[999] h-full w-full items-center justify-center transition`,
       )}
     >
       <div className="absolute inset-0 bg-black opacity-40"></div>
@@ -32,10 +35,11 @@ export default function BookingModal({ isOpen }: BookingProps) {
             <div>
               <div className="space-y-1">
                 <p className="text-sm font-bold leading-5 text-neutral-500">
-                  Khung thời gian đã chọn ngày (19/5)
+                  {startTime.toLocaleDateString()}
                 </p>
                 <div className="flex w-fit items-center rounded-[40px] bg-neutral-100 px-4 py-2 text-xs font-normal leading-4 text-neutral-700">
-                  18:00 - 19:00
+                  {startTime.toLocaleTimeString()} -{' '}
+                  {endTime.toLocaleTimeString()}
                   {/* <CloseCircleOutlined className="ml-2 text-base" /> */}
                 </div>
               </div>
@@ -53,10 +57,8 @@ export default function BookingModal({ isOpen }: BookingProps) {
           <div className="mt-8 flex justify-between">
             <div>
               <div className="mt-3 text-sm font-medium leading-5">
-                Tổng tiền{' '}
-                <p className="text-base font-bold">
-                  Sân cầu lông Tada Bình Lợi
-                </p>
+                Tên sân{' '}
+                <p className="text-base font-bold">{data.sportField.name}</p>
               </div>
             </div>
             <div className="submit flex items-center">

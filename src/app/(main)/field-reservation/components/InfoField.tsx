@@ -11,6 +11,7 @@ import dayjs from 'dayjs';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import useBooking from '@/hooks/useBooking';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
+import BookingModal from './BookingModal';
 
 type TimeRange = {
   start: string;
@@ -22,6 +23,8 @@ type InfoFieldProps = {
 };
 
 export default function InfoField({ sportField }: InfoFieldProps) {
+  const [data, setData] = useState<any>(null);
+  const [isOpen, setIsOpen] = useState(false);
   const [timesChosen, setTimesChosen] = useState<number[]>([]);
   const router = useRouter();
   const pathname = usePathname();
@@ -176,10 +179,15 @@ export default function InfoField({ sportField }: InfoFieldProps) {
       endTime: endTimeResult,
       sportField,
       fieldId,
+      amount: timesChosen.length * sportField.price,
     };
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    const reversedData = getReservedTime();
+    setData(reversedData);
+    setIsOpen(true);
+  };
   const handleCheck = (e: CheckboxChangeEvent) => {
     const { checked, value } = e.target;
     if (checked) {
@@ -201,6 +209,13 @@ export default function InfoField({ sportField }: InfoFieldProps) {
   console.log(timesChosen);
   return (
     <div>
+      {data && (
+        <BookingModal
+          data={data}
+          isOpen={isOpen}
+          isClose={() => setIsOpen(false)}
+        />
+      )}
       <div className="mb-6 flex items-center">
         <p className="mr-3 cursor-pointer text-sm font-medium text-natural-400">
           Trang chủ
