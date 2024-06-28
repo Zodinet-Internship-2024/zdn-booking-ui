@@ -33,9 +33,14 @@ export default async function FieldReservationPage({
 
   // const fieldId = searchParams?.fieldId as string;
   console.log(sportField);
+
+  if (!sportField) {
+    return null;
+  }
+
   return (
     <div className="px-30 py-12">
-      <InfoField />
+      <InfoField sportField={sportField} />
     </div>
   );
 }

@@ -23,5 +23,5 @@ type SportField = {
   sportFieldType: any;
   sportFieldImages: SportFieldImage[];
   location: LocationType;
-  fields?: string[];
+  fields?: Field[];
 };
