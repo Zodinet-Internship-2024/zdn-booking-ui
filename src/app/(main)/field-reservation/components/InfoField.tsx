@@ -148,6 +148,38 @@ export default function InfoField({ sportField }: InfoFieldProps) {
     };
   });
 
+  const getReservedTime = () => {
+    let startTimeResult;
+    let endTimeResult;
+
+    let startTime;
+    let endTime;
+    if (timesChosen.length === 1) {
+      startTime = timesWithBooking[timesChosen[0]].start;
+      endTime = timesWithBooking[timesChosen[0]].end;
+    }
+    if (timesChosen.length >= 2) {
+      startTime = timesWithBooking[timesChosen[0]].start;
+      endTime = timesWithBooking[timesChosen[timesChosen.length - 1]].end;
+    }
+
+    startTimeResult = dayjs(startTime, 'HH:mm');
+    startTimeResult.set('date', dayjs(date, 'DD/MM/YYYY').get('date'));
+
+    endTimeResult = dayjs(endTime, 'HH:mm');
+    endTimeResult.set('date', dayjs(date, 'DD/MM/YYYY').get('date'));
+
+    return {
+      startTimeISO: startTimeResult.toISOString(),
+      endTimeISO: endTimeResult.toISOString(),
+      startTime: startTimeResult,
+      endTime: endTimeResult,
+      sportField,
+      fieldId,
+    };
+  };
+
+  const handleSubmit = () => {};
   const handleCheck = (e: CheckboxChangeEvent) => {
     const { checked, value } = e.target;
     if (checked) {
@@ -155,6 +187,15 @@ export default function InfoField({ sportField }: InfoFieldProps) {
     } else {
       setTimesChosen(timesChosen.filter((time) => time !== Number(value)));
     }
+  };
+
+  const handleReset = () => {
+    setTimesChosen([]);
+    document.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
+      if (!(checkbox as HTMLInputElement).disabled) {
+        (checkbox as HTMLInputElement).checked = false;
+      }
+    });
   };
 
   console.log(timesChosen);
@@ -230,7 +271,7 @@ export default function InfoField({ sportField }: InfoFieldProps) {
                     id={slot.start}
                     value={index}
                     disabled={slot.isBooked}
-                    defaultChecked={slot.isBooked}
+                    // defaultChecked={slot.isBooked}
                     onChange={handleCheck}
                   />
                 </div>
@@ -253,10 +294,15 @@ export default function InfoField({ sportField }: InfoFieldProps) {
               </p>
             </div>
             <div className="mt-2">
-              <Button type="primary" className="mr-3">
+              <Button type="primary" className="mr-3" onClick={handleReset}>
                 Đặt lại
               </Button>
-              <Button>Xác nhận</Button>
+              <Button
+                disabled={timesChosen.length === 0}
+                onClick={handleSubmit}
+              >
+                Xác nhận
+              </Button>
             </div>
           </div>
         </div>
