@@ -22,16 +22,10 @@ type BookingProps = {
   data: ModalData;
 };
 
-export default function BookingModal({ isOpen, data, isClose }: BookingProps) {
-  console.log(isOpen);
+export default function BookingModal({ isOpen, data, onClose }: BookingProps) {
   const field = data.field;
 
-  console.log(data.startTimeISO);
-  console.log(data.endTimeISO);
-
   const [isOpenQR, setIsOpenQR] = useState(false);
-  const startTime = new Date(data.startTimeISO);
-  const endTime = new Date(data.endTimeISO);
   const handleOpenQR = () => {
     setIsOpenQR(true);
   };
@@ -94,7 +88,6 @@ export default function BookingModal({ isOpen, data, isClose }: BookingProps) {
               <Button
                 // onClick={handleSubmit}
                 // loading={isLoading}
-                onClick={isClose}
                 type="default"
                 className="mr-3"
                 onClick={onClose}
@@ -112,7 +105,7 @@ export default function BookingModal({ isOpen, data, isClose }: BookingProps) {
           </div>
         </div>
       </div>
-      <BookingQRModal isOpen={isOpenQR} isClose={isClose} />
+      <BookingQRModal data={data} isOpen={isOpenQR} onClose={onClose} />
     </div>
   );
 }
