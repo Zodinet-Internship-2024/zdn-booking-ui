@@ -75,6 +75,7 @@ const SportFieldForm: React.FC<SportFieldFormProps> = ({
   const [selectedWard, setSelectedWard] = useState<string | undefined>(
     undefined,
   );
+  console.log(defaultValues);
 
   const [fileList, setFileList] = useState<UploadFile[]>(
     defaultValues?.sportFieldImages.map((img) => {
