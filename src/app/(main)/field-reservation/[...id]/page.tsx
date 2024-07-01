@@ -27,13 +27,6 @@ export default async function FieldReservationPage({
 
   const sportField = sportFieldRes.data;
 
-  // const date = new Date(
-  //   (searchParams?.date as string) ?? new Date().toISOString(),
-  // );
-
-  // const fieldId = searchParams?.fieldId as string;
-  console.log(sportField);
-
   if (!sportField) {
     return null;
   }

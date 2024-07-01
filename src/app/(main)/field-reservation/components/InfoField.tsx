@@ -23,7 +23,7 @@ type InfoFieldProps = {
 };
 
 export default function InfoField({ sportField }: InfoFieldProps) {
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<ModalData>();
   const [isOpen, setIsOpen] = useState(false);
   const [timesChosen, setTimesChosen] = useState<number[]>([]);
   const router = useRouter();
@@ -105,8 +105,6 @@ export default function InfoField({ sportField }: InfoFieldProps) {
     return timeSlots;
   }
 
-  console.log(dayjs(new Date()));
-
   const date = searchParams.get('date');
   const fieldId = searchParams.get('field');
 
@@ -120,7 +118,6 @@ export default function InfoField({ sportField }: InfoFieldProps) {
     endTime,
     'accepted',
   );
-  console.log(bookings);
   const bookingTimes = bookings.map((booking) => ({
     start: booking.startTime,
     end: booking.endTime,
@@ -151,7 +148,7 @@ export default function InfoField({ sportField }: InfoFieldProps) {
     };
   });
 
-  const getReservedTime: ModalData = () => {
+  const getReservedTime = () => {
     let startTimeResult;
     let endTimeResult;
 
@@ -190,10 +187,40 @@ export default function InfoField({ sportField }: InfoFieldProps) {
   };
   const handleCheck = (e: CheckboxChangeEvent) => {
     const { checked, value } = e.target;
+    const lastValue = timesChosen[timesChosen.length - 1];
+    const firstValue = timesChosen[0];
     if (checked) {
-      setTimesChosen([...timesChosen, Number(value)]);
+      timesChosen.sort((a, b) => a - b);
+      const newValue = Number(value);
+      if (value > lastValue) {
+        const newTimes = Array.from(
+          { length: newValue - lastValue },
+          (_, index) => lastValue + index + 1,
+        );
+        setTimesChosen([...timesChosen, ...newTimes]);
+      }
+
+      if (value < firstValue) {
+        const newTimes = Array.from(
+          { length: firstValue - newValue },
+          (_, index) => firstValue - index - 1,
+        );
+        setTimesChosen([...newTimes, ...timesChosen]);
+      }
+
+      if (timesChosen.length === 0) {
+        setTimesChosen([Number(value)]);
+      }
+      // setTimesChosen([...timesChosen, Number(value)]);
     } else {
-      setTimesChosen(timesChosen.filter((time) => time !== Number(value)));
+      if (timesChosen.length === 1) {
+        setTimesChosen([]);
+        return;
+      }
+
+      setTimesChosen(timesChosen.filter((time) => time < Number(value)));
+
+      // setTimesChosen(timesChosen.filter((time) => time !== Number(value)));
     }
   };
 
@@ -206,14 +233,13 @@ export default function InfoField({ sportField }: InfoFieldProps) {
     });
   };
 
-  console.log(timesChosen);
   return (
     <div>
       {data && (
         <BookingModal
           data={data}
           isOpen={isOpen}
-          isClose={() => setIsOpen(false)}
+          onClose={() => setIsOpen(false)}
         />
       )}
       <div className="mb-6 flex items-center">
@@ -286,6 +312,7 @@ export default function InfoField({ sportField }: InfoFieldProps) {
                     id={slot.start}
                     value={index}
                     disabled={slot.isBooked}
+                    checked={timesChosen.includes(index)}
                     // defaultChecked={slot.isBooked}
                     onChange={handleCheck}
                   />

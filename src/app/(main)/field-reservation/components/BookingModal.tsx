@@ -4,18 +4,8 @@ import { CloseOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import React from 'react';
 import styles from './../booking.module.scss';
-import AccentButton from '@/components/common/components/AccentButton';
 import { Dayjs } from 'dayjs';
 
-// {
-//       startTimeISO: startTimeResult.toISOString(),
-//       endTimeISO: endTimeResult.toISOString(),
-//       startTime: startTimeResult,
-//       endTime: endTimeResult,
-//       sportField,
-//       fieldId,
-//       amount: timesChosen.length * sportField.price,
-//     }
 export type ModalData = {
   startTimeISO: string;
   endTimeISO: string;
@@ -24,14 +14,14 @@ export type ModalData = {
   sportField: SportField;
   fieldId: string;
   amount: number;
-}
+};
 type BookingProps = {
   isOpen: boolean;
-  isClose: () => void;
+  onClose: () => void;
   // bookingId: string;
   data: ModalData;
 };
-export default function BookingModal({ isOpen, data, isClose }: BookingProps) {
+export default function BookingModal({ isOpen, data, onClose }: BookingProps) {
   const startTime = new Date(data.startTimeISO);
   const endTime = new Date(data.endTimeISO);
   return (
@@ -49,7 +39,10 @@ export default function BookingModal({ isOpen, data, isClose }: BookingProps) {
               Đặt chỗ
             </span>
 
-            <CloseOutlined className="cursor-pointer text-xl text-natural-700" />
+            <CloseOutlined
+              className="cursor-pointer text-xl text-natural-700"
+              onClick={onClose}
+            />
           </div>
           <div className="mt-6 flex flex-col gap-y-6">
             <div>
@@ -87,6 +80,7 @@ export default function BookingModal({ isOpen, data, isClose }: BookingProps) {
                 // loading={isLoading}
                 type="default"
                 className="mr-3"
+                onClick={onClose}
                 // {...(isDeleteForm ? { danger: true } : {})}
               >
                 Hủy bỏ
