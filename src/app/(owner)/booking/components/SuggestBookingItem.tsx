@@ -23,7 +23,6 @@ const SuggestBookingItem: React.FC<SuggestBookingItemProps> = (props) => {
     props;
 
   const handleClick = (value: any) => {
-    console.log('click');
   };
 
   return (

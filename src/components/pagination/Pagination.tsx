@@ -20,7 +20,7 @@ const Pagination = ({
     const nextPage = currentPage + 1;
     if (nextPage <= totalPages) {
       onPageChange(nextPage); // Call onPageChange prop to update page
-      router.push(`${pathname}?page=${nextPage}`, { scroll: false });
+      router.push(`${pathname}?page=${nextPage}` as any, { scroll: false });
     }
   };
 
@@ -28,7 +28,7 @@ const Pagination = ({
     const prevPage = currentPage - 1;
     if (prevPage >= 1) {
       onPageChange(prevPage); // Call onPageChange prop to update page
-      router.push(`${pathname}?page=${prevPage}`, { scroll: false });
+      router.push(`${pathname}?page=${prevPage}` as any, { scroll: false });
     }
   };
 

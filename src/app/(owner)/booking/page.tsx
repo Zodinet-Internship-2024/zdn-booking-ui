@@ -1,11 +1,28 @@
-'use server';
+'use client';
 
 import styles from './page.module.scss';
 import OwnerBooking from './components/Booking';
 import { getOwnerBookings } from '../apis/booking.api';
+import { Pagination } from 'antd';
+import page from '@/app/role/page';
+import { useEffect, useState } from 'react';
 
 async function Page() {
-  const bookings = await getOwnerBookings();
+  const [bookings, setBookings] = useState<any[]>([]); // Add state for bookings
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const onPageChange = async (newPage: number) => {
+    setBookings(await getOwnerBookings()); // Update bookings when page changes
+  };
+
+  useEffect(() => {
+    const fetchBookings = async () => {
+      const fetchedBookings = await getOwnerBookings();
+      setBookings(fetchedBookings.data);
+    };
+
+    fetchBookings();
+  }, []);
 
   return (
     <div
@@ -15,6 +32,7 @@ async function Page() {
         <h4 className="font-bold text-natural-700">Đặt Chỗ</h4>
       </div>
       <OwnerBooking bookings={bookings} />
+      <Pagination />
     </div>
   );
 }

@@ -103,8 +103,8 @@ const Item: React.FC<ItemProps> = ({ data, label, onClick }) => {
               </p>
               <DotFrame />
               <p>
-                {moment(data.startTime).utc().format('HH:mm')}-{' '}
-                {moment(data.endTime).utc().format('HH:mm')}
+                {moment(data.startTime).local().format('HH:mm')}-{' '}
+                {moment(data.endTime).local().format('HH:mm')}
               </p>
               <DotFrame />
               <p>{data?.field?.name}</p>

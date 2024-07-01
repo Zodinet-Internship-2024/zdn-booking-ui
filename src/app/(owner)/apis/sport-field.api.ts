@@ -52,7 +52,6 @@ export const getSportField = async (slug: string) => {
     }
     const response: BaseResponse = await sportFieldResponse.json();
 
-    console.log('response', response);
 
     sportField = response.data;
 

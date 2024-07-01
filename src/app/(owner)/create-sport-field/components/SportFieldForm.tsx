@@ -422,7 +422,6 @@ const SportFieldForm: React.FC<SportFieldFormProps> = ({
               { required: true, message: 'Vui lòng nhập Thời gian mở cửa' },
             ]}
             getValueFromEvent={(e) => {
-              console.log(e);
               return e;
             }}
           >

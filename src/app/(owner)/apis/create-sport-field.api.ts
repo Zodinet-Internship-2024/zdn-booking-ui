@@ -96,7 +96,6 @@ export const postData = async (data: any, method: string) => {
       break;
     case 'edit':
       try {
-        console.log(data);
         const response = await fetch(
           `http://localhost:5000/sport-field/${data.id}`,
           {
