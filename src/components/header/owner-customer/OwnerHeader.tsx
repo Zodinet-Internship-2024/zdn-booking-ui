@@ -11,7 +11,7 @@ const OwnerHeader = () => {
       <div className="container mx-auto flex justify-between">
         <section className="flex items-center justify-between gap-6">
           <Link
-            href={'/'}
+            href={'/owner'}
             className="body-2 flex items-center gap-6 truncate font-medium text-natural-400"
           >
             <Image

@@ -6,7 +6,7 @@ import { cn } from '@/libs/utils';
 import { usePathname } from 'next/navigation';
 
 const links = [
-  // { href: '/home', label: 'Kênh người bán', hidden: true },
+  { href: '/home', label: 'Kênh người thuê' },
   { href: '/owner', label: 'Quản lý sân' },
   { href: '/create-sport-field', label: 'Tạo sân' },
   { href: '/transaction', label: 'Lịch sử giao dịch' },

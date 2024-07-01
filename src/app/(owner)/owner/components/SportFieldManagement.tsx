@@ -1,7 +1,6 @@
 'use client';
 
 import FieldTypeFilter from '@/components/common/FieldTypeFilter';
-import React, { useState } from 'react';
 import SportFieldManagementTable from './SportFieldManagementTable';
 
 const SportFieldManagement = ({

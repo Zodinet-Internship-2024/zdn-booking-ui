@@ -28,6 +28,7 @@ function formatPhoneNumber(phone: string): string {
 }
 
 const ApproveBookingModal: React.FC<Props> = ({ onCancel, booking }) => {
+  console.log(booking);
   const [updateBooking, setUpdateBooking] = useState(booking);
   const [isWarning, setIsWarning] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);

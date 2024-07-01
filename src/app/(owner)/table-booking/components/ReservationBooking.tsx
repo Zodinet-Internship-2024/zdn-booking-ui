@@ -124,7 +124,7 @@ export default function ReservationBooking({
     <div
       className={cn(
         styles.modal,
-        `${isOpen ? 'absolute flex' : 'hidden'} z-1 right-0 top-0 h-full w-full items-center justify-center rounded-[20px] transition`,
+        `${isOpen ? 'absolute flex' : 'hidden'} right-0 top-0 z-[999] h-full w-full items-center justify-center rounded-[20px] transition`,
       )}
     >
       <div className="absolute inset-0 bg-black opacity-40"></div>
