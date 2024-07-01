@@ -12,26 +12,24 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import useBooking from '@/hooks/useBooking';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
 import BookingModal, { ModalData } from './BookingModal';
+import useFieldSelection from '@/hooks/useFieldSelection';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 
-type TimeRange = {
-  start: string;
-  end: string;
-};
-
+dayjs.extend(customParseFormat);
 type InfoFieldProps = {
   sportField: SportField;
 };
 
 export default function InfoField({ sportField }: InfoFieldProps) {
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<ModalData>();
   const [isOpen, setIsOpen] = useState(false);
   const [timesChosen, setTimesChosen] = useState<number[]>([]);
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [times, setTimes] = useState<TimeRange[]>(
-    splitTimeRange(sportField.startTime, sportField.endTime),
-  );
+  const { times, handleDateChange, handleSelect } =
+    useFieldSelection(sportField);
+
   useEffect(() => {
     const date = searchParams.get('date');
     const field = searchParams.get('field');
@@ -46,14 +44,6 @@ export default function InfoField({ sportField }: InfoFieldProps) {
     }
   }, []);
 
-  const handleDateChange: DatePickerProps['onChange'] = (
-    date,
-    dateString: string,
-  ) => {
-    const params = new URLSearchParams(searchParams);
-    params.set('date', dateString);
-    router.push(`${pathname}?${params.toString()}`, { scroll: false });
-  };
   const options: SelectProps['options'] = [];
   sportField.fields?.forEach((field) => {
     options.push({
@@ -61,51 +51,6 @@ export default function InfoField({ sportField }: InfoFieldProps) {
       label: field.name,
     });
   });
-
-  const handleSelect = (value: string) => {
-    const params = new URLSearchParams(searchParams);
-    params.set('field', value);
-    router.push(`${pathname}?${params.toString()}`, { scroll: false });
-  };
-  function splitTimeRange(startTime: string, endTime: string) {
-    const timeSlots = [];
-    let [startHour, startMinute] = startTime.split(':').map(Number);
-    let [endHour, endMinute] = endTime.split(':').map(Number);
-
-    const formatTime = (hour: number, minute: number) => {
-      const h = hour.toString().padStart(2, '0');
-      const m = minute.toString().padStart(2, '0');
-      return `${h}:${m}`;
-    };
-
-    while (
-      startHour < endHour ||
-      (startHour === endHour && startMinute < endMinute)
-    ) {
-      const currentTime = formatTime(startHour, startMinute);
-
-      startMinute += 30;
-      if (startMinute >= 60) {
-        startMinute -= 60;
-        startHour += 1;
-      }
-
-      const nextTime = formatTime(startHour, startMinute);
-      if (
-        startHour < endHour ||
-        (startHour === endHour && startMinute <= endMinute)
-      ) {
-        timeSlots.push({
-          start: currentTime,
-          end: nextTime,
-        });
-      }
-    }
-
-    return timeSlots;
-  }
-
-  console.log(dayjs(new Date()));
 
   const date = searchParams.get('date');
   const fieldId = searchParams.get('field');
@@ -120,7 +65,6 @@ export default function InfoField({ sportField }: InfoFieldProps) {
     endTime,
     'accepted',
   );
-  console.log(bookings);
   const bookingTimes = bookings.map((booking) => ({
     start: booking.startTime,
     end: booking.endTime,
@@ -151,7 +95,7 @@ export default function InfoField({ sportField }: InfoFieldProps) {
     };
   });
 
-  const getReservedTime: ModalData = () => {
+  const getReservedTime = () => {
     let startTimeResult;
     let endTimeResult;
 
@@ -166,11 +110,11 @@ export default function InfoField({ sportField }: InfoFieldProps) {
       endTime = timesWithBooking[timesChosen[timesChosen.length - 1]].end;
     }
 
-    startTimeResult = dayjs(startTime, 'HH:mm');
-    startTimeResult.set('date', dayjs(date, 'DD/MM/YYYY').get('date'));
+    console.log(startTime);
+    console.log(endTime);
 
-    endTimeResult = dayjs(endTime, 'HH:mm');
-    endTimeResult.set('date', dayjs(date, 'DD/MM/YYYY').get('date'));
+    startTimeResult = dayjs(`${date} ${startTime}`, 'DD/MM/YYYY HH:mm');
+    endTimeResult = dayjs(`${date} ${endTime}`, 'DD/MM/YYYY HH:mm');
 
     return {
       startTimeISO: startTimeResult.toISOString(),
@@ -178,7 +122,7 @@ export default function InfoField({ sportField }: InfoFieldProps) {
       startTime: startTimeResult,
       endTime: endTimeResult,
       sportField,
-      fieldId: fieldId as string,
+      field: sportField.fields?.find((field) => field.id === fieldId),
       amount: timesChosen.length * sportField.price,
     };
   };
@@ -190,11 +134,38 @@ export default function InfoField({ sportField }: InfoFieldProps) {
   };
   const handleCheck = (e: CheckboxChangeEvent) => {
     const { checked, value } = e.target;
+    const lastValue = timesChosen[timesChosen.length - 1];
+    const firstValue = timesChosen[0];
     if (checked) {
-      setTimesChosen([...timesChosen, Number(value)]);
+      const newValue = Number(value);
+      if (value > lastValue) {
+        const newTimes = Array.from(
+          { length: newValue - lastValue },
+          (_, index) => lastValue + index + 1,
+        );
+        setTimesChosen([...timesChosen, ...newTimes]);
+      }
+
+      if (value < firstValue) {
+        const newTimes = Array.from(
+          { length: firstValue - newValue },
+          (_, index) => firstValue - index - 1,
+        );
+        setTimesChosen([...newTimes, ...timesChosen]);
+      }
+
+      if (timesChosen.length === 0) {
+        setTimesChosen([Number(value)]);
+      }
     } else {
-      setTimesChosen(timesChosen.filter((time) => time !== Number(value)));
+      if (timesChosen.length === 1) {
+        setTimesChosen([]);
+        return;
+      }
+
+      setTimesChosen(timesChosen.filter((time) => time < Number(value)));
     }
+    setTimesChosen((prevTimesChosen) => prevTimesChosen.sort((a, b) => a - b));
   };
   const handleClose = () => {
     console.log(123);
@@ -209,11 +180,14 @@ export default function InfoField({ sportField }: InfoFieldProps) {
     });
   };
 
-  console.log(timesChosen);
   return (
     <div>
       {data && (
-        <BookingModal data={data} isOpen={isOpen} isClose={handleClose} />
+        <BookingModal
+          data={data}
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+        />
       )}
       <div className="mb-6 flex items-center">
         <p className="mr-3 cursor-pointer text-sm font-medium text-natural-400">
@@ -285,6 +259,7 @@ export default function InfoField({ sportField }: InfoFieldProps) {
                     id={slot.start}
                     value={index}
                     disabled={slot.isBooked}
+                    checked={timesChosen.includes(index)}
                     // defaultChecked={slot.isBooked}
                     onChange={handleCheck}
                   />

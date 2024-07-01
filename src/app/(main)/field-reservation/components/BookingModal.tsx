@@ -12,18 +12,23 @@ export type ModalData = {
   startTime: Dayjs;
   endTime: Dayjs;
   sportField: SportField;
-  fieldId: string;
+  field?: Field;
   amount: number;
 };
 type BookingProps = {
   isOpen: boolean;
-  isClose: () => void;
+  onClose: () => void;
   // bookingId: string;
   data: ModalData;
 };
 
 export default function BookingModal({ isOpen, data, isClose }: BookingProps) {
   console.log(isOpen);
+  const field = data.field;
+
+  console.log(data.startTimeISO);
+  console.log(data.endTimeISO);
+
   const [isOpenQR, setIsOpenQR] = useState(false);
   const startTime = new Date(data.startTimeISO);
   const endTime = new Date(data.endTimeISO);
@@ -33,6 +38,7 @@ export default function BookingModal({ isOpen, data, isClose }: BookingProps) {
   useEffect(() => {
     setIsOpenQR(false);
   }, [isOpen]);
+  if (!field) return null;
   return (
     <div
       className={cn(
@@ -50,18 +56,19 @@ export default function BookingModal({ isOpen, data, isClose }: BookingProps) {
 
             <CloseOutlined
               className="cursor-pointer text-xl text-natural-700"
-              onClick={() => isClose()}
+              onClick={onClose}
             />
           </div>
-          <div className="mt-6 flex flex-col gap-y-6">
+          <div className="mt-6 flex flex-col">
             <div>
-              <div className="space-y-1">
+              <div className="space-y-3">
                 <p className="text-sm font-bold leading-5 text-neutral-500">
-                  {startTime.toLocaleDateString()}
+                  Khung thời gian đã chọn [{data.startTime.format('DD/MM/YYYY')}
+                  ]
                 </p>
                 <div className="flex w-fit items-center rounded-[40px] bg-neutral-100 px-4 py-2 text-xs font-normal leading-4 text-neutral-700">
-                  {startTime.toLocaleTimeString()} -{' '}
-                  {endTime.toLocaleTimeString()}
+                  {data.startTime.format('HH:mm')} -{' '}
+                  {data.endTime.format('HH:mm')}
                   {/* <CloseCircleOutlined className="ml-2 text-base" /> */}
                 </div>
               </div>
@@ -71,7 +78,7 @@ export default function BookingModal({ isOpen, data, isClose }: BookingProps) {
               <div className="mr-8 font-bold leading-5">
                 <span>Sân đã chọn</span>
                 <div className="mt-4 flex w-fit items-center rounded-[40px] bg-neutral-100 px-4 py-2 text-xs font-normal leading-4 text-neutral-700">
-                  A1
+                  {field.name}
                 </div>
               </div>
             </div>
@@ -90,7 +97,7 @@ export default function BookingModal({ isOpen, data, isClose }: BookingProps) {
                 onClick={isClose}
                 type="default"
                 className="mr-3"
-                // {...(isDeleteForm ? { danger: true } : {})}
+                onClick={onClose}
               >
                 Hủy bỏ
               </Button>
@@ -98,8 +105,6 @@ export default function BookingModal({ isOpen, data, isClose }: BookingProps) {
                 onClick={handleOpenQR}
                 // loading={isLoading}
                 type="primary"
-
-                // {...(isDeleteForm ? { danger: true } : {})}
               >
                 Đặt chỗ
               </Button>
