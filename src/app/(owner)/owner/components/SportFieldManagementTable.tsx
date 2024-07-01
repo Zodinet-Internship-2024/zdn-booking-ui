@@ -8,10 +8,12 @@ import { useRouter } from 'next/navigation';
 
 interface SportFieldManagementTableProps {
   sportFields: SportField[];
+  isLoading: boolean;
 }
 
 const SportFieldManagementTable: React.FC<SportFieldManagementTableProps> = ({
   sportFields,
+  isLoading,
 }) => {
   type DataType = {
     key: React.Key;
@@ -152,6 +154,7 @@ const SportFieldManagementTable: React.FC<SportFieldManagementTableProps> = ({
         bordered={false}
         pagination={{ position: ['bottomCenter'], pageSize: 10 }}
         tableLayout="fixed"
+        loading={isLoading}
       />
     </div>
   );

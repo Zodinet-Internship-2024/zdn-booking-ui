@@ -196,7 +196,10 @@ export default function InfoField({ sportField }: InfoFieldProps) {
       setTimesChosen(timesChosen.filter((time) => time !== Number(value)));
     }
   };
-
+  const handleClose = () => {
+    console.log(123);
+    setIsOpen(false);
+  };
   const handleReset = () => {
     setTimesChosen([]);
     document.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
@@ -210,11 +213,7 @@ export default function InfoField({ sportField }: InfoFieldProps) {
   return (
     <div>
       {data && (
-        <BookingModal
-          data={data}
-          isOpen={isOpen}
-          isClose={() => setIsOpen(false)}
-        />
+        <BookingModal data={data} isOpen={isOpen} isClose={handleClose} />
       )}
       <div className="mb-6 flex items-center">
         <p className="mr-3 cursor-pointer text-sm font-medium text-natural-400">

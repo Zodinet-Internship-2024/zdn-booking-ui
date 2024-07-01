@@ -18,21 +18,16 @@ type OwnerHomePageProps = {
 };
 
 const OwnerHomePage = async ({ searchParams }: OwnerHomePageProps) => {
-  const page = searchParams?.page || 1;
-  const size = searchParams?.size || 10;
+
   const typeId = searchParams?.type;
 
   if (!typeId) {
     redirect('/owner?type=all');
   }
 
-  const res = await getUserSportFields(+page, +size, typeId as string);
-  revalidateTag('sportField');
-  const sportFields: SportField[] = res.data ?? [];
-
   return (
     <div className="flex h-full w-full items-end justify-center">
-      <SportFieldManagement sportFields={sportFields} />
+      <SportFieldManagement />
     </div>
   );
 };

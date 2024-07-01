@@ -8,9 +8,9 @@ type HomeLayoutProps = {
 export default function MainLayout({ children }: HomeLayoutProps) {
   return (
     <PrivateRoute>
-      <main>
+      <main className="relative">
         <CustomerHeader />
-      {children}
+        {children}
       </main>
     </PrivateRoute>
   );

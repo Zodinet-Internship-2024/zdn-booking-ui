@@ -1,21 +1,11 @@
-import QRBooking from '@/app/(owner)/table-booking/components/QRBooking';
 import { cn } from '@/libs/utils';
 import { CloseOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './../booking.module.scss';
-import AccentButton from '@/components/common/components/AccentButton';
-import { Dayjs } from 'dayjs';
 
-// {
-//       startTimeISO: startTimeResult.toISOString(),
-//       endTimeISO: endTimeResult.toISOString(),
-//       startTime: startTimeResult,
-//       endTime: endTimeResult,
-//       sportField,
-//       fieldId,
-//       amount: timesChosen.length * sportField.price,
-//     }
+import { Dayjs } from 'dayjs';
+import BookingQRModal from './BookingQRModal';
 export type ModalData = {
   startTimeISO: string;
   endTimeISO: string;
@@ -24,16 +14,25 @@ export type ModalData = {
   sportField: SportField;
   fieldId: string;
   amount: number;
-}
+};
 type BookingProps = {
   isOpen: boolean;
   isClose: () => void;
   // bookingId: string;
   data: ModalData;
 };
+
 export default function BookingModal({ isOpen, data, isClose }: BookingProps) {
+  console.log(isOpen);
+  const [isOpenQR, setIsOpenQR] = useState(false);
   const startTime = new Date(data.startTimeISO);
   const endTime = new Date(data.endTimeISO);
+  const handleOpenQR = () => {
+    setIsOpenQR(true);
+  };
+  useEffect(() => {
+    setIsOpenQR(false);
+  }, [isOpen]);
   return (
     <div
       className={cn(
@@ -42,14 +41,17 @@ export default function BookingModal({ isOpen, data, isClose }: BookingProps) {
       )}
     >
       <div className="absolute inset-0 bg-black opacity-40"></div>
-      <div className="flex flex-wrap">
+      <div className={`${isOpenQR ? 'hidden' : 'flex'} flex-wrap`}>
         <div className={`z-10 rounded-[40px] bg-white px-10 py-6 md:w-[740px]`}>
           <div className="flex items-center justify-between">
             <span className="text-xl font-bold leading-5 text-natural-700">
               Đặt chỗ
             </span>
 
-            <CloseOutlined className="cursor-pointer text-xl text-natural-700" />
+            <CloseOutlined
+              className="cursor-pointer text-xl text-natural-700"
+              onClick={() => isClose()}
+            />
           </div>
           <div className="mt-6 flex flex-col gap-y-6">
             <div>
@@ -85,6 +87,7 @@ export default function BookingModal({ isOpen, data, isClose }: BookingProps) {
               <Button
                 // onClick={handleSubmit}
                 // loading={isLoading}
+                onClick={isClose}
                 type="default"
                 className="mr-3"
                 // {...(isDeleteForm ? { danger: true } : {})}
@@ -92,7 +95,7 @@ export default function BookingModal({ isOpen, data, isClose }: BookingProps) {
                 Hủy bỏ
               </Button>
               <Button
-                // onClick={handleSubmit}
+                onClick={handleOpenQR}
                 // loading={isLoading}
                 type="primary"
 
@@ -103,8 +106,8 @@ export default function BookingModal({ isOpen, data, isClose }: BookingProps) {
             </div>
           </div>
         </div>
-        <QRBooking isClose={true} />
       </div>
+      <BookingQRModal isOpen={isOpenQR} isClose={isClose} />
     </div>
   );
 }
