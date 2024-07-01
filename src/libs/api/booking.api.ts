@@ -28,3 +28,27 @@ export const getBookingsByFieldId = async (
   );
   return response.data;
 };
+
+export const createBookingByUser = async (
+  fieldId: string,
+  startTime: string,
+  endTime: string,
+  amount: number,
+) => {
+  const accessToken = cookies().get('access_token')?.value;
+  const response = await axios.post(
+    `${API_HOST}/booking`,
+    {
+      fieldId,
+      startTime,
+      endTime,
+      amount,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    },
+  );
+  return response.data;
+};

@@ -1,26 +1,53 @@
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
-import { Button } from 'antd';
+import { Button, notification } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styles from './../bookingQR.module.scss';
 import { cn } from '@/libs/utils';
 import QRBooking from '@/app/(owner)/table-booking/components/QRBooking';
+import { ModalData } from './BookingModal';
+import { createBookingByUser } from '@/libs/api/booking.api';
 
 export default function BookingQRModal({
   isOpen,
-  isClose,
+  onClose: isClose,
   data,
 }: {
   isOpen: boolean;
-  isClose: () => void;
-  data: any;
+  onClose: () => void;
+  data: ModalData;
 }) {
   const [isSuccess, setIsSuccess] = useState(false);
-  const handleCreateBooking = () => {
-    setIsSuccess(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const field = data.field;
+
+  if (!field?.id) return null;
+
+  const handleCreateBooking = async () => {
+    try {
+      setIsLoading(true);
+      const res = await createBookingByUser(
+        field.id,
+        data.startTime.format(),
+        data.endTime.format(),
+        data.amount,
+      );
+
+      if (res) {
+        setIsSuccess(true);
+      }
+    } catch (error) {
+      console.error(error);
+      notification.error({
+        message: 'Đặt sân thất bại. Vui lòng thử lại sau.',
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
   useEffect(() => {
     setIsSuccess(false);
   }, [isOpen]);
+
   return (
     <div
       className={cn(
@@ -45,10 +72,10 @@ export default function BookingQRModal({
                   Địa điểm
                 </p>
                 <div className="flex w-fit items-center rounded-[40px] text-sm font-bold leading-5 text-neutral-700">
-                  Sân cầu lông Tada Bình Lợi
+                  {data.sportField.name}
                 </div>
                 <p className="text-xs font-normal leading-4 text-natural-500">
-                  42 Kha Vạn Cân, Hiệp Bình Chánh, Thủ Đức, Tp. Hồ Chí Minh{' '}
+                  {data.sportField.location.addressDetail}
                 </p>
               </div>
             </div>
@@ -59,7 +86,8 @@ export default function BookingQRModal({
                   Thời gian
                 </p>
                 <p className="text-sm font-bold leading-5 text-neutral-500">
-                  9:00 - 11:30
+                  {data.startTime.format('HH:mm')} -{' '}
+                  {data.endTime.format('HH:mm')}
                 </p>
               </div>
             </div>
@@ -69,7 +97,7 @@ export default function BookingQRModal({
                   Sân
                 </p>
                 <p className="text-sm font-bold leading-5 text-neutral-500">
-                  A1
+                  {data.field?.name}
                 </p>
               </div>
               <div className="mr-8 font-bold leading-5">
@@ -77,7 +105,7 @@ export default function BookingQRModal({
                   Ngày
                 </p>
                 <p className="text-sm font-bold leading-5 text-neutral-500">
-                  Hôm nay 19/5/2024
+                  {data.startTime.format('DD/MM/YYYY')}
                 </p>
               </div>
             </div>
@@ -90,6 +118,7 @@ export default function BookingQRModal({
                 </Button>
               ) : (
                 <Button
+                  loading={isLoading}
                   className="w-full"
                   type="primary"
                   onClick={() => handleCreateBooking()}
@@ -100,7 +129,11 @@ export default function BookingQRModal({
             </div>
           </div>
         </div>
-        <QRBooking isClose={false} isOpacity={isSuccess} onClose={isClose} />
+        <QRBooking
+          isClose={false}
+          isOpacity={isLoading || isSuccess}
+          onClose={isClose}
+        />
       </div>
     </div>
   );

@@ -265,7 +265,7 @@ export default function InfoField({ sportField }: InfoFieldProps) {
                     'flex flex-wrap items-center',
                     slot.isBooked && 'cursor-not-allowed opacity-50',
                   )}
-                  key={slot.start}
+                  key={date + slot.start}
                 >
                   <label
                     htmlFor={slot.start}
