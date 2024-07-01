@@ -22,7 +22,7 @@ type BookingProps = {
   data: ModalData;
 };
 
-export default function BookingModal({ isOpen, data, isClose }: BookingProps) {
+export default function BookingModal({ isOpen, data, onClose }: BookingProps) {
   console.log(isOpen);
   const field = data.field;
 
@@ -94,7 +94,7 @@ export default function BookingModal({ isOpen, data, isClose }: BookingProps) {
               <Button
                 // onClick={handleSubmit}
                 // loading={isLoading}
-                onClick={isClose}
+
                 type="default"
                 className="mr-3"
                 onClick={onClose}
@@ -112,7 +112,7 @@ export default function BookingModal({ isOpen, data, isClose }: BookingProps) {
           </div>
         </div>
       </div>
-      <BookingQRModal isOpen={isOpenQR} isClose={isClose} />
+      <BookingQRModal data={data} isOpen={isOpenQR} isClose={onClose} />
     </div>
   );
 }
