@@ -23,7 +23,7 @@ type BookingProps = {
 };
 
 export default function BookingModal({ isOpen, data, onClose }: BookingProps) {
-  const field = data.field;
+  const field = data.field; 
 
   const [isOpenQR, setIsOpenQR] = useState(false);
   const handleOpenQR = () => {

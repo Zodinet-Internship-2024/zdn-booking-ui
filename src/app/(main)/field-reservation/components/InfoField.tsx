@@ -54,7 +54,9 @@ export default function InfoField({ sportField }: InfoFieldProps) {
 
   const date = searchParams.get('date');
   const fieldId = searchParams.get('field');
-
+  useEffect(() => {
+    setTimesChosen([]);
+  }, [date]);
   const startTime = getTime(date, sportField.startTime);
 
   const endTime = getTime(date, sportField.endTime);
@@ -68,27 +70,24 @@ export default function InfoField({ sportField }: InfoFieldProps) {
   const bookingTimes = bookings.map((booking) => ({
     start: booking.startTime,
     end: booking.endTime,
+    status: booking.status,
   }));
 
   const timesWithBooking = times.map((time) => {
-    const isBooked = bookingTimes.some((bookingTime) => {
-      const start = dayjs(bookingTime.start);
-      const end = dayjs(bookingTime.end);
-      const timeStart = dayjs(time.start, 'HH:mm');
-      const timeEnd = dayjs(time.end, 'HH:mm');
-
-      timeStart.set('date', start.get('date'));
-      timeEnd.set('date', start.get('date'));
-
-      if (timeStart.isBefore(dayjs()) || timeEnd.isBefore(dayjs())) {
-        return true;
-      }
-
-      return (
-        (timeStart.isAfter(start) || timeStart.isSame(start)) &&
-        (timeEnd.isBefore(end) || timeEnd.isSame(end))
-      );
-    });
+    const timeStart = dayjs(`${date} ${time.start}`, 'DD/MM/YYYY HH:mm');
+    const timeEnd = dayjs(`${date} ${time.end}`, 'DD/MM/YYYY HH:mm');
+    const isBooked =
+      bookingTimes.some((bookingTime) => {
+        const start = dayjs(bookingTime.start);
+        const end = dayjs(bookingTime.end);
+        return (
+          (timeStart.isAfter(start) || timeStart.isSame(start)) &&
+          (timeEnd.isBefore(end) || timeEnd.isSame(end)) &&
+          bookingTime.status === 'accepted'
+        );
+      }) ||
+      timeStart.isBefore(dayjs()) ||
+      timeEnd.isBefore(dayjs());
     return {
       ...time,
       isBooked,
@@ -179,6 +178,8 @@ export default function InfoField({ sportField }: InfoFieldProps) {
       }
     });
   };
+
+  console.log(timesChosen);
 
   return (
     <div>
