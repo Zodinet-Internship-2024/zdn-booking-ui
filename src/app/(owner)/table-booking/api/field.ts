@@ -1,5 +1,5 @@
 'use server';
-import axiosAuth from '@/libs/axios';
+import axiosInstance from '@/libs/axios';
 import axios from 'axios';
 import { cookies } from 'next/headers';
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST;

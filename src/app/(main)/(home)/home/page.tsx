@@ -6,7 +6,7 @@ import PopularPlaces from "./components/popular/PopularPlaces";
 import NearestFields from "./components/nearest/NearestFields";
 import SportFieldsByTime from './components/fields-by-time/SportFieldsByTime';
 import type { Metadata } from 'next';
-import axiosAuth from '@/libs/axios';
+import axiosInstance from '@/libs/axios';
 import { getSportFields } from '@/libs/api/sport-field.api';
 
 export const metadata: Metadata = {

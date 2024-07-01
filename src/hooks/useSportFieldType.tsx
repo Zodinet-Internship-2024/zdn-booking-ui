@@ -1,4 +1,4 @@
-import axiosAuth from '@/libs/axios';
+import axiosInstance from '@/libs/axios';
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
 import { useEffect, useState } from 'react';
@@ -9,14 +9,9 @@ const useSportFieldType = () => {
   const [error, setError] = useState('');
   useEffect(() => {
     const fetchSportFieldTypes = async () => {
-      const accessToken = getCookie('access_token');
       try {
         setIsLoading(true);
-        const response = await axios.get('/sport-field-type', {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
+        const response = await axiosInstance.get('/sport-field-type');
         console.log('🚀 ~ fetchSportFieldTypes ~ response:', response);
 
         setTypes(response.data.data);

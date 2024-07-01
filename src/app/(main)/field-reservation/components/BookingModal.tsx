@@ -5,11 +5,31 @@ import { Button } from 'antd';
 import React from 'react';
 import styles from './../booking.module.scss';
 import AccentButton from '@/components/common/components/AccentButton';
+import { Dayjs } from 'dayjs';
+
+// {
+//       startTimeISO: startTimeResult.toISOString(),
+//       endTimeISO: endTimeResult.toISOString(),
+//       startTime: startTimeResult,
+//       endTime: endTimeResult,
+//       sportField,
+//       fieldId,
+//       amount: timesChosen.length * sportField.price,
+//     }
+export type ModalData = {
+  startTimeISO: string;
+  endTimeISO: string;
+  startTime: Dayjs;
+  endTime: Dayjs;
+  sportField: SportField;
+  fieldId: string;
+  amount: number;
+}
 type BookingProps = {
   isOpen: boolean;
   isClose: () => void;
   // bookingId: string;
-  data: any;
+  data: ModalData;
 };
 export default function BookingModal({ isOpen, data, isClose }: BookingProps) {
   const startTime = new Date(data.startTimeISO);

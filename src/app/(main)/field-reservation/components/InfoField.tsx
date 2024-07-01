@@ -11,7 +11,7 @@ import dayjs from 'dayjs';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import useBooking from '@/hooks/useBooking';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
-import BookingModal from './BookingModal';
+import BookingModal, { ModalData } from './BookingModal';
 
 type TimeRange = {
   start: string;
@@ -151,7 +151,7 @@ export default function InfoField({ sportField }: InfoFieldProps) {
     };
   });
 
-  const getReservedTime = () => {
+  const getReservedTime: ModalData = () => {
     let startTimeResult;
     let endTimeResult;
 
@@ -178,7 +178,7 @@ export default function InfoField({ sportField }: InfoFieldProps) {
       startTime: startTimeResult,
       endTime: endTimeResult,
       sportField,
-      fieldId,
+      fieldId: fieldId as string,
       amount: timesChosen.length * sportField.price,
     };
   };

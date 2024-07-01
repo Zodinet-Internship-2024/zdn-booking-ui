@@ -3,14 +3,14 @@ import axios from 'axios';
 import { getCookie } from 'cookies-next';
 // import { cookies } from 'next/headers';
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST || 'http://locahost:5000';
-const axiosAuth = axios.create({
+const axiosInstance = axios.create({
   baseURL: `${API_HOST}`,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-axiosAuth.interceptors.request.use(
+axiosInstance.interceptors.request.use(
   (config) => {
     const token = getCookie('access_token');
     // const token = cookies().get('access_token')?.value;
@@ -24,7 +24,7 @@ axiosAuth.interceptors.request.use(
   },
 );
 
-axiosAuth.interceptors.response.use(
+axiosInstance.interceptors.response.use(
   (response) => {
     return response;
   },
@@ -36,4 +36,4 @@ axiosAuth.interceptors.response.use(
   },
 );
 
-export default axiosAuth;
+export default axiosInstance;
