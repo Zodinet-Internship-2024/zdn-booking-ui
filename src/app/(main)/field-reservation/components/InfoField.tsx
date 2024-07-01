@@ -14,6 +14,7 @@ import { CheckboxChangeEvent } from 'antd/es/checkbox';
 import BookingModal, { ModalData } from './BookingModal';
 import useFieldSelection from '@/hooks/useFieldSelection';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import SportFieldSwiper from '@/components/common/SportFieldSwiper';
 
 dayjs.extend(customParseFormat);
 type InfoFieldProps = {
@@ -51,6 +52,8 @@ export default function InfoField({ sportField }: InfoFieldProps) {
       label: field.name,
     });
   });
+
+  const imageUrls = sportField.sportFieldImages?.map((image) => image.url);
 
   const date = searchParams.get('date');
   const fieldId = searchParams.get('field');
@@ -167,7 +170,6 @@ export default function InfoField({ sportField }: InfoFieldProps) {
     setTimesChosen((prevTimesChosen) => prevTimesChosen.sort((a, b) => a - b));
   };
   const handleClose = () => {
-    console.log(123);
     setIsOpen(false);
   };
   const handleReset = () => {
@@ -201,10 +203,26 @@ export default function InfoField({ sportField }: InfoFieldProps) {
       </div>
 
       <div className={cn(s.main)}>
-        <h1 className="mb-5">{sportField.name}</h1>
         <div className="space-y-8">
-          <SportFieldShortInfo sportField={sportField} />
-          <SportFieldRule rulesString={sportField.rule ?? 'Chưa cập nhật'} />
+          <div className="grid grid-cols-1 items-center gap-3 lg:grid-cols-2">
+            <div>
+              <h1 className="mb-5">{sportField.name}</h1>
+
+              <SportFieldShortInfo sportField={sportField} />
+              <div className="mt-4">
+                <SportFieldRule
+                  rulesString={sportField.rule ?? 'Chưa cập nhật'}
+                />
+              </div>
+            </div>
+            {imageUrls && imageUrls.length > 0 ? (
+              <SportFieldSwiper images={imageUrls} />
+            ) : (
+              <div className="font-bold text-primary-600">
+                Chưa cập nhật ảnh
+              </div>
+            )}
+          </div>
           <div className="flex flex-wrap">
             <div className="mr-4 flex flex-col">
               <span className="mb-3 text-base font-bold text-natural-700">
@@ -252,7 +270,7 @@ export default function InfoField({ sportField }: InfoFieldProps) {
                 >
                   <label
                     htmlFor={slot.start}
-                    className="mr-9 text-base font-normal text-natural-700"
+                    className="mr-9 w-[108px] text-base font-normal text-natural-700"
                   >
                     {slot.start}-{slot.end}
                   </label>

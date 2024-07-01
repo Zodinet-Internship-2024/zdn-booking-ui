@@ -1,7 +1,7 @@
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { Button, notification } from 'antd';
 import React, { useEffect, useState } from 'react';
-import styles from './../booking.module.scss';
+import styles from './../bookingQR.module.scss';
 import { cn } from '@/libs/utils';
 import QRBooking from '@/app/(owner)/table-booking/components/QRBooking';
 import { ModalData } from './BookingModal';
