@@ -1,13 +1,9 @@
-import { sportField } from "@/mocks/sport-fields";
+import { getSportFields } from '@/libs/api/sport-field.api';
 import NearestCard from "./NearestCard";
 import NearestImage from "./NearestImage";
-import { getSportFields } from '@/libs/api/sport-field.api';
 
-type NearestFieldsProps = {
-  sportFields: SportField[];
-};
 const NearestFields = async () => {
-  const res = await getSportFields({ page: 0, size: 7 });
+  const res = await getSportFields({ page: 1, size: 7 });
   const sportFields: SportField[] = res.data;
 
   return (

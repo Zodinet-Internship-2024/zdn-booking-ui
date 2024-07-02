@@ -17,7 +17,11 @@ export const getSportFields = async ({
   query = '',
   typeId = 'all',
 }: GetSportFieldParams) => {
-  'use server';
+  ('use server');
+
+  if (isNaN(page) || isNaN(size)) {
+    page = 1;
+  }
 
   const accessToken = cookies().get('access_token')?.value;
   const sportFieldTypeParam =

@@ -7,7 +7,6 @@ type SearchPageProps = {
   searchParams: {
     q: string;
     page: string;
-    size: string;
   };
 };
 const SearchPage = async ({ searchParams }: SearchPageProps) => {

@@ -79,8 +79,9 @@ const FieldTypeFilter: React.FC<FieldTypeFilterProps> = ({ name = 'type' }) => {
 export const FieldTypeFilterSkeleton = ({ size }: { size: number }) => {
   return (
     <div className="flex gap-4">
-      {Array.from({ length: size }).map(() => (
+      {Array.from({ length: size }).map((_, index) => (
         <Skeleton.Button
+          key={index}
           active
           style={{ width: '80px', height: '32px', borderRadius: '40px' }}
         />

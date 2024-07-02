@@ -19,37 +19,13 @@ type HomePageProps = {
 };
 
 const HomePage = async ({ searchParams }: HomePageProps) => {
-  console.log(searchParams);
-  const sportFields = Array(12).fill(sportField);
-  const popularSportFields = await getPopularSportFields(
-    searchParams?.popular as string,
-  );
   return (
     <div>
       <Banner />
-      <PopularPlaces sportFields={popularSportFields} />
-      <NearestFields sportFields={sportFields} />
-      <SportFieldsByTime sportFields={sportFields} />
+      <PopularPlaces />
+      <NearestFields />
+      {/* <SportFieldsByTime sportFields={sportFields} /> */}
     </div>
   );
 };
 export default HomePage;
-
-const getSportFieldData = (sportFieldRes: any) => {
-  if (!sportFieldRes) {
-    return null;
-  }
-
-  const sportFields: SportField[] = sportFieldRes.data;
-
-  if (!sportFields) {
-    return null;
-  }
-
-  return sportFields;
-};
-
-const getPopularSportFields = async (typeId: string) => {
-  const sportFieldRes = await getSportFields({ size: 4, typeId: typeId });
-  return getSportFieldData(sportFieldRes);
-};

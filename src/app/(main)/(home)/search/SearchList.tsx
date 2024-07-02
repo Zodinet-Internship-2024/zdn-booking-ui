@@ -11,12 +11,12 @@ type SearchListProps = {
 const SearchList = () => {
   const searchParams = useSearchParams();
   const page = searchParams.get('page') ?? '1';
-  const size = searchParams.get('size') ?? '6';
   const type = searchParams.get('type') ?? 'all';
   const q = searchParams.get('q') ?? '';
+  const size = 6;
   const { sportFields, isLoading, totalPage } = useSearchSportFields({
     page: +page,
-    size: +size,
+    size,
     query: q,
     typeId: type,
   });
@@ -52,6 +52,7 @@ export const SearchListSkeleton = () => {
     <div className="container mx-auto grid grid-cols-2 gap-4">
       {Array.from({ length: 12 }).map((_, index) => (
         <Skeleton.Button
+          key={index}
           style={{ width: '736px', height: '312px', borderRadius: '40px' }}
         />
       ))}

@@ -6,19 +6,30 @@ type PaginationProps = {
   currentPage: number;
   totalPages: number;
   scrollId?: string;
+  name?: string;
 };
 
-const Pagination = ({ currentPage, totalPages, scrollId }: PaginationProps) => {
+const Pagination = ({
+  currentPage,
+  totalPages,
+  scrollId,
+  name = 'page',
+}: PaginationProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const scrollToId = scrollId ? `#${scrollId}` : '';
 
+  if (isNaN(currentPage) || isNaN(totalPages)) {
+    currentPage = 1;
+    totalPages = 1;
+  }
+
   const handleArrowRight = () => {
     const nextPage = currentPage + 1;
     if (nextPage <= totalPages) {
       const params = new URLSearchParams(searchParams);
-      params.set('page', nextPage.toString());
+      params.set(name, nextPage.toString());
       router.push(`${pathname}?${params.toString()}${scrollToId}` as any);
     }
   };
@@ -27,7 +38,7 @@ const Pagination = ({ currentPage, totalPages, scrollId }: PaginationProps) => {
     const prevPage = currentPage - 1;
     if (prevPage >= 1) {
       const params = new URLSearchParams(searchParams);
-      params.set('page', prevPage.toString());
+      params.set(name, prevPage.toString());
       router.push(`${pathname}?${params.toString()}${scrollToId}` as any);
     }
   };
