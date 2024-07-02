@@ -6,9 +6,11 @@ type HomeLayoutProps = {
 
 export default function HomeLayout({ children }: HomeLayoutProps) {
   return (
-    <main>
-      {children}
-      <Footer />
+    <main className="flex flex-grow flex-col">
+      <div className="flex-grow">{children}</div>
+      <div className="justify-self-end">
+        <Footer />
+      </div>
     </main>
   );
 }

@@ -9,15 +9,20 @@ import Link from 'next/link';
 
 type SportFieldInfoCardProps = {
   sportField: SportField;
+  className?: string;
 };
 
-const SportFieldInfoCard = ({ sportField }: SportFieldInfoCardProps) => {
+const SportFieldInfoCard = ({
+  sportField,
+  className,
+}: SportFieldInfoCardProps) => {
   const router = useRouter();
   return (
     <section
       className={cn(
         styles.sportFieldCardContainer,
         'flex h-card flex-col justify-between rounded-large bg-primary-100 p-6',
+        className,
       )}
     >
       <div>

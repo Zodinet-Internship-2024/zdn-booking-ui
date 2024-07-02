@@ -3,6 +3,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import { Carousel, Spin } from "antd";
 import styles from "./SportFieldSwiper.module.scss";
 import Image from "next/image";
+import { cn } from '@/libs/utils';
 
 export const DEFAULT_IMAGES = [
   'https://picsum.photos/360/360',
@@ -14,13 +15,18 @@ export const DEFAULT_IMAGES = [
 
 type SportFieldSwiperProps = {
   images: string[];
+  className?: string;
 };
 const SportFieldSwiper = ({
   images = DEFAULT_IMAGES,
+  className,
 }: SportFieldSwiperProps) => {
   const [loading, setLoading] = useState(true);
 
-  // UseEffect to handle loading state
+  if (!images.length) {
+    images = DEFAULT_IMAGES;
+  }
+
   useEffect(() => {
     const loadImage = () => {
       let loadedCount = 0;
@@ -43,7 +49,7 @@ const SportFieldSwiper = ({
   }, [images]);
 
   return (
-    <div className={styles.sliderContainer}>
+    <div className={cn(styles.sliderContainer, className)}>
       {loading ? (
         <div className="flex h-card w-full items-center justify-center rounded-large bg-accent-100">
           <Spin size="large" />
