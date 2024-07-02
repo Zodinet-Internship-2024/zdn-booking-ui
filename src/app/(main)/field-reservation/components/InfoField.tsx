@@ -15,6 +15,7 @@ import BookingModal, { ModalData } from './BookingModal';
 import useFieldSelection from '@/hooks/useFieldSelection';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import SportFieldSwiper from '@/components/common/SportFieldSwiper';
+import Link from 'next/link';
 
 dayjs.extend(customParseFormat);
 type InfoFieldProps = {
@@ -181,8 +182,6 @@ export default function InfoField({ sportField }: InfoFieldProps) {
     });
   };
 
-  console.log(timesChosen);
-
   return (
     <div>
       {data && (
@@ -193,9 +192,12 @@ export default function InfoField({ sportField }: InfoFieldProps) {
         />
       )}
       <div className="mb-6 flex items-center">
-        <p className="mr-3 cursor-pointer text-sm font-medium text-natural-400">
+        <Link
+          href="/home"
+          className="mr-3 cursor-pointer text-sm font-medium text-natural-400"
+        >
           Trang chủ
-        </p>
+        </Link>
         <RightOutlined className="mr-3 h-4 w-4 text-natural-400" />
         <p className="cursor-pointer text-sm font-medium text-primary-600">
           Đặt chỗ ngay

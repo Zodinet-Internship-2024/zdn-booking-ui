@@ -47,3 +47,11 @@ export const BOOKING_STATUS = [
   'booking',
   'available',
 ];
+
+export const DEFAULT_IMAGES = [
+  'https://picsum.photos/360/360',
+  'https://picsum.photos/360/361',
+  'https://picsum.photos/360/362',
+  'https://picsum.photos/360/363',
+  'https://picsum.photos/360/364',
+];

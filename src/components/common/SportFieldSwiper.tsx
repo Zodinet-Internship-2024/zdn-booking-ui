@@ -4,14 +4,7 @@ import { Carousel, Spin } from "antd";
 import styles from "./SportFieldSwiper.module.scss";
 import Image from "next/image";
 import { cn } from '@/libs/utils';
-
-export const DEFAULT_IMAGES = [
-  'https://picsum.photos/360/360',
-  'https://picsum.photos/360/361',
-  'https://picsum.photos/360/362',
-  'https://picsum.photos/360/363',
-  'https://picsum.photos/360/364',
-];
+import { DEFAULT_IMAGES } from '@/constants/constant';
 
 type SportFieldSwiperProps = {
   images: string[];
