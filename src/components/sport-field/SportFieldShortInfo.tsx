@@ -31,7 +31,7 @@ const SportFieldShortInfo = ({
       <div className="flex items-center gap-2">
         <Image src={bike} alt="Bike Icon" width={20} height={20} />
 
-        <p className="body-4 truncate">2.7 km</p>
+        <p className="body-4 truncate">{`2.7 km`}</p>
       </div>
       <div className="flex items-center gap-2">
         <Image
@@ -41,7 +41,9 @@ const SportFieldShortInfo = ({
           height={20}
         />
         <p className="body-4 truncate">
-          {sportField.startTime} - {sportField.endTime}
+          {/* {sportField.startTime} - {sportField.endTime} */}
+          {new Date(sportField.startTime).toLocaleTimeString()}-
+          {new Date(sportField.endTime).toLocaleTimeString()}
         </p>
       </div>
       <div className="flex items-center gap-2">

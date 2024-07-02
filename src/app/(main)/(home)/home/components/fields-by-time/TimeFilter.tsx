@@ -5,7 +5,7 @@ import SportFieldFilters from '@/components/filter/sport-field-filter/SportField
 const TimeFilter = () => {
   return (
     <div>
-      <SportFieldFilters className="flex-wrap">
+      <SportFieldFilters className="flex-wrap" name="time">
         <CustomTimePicker />
       </SportFieldFilters>
     </div>

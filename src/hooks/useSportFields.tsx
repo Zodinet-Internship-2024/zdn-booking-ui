@@ -8,7 +8,7 @@ type SportFieldType = {
   typeId: string;
 };
 const useSportFields = ({ page, size, typeId }: SportFieldType) => {
-  console.log(page, size, typeId);
+  console.log(typeId);
   const [fields, setFields] = useState<SportField[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -32,7 +32,7 @@ const useSportFields = ({ page, size, typeId }: SportFieldType) => {
       }
     };
     fetchSportField();
-  }, []);
+  }, [typeId]);
 
   return { fields, isLoading, error };
 };

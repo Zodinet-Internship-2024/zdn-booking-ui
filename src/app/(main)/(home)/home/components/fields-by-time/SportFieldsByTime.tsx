@@ -10,16 +10,18 @@ type SportFieldsByTimeProps = {
 };
 
 const SportFieldsByTime = ({ sportFields }: SportFieldsByTimeProps) => {
-  const totalPages = Math.ceil(sportFields.length / 4);
-  const router = useRouter(); // Update the type of 'router' to NextRouter
-  const searchParams = useSearchParams();
-  const page = searchParams.get('page');
-  const currentPage = Number(page) || 1; // Current page from query or default to 1
+console.log(sportFields);
+const totalPages = Math.ceil(sportFields.length / 4);
+const router = useRouter(); // Update the type of 'router' to NextRouter
+const searchParams = useSearchParams();
+const page = searchParams.get('page');
+const currentPage = Number(page) || 1; // Current page from query or default to 1
 
-  const startIndex = (currentPage - 1) * 4;
-  const endIndex = startIndex + 4;
-  const paginatedSportFields = sportFields.slice(startIndex, endIndex);
+const startIndex = (currentPage - 1) * 4;
+const endIndex = startIndex + 4;
+const paginatedSportFields = sportFields.slice(startIndex, endIndex);
 
+console.log(paginatedSportFields);
   const handlePageChange = (newPage: number) => {
     router.push(`/?page=${newPage}`);
   };
