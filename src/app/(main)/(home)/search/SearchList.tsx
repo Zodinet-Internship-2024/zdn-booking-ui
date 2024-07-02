@@ -35,8 +35,12 @@ const SearchList = () => {
           <SearchCard key={sportField.id} sportField={sportField} />
         ))}
       </div>
-      <div>
-        <Pagination currentPage={+page} totalPages={totalPage} />
+      <div className="mt-8">
+        <Pagination
+          currentPage={+page}
+          totalPages={totalPage}
+          scrollId="search-result"
+        />
       </div>
     </div>
   );

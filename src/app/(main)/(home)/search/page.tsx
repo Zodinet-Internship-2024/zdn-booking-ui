@@ -12,7 +12,7 @@ type SearchPageProps = {
 };
 const SearchPage = async ({ searchParams }: SearchPageProps) => {
   return (
-    <div className="container mx-auto py-12">
+    <div className="container mx-auto py-12" id="search-result">
       <SearchBreadcrumb />
 
       <div className="mb-8 flex items-center justify-between">
