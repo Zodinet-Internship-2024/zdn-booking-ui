@@ -14,17 +14,6 @@ const GetLocation: React.FC = () => {
     long: null,
   });
   const [error, setError] = useState<string | null>(null);
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const router = useRouter();
-
-  const updateURLWithLocation = (coords: Coordinates) => {
-    if (coords.lat !== null && coords.long !== null) {
-      router.push(`${pathname}?lat=${coords.lat}&long=${coords.long}` as any, {
-        scroll: false,
-      });
-    }
-  };
 
   const getLocation = () => {
     if (navigator.geolocation) {
@@ -36,7 +25,6 @@ const GetLocation: React.FC = () => {
           };
           setLocation(coords);
           localStorage.setItem('location', JSON.stringify(coords));
-          updateURLWithLocation(coords);
           setError(null);
         },
         (err) => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import InfoField from '../components/InfoField';
 import type { Metadata } from 'next';
-import { getSportFieldById } from '@/libs/api/sport-field.api';
+import { getSportFieldById } from '@/libs/api/sport-field-server.api';
 
 export const metadata: Metadata = {
   title: 'Zodinet Booking - Field Reservation Page',

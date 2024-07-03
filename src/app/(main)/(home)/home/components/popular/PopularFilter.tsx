@@ -20,7 +20,7 @@ const PopularFilter = () => {
         'flex flex-row flex-wrap items-center justify-between gap-3',
       )}
     >
-      <FieldTypeFilter name="popular" />
+      <FieldTypeFilter name="popular" pageName="popular-page" />
       <Button onClick={toggleFilter}>
         <FilterOutlined />
         <span>Lọc</span>

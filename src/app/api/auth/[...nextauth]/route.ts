@@ -7,7 +7,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import KeycloakProvider from 'next-auth/providers/keycloak';
 import { cookies } from 'next/headers';
 
-export async function auth(req: NextApiRequest, res: NextApiResponse) {
+async function auth(req: NextApiRequest, res: NextApiResponse) {
   return NextAuth(req, res, {
     providers: [
       CredentialsProvider({

@@ -12,7 +12,6 @@ const useSportFieldType = () => {
       try {
         setIsLoading(true);
         const response = await axiosInstance.get('/sport-field-type');
-        console.log('🚀 ~ fetchSportFieldTypes ~ response:', response);
 
         setTypes(response.data.data);
       } catch (error: any) {

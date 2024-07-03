@@ -1,7 +1,4 @@
-'use server';
-
-import axios from 'axios';
-import { cookies } from 'next/headers';
+import axiosInstance from '../axios';
 
 type GetSportFieldParams = {
   page?: number;
@@ -17,36 +14,24 @@ export const getSportFields = async ({
   query = '',
   typeId = 'all',
 }: GetSportFieldParams) => {
-  ('use server');
-
   if (isNaN(page) || isNaN(size)) {
     page = 1;
   }
 
-  const accessToken = cookies().get('access_token')?.value;
+  // const accessToken = cookies().get('access_token')?.value;
   const sportFieldTypeParam =
     typeId === 'all' ? '' : `&sportFieldTypeId=${typeId}`;
-  const res = await axios.get(
-    `${API_HOST}/sport-field?page=${page - 1}&size=${size}&filter=name:${query}${sportFieldTypeParam}`,
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    },
+  const res = await axiosInstance.get(
+    `/sport-field?page=${page - 1}&size=${size}&filter=name:${query}${sportFieldTypeParam}`,
   );
 
   return res.data;
 };
 
 export const getSportFieldById = async (id: string) => {
-  'use server';
-  const accessToken = cookies().get('access_token')?.value;
+  // const accessToken = cookies().get('access_token')?.value;
 
-  const res = await axios.get(`${API_HOST}/sport-field/${id}`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
+  const res = await axiosInstance.get(`${API_HOST}/sport-field/${id}`);
 
   return res.data;
 };

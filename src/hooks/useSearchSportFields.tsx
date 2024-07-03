@@ -25,7 +25,6 @@ const useSearchSportFields = ({
         setIsLoading(true);
 
         const response = await getSportFields({ page, size, query, typeId });
-        console.log('🚀 ~ fetchSportFieldTypes ~ response:', response);
         setTotalPage(response.totalPage);
         setSportFields(response.data);
       } catch (error: any) {

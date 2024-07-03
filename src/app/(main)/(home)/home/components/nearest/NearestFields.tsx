@@ -1,6 +1,6 @@
-import { getSportFields } from '@/libs/api/sport-field.api';
-import NearestCard from "./NearestCard";
-import NearestImage from "./NearestImage";
+import { getSportFields } from '@/libs/api/sport-field-server.api';
+import NearestCard from './NearestCard';
+import NearestImage from './NearestImage';
 
 const NearestFields = async () => {
   const res = await getSportFields({ page: 1, size: 7 });

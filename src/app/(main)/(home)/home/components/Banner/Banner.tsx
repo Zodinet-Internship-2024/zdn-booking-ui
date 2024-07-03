@@ -3,8 +3,8 @@ import { Button } from 'antd';
 import Image from 'next/image';
 import styles from './banner.module.scss';
 import { cn } from '@/libs/utils';
-import { getSportFields } from '@/libs/api/sport-field.api';
 import Link from 'next/link';
+import { getSportFields } from '@/libs/api/sport-field-server.api';
 
 const Banner = async () => {
   const sportFieldRes = await getSportFields({ size: 1 });

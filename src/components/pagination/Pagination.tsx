@@ -1,6 +1,8 @@
+'use client';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { FaArrowRight, FaArrowLeft } from 'react-icons/fa';
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
+import { useEffect } from 'react';
 
 type PaginationProps = {
   currentPage: number;
@@ -19,7 +21,6 @@ const Pagination = ({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const scrollToId = scrollId ? `#${scrollId}` : '';
-
   if (isNaN(currentPage) || isNaN(totalPages)) {
     currentPage = 1;
     totalPages = 1;
@@ -43,6 +44,10 @@ const Pagination = ({
     }
   };
 
+  if (!totalPages) {
+    return null;
+  }
+
   return (
     <div className="flex items-center">
       <div className="flex h-[52px] w-[52px] items-center justify-start">
@@ -51,7 +56,7 @@ const Pagination = ({
           className={`cursor-pointer text-2xl ${currentPage === 1 ? 'text-neutral-200' : 'text-primary-500'}`}
         />
       </div>
-      <div className="flex items-center">
+      <div className="flex items-center justify-center">
         {Array.from({ length: totalPages }).map((_, index) => (
           <span
             key={index}
