@@ -18,3 +18,10 @@ export const getUnreadNotificationsCount = async () => {
   const response = await axiosInstance.get('/notification/me/unread/number');
   return response.data;
 };
+
+export const markAsReads = async (ids: string[]) => {
+  await axiosInstance.patch('/notification/me', {
+    ids,
+  });
+};
+

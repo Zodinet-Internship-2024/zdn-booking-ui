@@ -1,14 +1,10 @@
 'use client';
 
 import useFetchNotifications from '@/hooks/useNotifications';
-import {
-  addTimezone,
-  cn,
-  groupNotificationsByDay,
-  timeAgo,
-} from '@/libs/utils';
+import { groupNotificationsByDay } from '@/libs/utils';
 import { Pagination } from 'antd';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import NotificationItem from './NotificationItem';
 
 const NotificationList = () => {
   const searchParams = useSearchParams();
@@ -50,28 +46,10 @@ const NotificationList = () => {
                     </span>
                     <div className="flex flex-col gap-6">
                       {notifications.map((notification) => (
-                        <section key={notification.id}>
-                          <div className="flex items-center gap-5">
-                            <h4
-                              className={cn(
-                                'body-4 truncate font-bold',
-                                notification.isRead && 'text-natural-400',
-                              )}
-                            >
-                              {notification.title}
-                            </h4>
-                            <span className="truncate text-xs text-primary-600">
-                              {timeAgo(
-                                addTimezone(new Date(notification.updatedAt)),
-                              )}
-                            </span>
-                          </div>
-                          <div>
-                            <span className="truncate text-xs text-natural-500">
-                              {notification.description}
-                            </span>
-                          </div>
-                        </section>
+                        <NotificationItem
+                          key={notification.id}
+                          notification={notification}
+                        />
                       ))}
                     </div>
                   </div>
@@ -84,6 +62,7 @@ const NotificationList = () => {
               total={totalPage * size}
               pageSize={size}
               onChange={handlePageChange}
+              showSizeChanger={false}
             />
           </div>
         </>

@@ -1,5 +1,6 @@
-import { getNotifications } from '@/libs/api/notification.api';
-import { useEffect, useState } from 'react';
+import { getNotifications, markAsReads } from '@/libs/api/notification.api';
+import { useEffect, useId, useRef, useState } from 'react';
+import useServerSentEvents from './useServerSentEvents';
 
 export type NotificationFilterType = {
   page?: number;
@@ -10,9 +11,14 @@ const useFetchNotifications = ({
   size = 6,
 }: NotificationFilterType) => {
   const [notifications, setNotifications] = useState<NotificationType[]>([]);
+  const prevRef = useRef<NotificationType[]>(notifications);
   const [totalPage, setTotalPage] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    prevRef.current = notifications;
+  }, [notifications]);
 
   useEffect(() => {
     const fetchNotifications = async () => {
@@ -32,7 +38,20 @@ const useFetchNotifications = ({
       }
     };
     fetchNotifications();
+
+    return () => {
+      const ids = prevRef.current.map((notification) => notification.id);
+      markAsReads(ids);
+    };
   }, [page, size]);
+
+  useServerSentEvents((data) => {
+    console.log({ data });
+    const newNotification = JSON.parse(data);
+    setNotifications((prev) => {
+      return [newNotification, ...prev];
+    });
+  });
 
   return { notifications, isLoading, error, totalPage };
 };
