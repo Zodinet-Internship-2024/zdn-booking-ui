@@ -46,21 +46,6 @@ export const updateBooking = async (updateData: any, id: string) => {
   const auth = `Bearer ${Cookies.get('access_token')}`;
 
   try {
-    // const response = await fetch(
-    //   `http://localhost:5000/booking/update-booking/${id}`,
-    //   {
-    //     method: 'PATCH',
-    //     headers: {
-    //       Authorization: auth,
-    //     },
-    //     body: JSON.stringify(updateData),
-    //   },
-    // );
-
-    // if (!response.ok) {
-    //   throw new Error('Failed to update bookings');
-    // }
-
     const res = await axios.patch(
       `${API_URL}/booking/update-booking/${id}`,
       updateData,

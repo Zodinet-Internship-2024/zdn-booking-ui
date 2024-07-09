@@ -6,11 +6,7 @@ type NotificationItemProps = {
 };
 
 const NotificationItem = ({ notification }: NotificationItemProps) => {
-  let metadata;
-
-  if (notification.metadata) {
-    metadata = JSON.parse(notification.metadata);
-  }
+  const metadata = notification.metadata;
   return (
     <section className="space-y-2">
       <div className="flex items-center gap-5">
