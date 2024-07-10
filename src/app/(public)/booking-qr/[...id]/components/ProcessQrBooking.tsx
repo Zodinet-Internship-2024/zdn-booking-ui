@@ -10,11 +10,9 @@ export default function ProcessQrBooking() {
   const [qrBooking, setQrBooking] = useState<responseBooking>();
   const param = useParams();
 
-  console.log(param);
   const idBooking = param.id[0];
   const getQrBooking = async () => {
     const res = await updateQrBooking(idBooking);
-    console.log(res);
     if (res.type === 'Error') {
       setQrBooking({
         type: res.type,

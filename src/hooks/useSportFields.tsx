@@ -20,7 +20,6 @@ const useSportFields = ({ page, size, typeId }: SportFieldType) => {
         const response = await axiosInstance.get(
           `/sport-field/me?page=${page - 1}&size=${size}${sportFieldTypeParam}`,
         );
-        console.log('🚀 ~ fetchSportField ~ response:', response);
 
         setFields(response.data.data);
       } catch (error: any) {

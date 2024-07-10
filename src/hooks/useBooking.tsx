@@ -1,4 +1,4 @@
-import { getBookingsByFieldId } from '@/libs/api/booking.api';
+import { getBookingsByFieldId } from '@/libs/api/booking-server.api';
 import { useEffect, useState } from 'react';
 
 export type BookingResponse = {

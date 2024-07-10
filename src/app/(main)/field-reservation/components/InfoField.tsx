@@ -113,9 +113,6 @@ export default function InfoField({ sportField }: InfoFieldProps) {
       endTime = timesWithBooking[timesChosen[timesChosen.length - 1]].end;
     }
 
-    console.log(startTime);
-    console.log(endTime);
-
     startTimeResult = dayjs(`${date} ${startTime}`, 'DD/MM/YYYY HH:mm');
     endTimeResult = dayjs(`${date} ${endTime}`, 'DD/MM/YYYY HH:mm');
 

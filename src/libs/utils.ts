@@ -124,7 +124,6 @@ export const getTime = (date: string | null, startTime: string) => {
   const [hour, minute] = startTime.split(':').map(Number);
   currentDate.setHours(hour, minute);
 
-  console.log(date, startTime, currentDate);
   return currentDate;
 };
 

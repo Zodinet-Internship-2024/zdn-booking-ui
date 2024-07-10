@@ -16,7 +16,6 @@ const CustomTimePicker = ({ onsubmit }: CustomTimePickerProps) => {
     end: '',
   });
   const onChange = (value: any) => {
-    console.log(value[0].$d, value[1].$d);
     setValue({
       start: value[0].$d,
       end: value[1].$d,

@@ -47,7 +47,6 @@ function TransactionPage() {
   };
 
   const onSearch = async () => {
-    console.log('search');
     setIsLoading(true);
     fetchBookings();
   };

@@ -83,7 +83,6 @@ export const FilterItem: React.FC<FilterItemProps> = ({
 
   useEffect(() => {
     if (isNeedReset) {
-      console.log('Resetting filter');
       setIsNeedReset();
 
       setActiveTab('');

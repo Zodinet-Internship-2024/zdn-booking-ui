@@ -9,7 +9,6 @@ export const getBookingsByFieldId = async (
   startTime: Date = new Date(),
   endTime: Date = new Date(),
 ) => {
-  console.log({ fieldId, startTime, endTime });
   const accessToken = cookies().get('access_token')?.value;
   const response = await fetch(
     `${API_HOST}/booking?fieldId=${fieldId}&startTime=${new Date(startTime).toISOString()}&endTime=${new Date(endTime).toISOString()}`,
@@ -29,7 +28,6 @@ export const getBookingsByFieldId = async (
   return json.data;
 };
 export const getBookingById = async (id: string) => {
-  console.log(id);
   const accessToken = cookies().get('access_token')?.value;
   const response = await fetch(`${API_HOST}/booking/${id}`, {
     headers: {
@@ -46,7 +44,6 @@ export const getBookingById = async (id: string) => {
   return json.data;
 };
 export const removeBookingById = async (id: string) => {
-  console.log(id);
   const accessToken = cookies().get('access_token')?.value;
   const response = await fetch(`${API_HOST}/booking/${id}`, {
     method: 'DELETE',

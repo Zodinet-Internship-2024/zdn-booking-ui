@@ -29,7 +29,6 @@ const SportFieldsByTime = () => {
   // const paginatedSportFields = sportFields.slice(startIndex, endIndex);
 
   const fetchSportFieldsByTime = async (startTime: string, endTime: string) => {
-    console.log(startTime, endTime);
     const { data, totalPage } = await getSportFieldByTime({
       startTime,
       endTime,
@@ -37,7 +36,6 @@ const SportFieldsByTime = () => {
       size: 4,
       typeId: typeId || 'all',
     });
-    console.log(data);
     setSportFields(data);
     setTotalPages(totalPage);
   };

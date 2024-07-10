@@ -42,7 +42,6 @@ export const getSportFieldById = async (id: string): Promise<any> => {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    console.log(data.data);
     return data.data;
   } catch (error) {
     console.log(error);
@@ -61,7 +60,6 @@ export const getBookingSportField = async (id: string): Promise<any> => {
       },
     }
     );
-    console.log(data.data);
     return data.data;
   } catch (error) {
     console.log(error);
@@ -81,7 +79,6 @@ export const removeBookingOfSportField = async (id: string): Promise<any> => {
       },
     }
     );
-    console.log(data.data);
     return data.data;
   } catch (error) {
     console.log(error);
@@ -98,7 +95,6 @@ export const removeSportField = async (id: string): Promise<any> => {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    console.log(data.data);
     return data.data;
   } catch (error) {
     console.log(error);

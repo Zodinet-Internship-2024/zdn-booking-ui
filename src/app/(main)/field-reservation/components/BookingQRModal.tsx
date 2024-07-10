@@ -1,12 +1,12 @@
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
-import { Button, notification } from 'antd';
+import { Button, message, notification } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styles from './../bookingQR.module.scss';
 import { cn } from '@/libs/utils';
 import { ModalData } from './BookingModal';
 import { createBookingByUser } from '@/libs/api/booking.api';
 import QRBooking from '@/app/(owner)/owner/field-map/table-booking/components/QRBooking';
-
+import { errorMessageMapping } from '@/constants/constant';
 
 export default function BookingQRModal({
   isOpen,
@@ -27,18 +27,24 @@ export default function BookingQRModal({
   const handleCreateBooking = async () => {
     try {
       setIsLoading(true);
-      const res = await createBookingByUser(
+      const res: any = await createBookingByUser(
         field.id,
         data.startTime.format(),
         data.endTime.format(),
         data.amount,
       );
 
-      if (res) {
-        console.log(res);
+      if (res.status === 201) {
+        message.success('Đặt sân thành công');
         setBookingSuccess(res.data.id);
         setIsSuccess(true);
+      } else {
+        notification.error({
+          message:
+            errorMessageMapping[res?.response?.data?.message] ?? 'Tạo thất bại',
+        });
       }
+      console.log('🚀 ~ handleCreateBooking ~ res:', res);
     } catch (error) {
       console.error(error);
       notification.error({

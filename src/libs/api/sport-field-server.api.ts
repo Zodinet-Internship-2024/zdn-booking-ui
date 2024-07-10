@@ -95,7 +95,6 @@ export const getSportFieldByTime = async ({
   const accessToken = cookies().get('access_token')?.value;
   const sportFieldTypeParam =
     typeId === 'all' ? '' : `&sportFieldTypeId=${typeId}`;
-  console.log(size, sportFieldTypeParam);
   try {
     const res = await axios.get(
       `${API_HOST}/sport-field/by-times?startTime=${startTime}&endTime=${endTime}${sportFieldTypeParam}`,

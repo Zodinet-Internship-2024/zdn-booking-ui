@@ -6,7 +6,6 @@ async function EditSportField({ params }: { params: { slug: string } }) {
   const { provinces, districts, wards } = await getLocation();
 
   const { sportField } = await getSportField(params.slug);
-  console.log('sportField', sportField);
 
   const { sportFieldTypes } = await getSportFieldTypes();
 

@@ -63,7 +63,6 @@ export const getSportFields = async ({
     page: page - 1,
     limit: size,
   };
-  console.log('🚀 getSportFields ~ filter', filter);
 
   try {
     const res = await axios.get(`${API_HOST}/sport-field`, {

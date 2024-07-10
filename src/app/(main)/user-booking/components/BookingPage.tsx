@@ -32,7 +32,6 @@ function BookingPage() {
       status: status,
       page: page ? Number(page) : 1,
     }).then((res: any) => res.data);
-    console.log('fetchedBookings', fetchedBookings);
     setBookings(fetchedBookings.data);
     setTotal(fetchedBookings.total);
     setIsLoading(false);

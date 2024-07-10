@@ -49,7 +49,6 @@ const useFetchNotifications = ({
   }, [page, size, read]);
 
   useServerSentEvents((data) => {
-    console.log({ data });
     const newNotification = JSON.parse(data);
     setNotifications((prev) => {
       return [newNotification, ...prev];

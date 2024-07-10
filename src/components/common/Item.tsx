@@ -46,7 +46,6 @@ const DotFrame: React.FC = () => {
 
 const Item: React.FC<ItemProps> = ({ data, label, onClick }) => {
   const handleClick = () => {
-    console.log('clicked');
     onClick && onClick(data);
   };
 

@@ -10,10 +10,7 @@ const FieldMap = ({ sportField }: { sportField?: SportField }) => {
   const fieldNames = sportField?.fields || [];
   const router = useRouter();
 
-  console.log(fieldNames, 'fieldNames');
-
   const handleButtonClick = (index: number) => {
-    console.log(`Đã chọn sân ${fieldNames[index].id}`);
     router.push(`table-booking?fieldId=${fieldNames[index].id}` as any);
   };
 

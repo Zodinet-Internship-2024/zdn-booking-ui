@@ -64,3 +64,10 @@ export const DEFAULT_IMAGES = [
   'https://picsum.photos/360/363',
   'https://picsum.photos/360/364',
 ];
+
+export const errorMessageMapping: Record<string, string> = {
+  'There is a booking at this time': 'Đã có lịch đặt sân trong thời gian này',
+  'Invalid booking time': 'Thời gian đặt sân không hợp lệ',
+  'The field is not working at this time.':
+    'Sân không hoạt động vào thời gian này',
+};

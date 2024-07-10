@@ -11,7 +11,6 @@ function generateTimeSlots({
   const start = new Date(startTime);
   const end = new Date(endTime);
 
-  console.log(start.toTimeString(), end.toTimeString());
   while (start <= end) {
     times.push(start.toTimeString().slice(0, 5));
 
