@@ -54,17 +54,22 @@ type GetSportFieldBookingEmpty = {
   startTime: string;
   endTime: string;
   sportFieldId?: string;
+  startTimeDay: string;
+  endTimeDay: string;
 };
 
 export const getBookingEmptySportField = async ({
   sportFieldId,
   startTime = new Date().toISOString(),
   endTime = new Date().toISOString(),
+  startTimeDay,
+  endTimeDay,
 }: GetSportFieldBookingEmpty) => {
   const accessToken = cookies().get('access_token')?.value;
+  console.log(startTime, startTimeDay, endTime, endTimeDay);
   try {
     const res = await axios.get(
-      `${API_HOST}/booking/bookings-calendar-sport-field/${sportFieldId}?startTime=${startTime}&endTime=${endTime}`,
+      `${API_HOST}/booking/bookings-calendar-sport-field/${sportFieldId}?startTime=${startTime}&endTime=${endTime}&startTimeDay=${startTimeDay}&endTimeDay=${endTimeDay}`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,

@@ -1,0 +1,10 @@
+.main {
+  :global {
+    .ant-spin {
+      color: theme('colors.primary.400') !important;
+      .ant-spin-dot {
+        color: theme('colors.primary.400') !important;
+      }
+    }
+  }
+}
