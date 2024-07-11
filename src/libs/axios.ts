@@ -1,6 +1,7 @@
 // 'use server';
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
+import { signOut } from 'next-auth/react';
 // import { cookies } from 'next/headers';
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST || 'http://locahost:5000';
 const axiosInstance = axios.create({
@@ -30,6 +31,8 @@ axiosInstance.interceptors.response.use(
   },
   async (error) => {
     if (error.response?.data?.statusCode === 401) {
+      console.log({ error });
+      signOut();
       return Promise.reject(new Error('Unauthorized'));
     }
     return error;
