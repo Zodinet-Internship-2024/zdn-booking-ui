@@ -200,7 +200,6 @@ export default function ReservationBooking({
   };
 
   let booking = bookings.find((item) => item.id === bookingId);
-  const { startTime: openTime, endTime: closeTime } = field.sportField;
 
   return (
     <div
