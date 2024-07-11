@@ -23,7 +23,6 @@ const useSearchSportFields = ({
     const location = localStorage.getItem('location');
     const fetchSportField = async () => {
       setIsLoading(true);
-      console.log('Fetching sport fields'); // Log to check hook calls
       try {
         const response = await getSportFields({
           page,

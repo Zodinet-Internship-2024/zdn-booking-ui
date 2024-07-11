@@ -1,6 +1,6 @@
 import CustomerHeader from '@/components/header/customer-header/CustomerHeader';
-import PrivateRoute from './PrivateRoute';
 import GetLocation from '@/components/location/GetLocation';
+import PrivateRoute from './PrivateRoute';
 
 type HomeLayoutProps = {
   children: React.ReactNode;

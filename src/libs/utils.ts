@@ -124,7 +124,6 @@ export const getTime = (date: string | null, startTime: string) => {
   const [hour, minute] = startTime.split(':').map(Number);
   currentDate.setHours(hour, minute);
 
-  console.log(date, startTime, currentDate);
   return currentDate;
 };
 
@@ -144,3 +143,49 @@ export const getEndOfWeek = (date: Date): Date => {
   result.setDate(result.getDate() + 6);
   return new Date(result.setHours(23, 59, 59, 999)); // Set time to the end of the day
 };
+
+export const groupNotificationsByDay = (notifications: NotificationType[]) => {
+  if (notifications?.length === 0 || !notifications) {
+    return {};
+  }
+
+  return notifications.reduce((groupedNotifications, notification) => {
+    const date = dayjs(notification.createdAt).format('DD/MM/YYYY');
+    if (!groupedNotifications[date]) {
+      groupedNotifications[date] = [];
+    }
+    groupedNotifications[date].push(notification);
+    return groupedNotifications;
+  }, {} as any);
+};
+
+export function timeAgo(date: Date): string {
+  const now = new Date();
+  const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+
+  if (isNaN(diffInSeconds) || diffInSeconds < 0) {
+    return 'Vừa mới đây';
+  }
+
+  if (diffInSeconds < 60) {
+    return `${diffInSeconds} giây trước`;
+  }
+
+  const diffInMinutes = Math.floor(diffInSeconds / 60);
+  if (diffInMinutes < 60) {
+    return `${diffInMinutes} phút trước`;
+  }
+
+  const diffInHours = Math.floor(diffInMinutes / 60);
+  if (diffInHours < 24) {
+    return `${diffInHours} giờ trước`;
+  }
+
+  const diffInDays = Math.floor(diffInHours / 24);
+  return `${diffInDays} ngày trước`;
+}
+
+export function addTimezone(date: Date) {
+  const timezoneMilliseconds = 7 * 60 * 60 * 1000;
+  return new Date(date.getTime() + timezoneMilliseconds);
+}

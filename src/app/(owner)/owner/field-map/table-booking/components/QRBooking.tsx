@@ -23,16 +23,13 @@ export default function QRBooking({
   const generateUrl = () => {
     if (isOpacity && bookingId) {
       const url = `${process.env.NEXT_PUBLIC_HOST}/booking-qr/${bookingId}`;
-      console.log(url);
       setQrValue(url);
     }
   };
   const handleDownloadQr = () => {
     if (isOpacity && bookingId) {
       const canvas = document.getElementById('qrCodeUrl') as HTMLCanvasElement;
-      console.log(canvas);
       const url = canvas?.toDataURL('image/png');
-      console.log(url);
 
       const a = document.createElement('a');
       a.href = url;

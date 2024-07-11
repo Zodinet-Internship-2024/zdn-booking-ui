@@ -30,6 +30,15 @@ export const BOOKING_STATUS_MAPPING: { [key: string]: string } = {
   booking: 'Đang đặt sân',
 };
 
+export const USER_BOOKING_STATUS_MAPPING: { [key: string]: string } = {
+  all: 'Tất cả',
+  accepted: 'Đặt sân thành công',
+  rejected: 'Yêu cầu đặt sân đã bị hủy',
+  disabled: 'Đã check-in',
+  available: 'Sẵn sàng',
+  booking: 'Yêu cầu chưa được duyệt',
+};
+
 export const TRANSACTION_STATUS: { [key: string]: string } = {
   all: 'Tất cả',
   rejected: 'Hủy đặt sân',
@@ -55,3 +64,10 @@ export const DEFAULT_IMAGES = [
   'https://picsum.photos/360/363',
   'https://picsum.photos/360/364',
 ];
+
+export const errorMessageMapping: Record<string, string> = {
+  'There is a booking at this time': 'Đã có lịch đặt sân trong thời gian này',
+  'Invalid booking time': 'Thời gian đặt sân không hợp lệ',
+  'The field is not working at this time.':
+    'Sân không hoạt động vào thời gian này',
+};

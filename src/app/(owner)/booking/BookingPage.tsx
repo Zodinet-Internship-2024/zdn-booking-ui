@@ -21,11 +21,9 @@ function BookingPage() {
 
   const onChange: PaginationProps['onChange'] = (pageNumber: number) => {
     router.push(`${pathname}?page=${pageNumber}` as any, { scroll: false });
-    console.log('Page: ', pageNumber);
   };
 
   useEffect(() => {
-    console.log('Loading');
     setIsLoading(true);
     const fetchBookings = async () => {
       const fetchedBookings = await getOwnerBookings(

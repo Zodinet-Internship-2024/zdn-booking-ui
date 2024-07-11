@@ -1,32 +1,15 @@
-'use server';
-
-import axios from 'axios';
-import { cookies } from 'next/headers';
+import { CreateBookingByOwnerDto } from '@/app/(owner)/owner/field-map/table-booking/api/booking';
+import axiosInstance from '../axios';
 
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST;
-export const getBookingsByFieldId = async (
-  fieldId: string,
-  startTime: Date,
-  endTime: Date,
-  status?: BookingStatus,
+export const createBookingByOwner = async (
+  createBookingByOwnerDto: CreateBookingByOwnerDto,
 ) => {
-  const accessToken = cookies().get('access_token')?.value;
-  const params = new URLSearchParams({
-    fieldId,
-    startTime: new Date(startTime).toISOString(),
-    endTime: new Date(endTime).toISOString(),
-  });
-
-  status && params.set('status', status);
-  const response = await axios.get(
-    `${API_HOST}/booking/user?${params.toString()}`,
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    },
+  const response = await axiosInstance.post(
+    `${API_HOST}/booking/owner`,
+    createBookingByOwnerDto,
   );
-  return response.data;
+  return response;
 };
 
 export const createBookingByUser = async (
@@ -35,20 +18,11 @@ export const createBookingByUser = async (
   endTime: string,
   amount: number,
 ) => {
-  const accessToken = cookies().get('access_token')?.value;
-  const response = await axios.post(
-    `${API_HOST}/booking`,
-    {
-      fieldId,
-      startTime,
-      endTime,
-      amount,
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    },
-  );
-  return response.data;
+  const response = await axiosInstance.post(`${API_HOST}/booking`, {
+    fieldId,
+    startTime,
+    endTime,
+    amount,
+  });
+  return response;
 };

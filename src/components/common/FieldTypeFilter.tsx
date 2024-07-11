@@ -88,7 +88,7 @@ export const FieldTypeFilterSkeleton = ({ size }: { size: number }) => {
         <Skeleton.Button
           key={index}
           active
-          style={{ width: '80px', height: '32px', borderRadius: '40px' }}
+          style={{ width: '60px', height: '32px', borderRadius: '40px' }}
         />
       ))}
     </div>

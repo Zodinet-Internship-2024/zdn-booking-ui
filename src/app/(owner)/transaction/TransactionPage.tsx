@@ -47,18 +47,20 @@ function TransactionPage() {
   };
 
   const onSearch = async () => {
-    console.log('search');
     setIsLoading(true);
     fetchBookings();
   };
 
   const onChange: PaginationProps['onChange'] = (pageNumber: number) => {
-    router.push(`${pathname}?page=${pageNumber}` as any, { scroll: false });
-    console.log('Page: ', pageNumber);
+    const params = new URLSearchParams(searchParams);
+    if (type) params.set('type', type);
+    params.set('page', pageNumber.toString());
+    const url = `${pathname}?${params.toString()}` as any;
+
+    router.replace(url, { scroll: false });
   };
 
   useEffect(() => {
-    console.log('loading');
     setIsLoading(true);
 
     fetchBookings();
@@ -132,11 +134,6 @@ function TransactionPage() {
         <>
           <Transaction bookings={bookings} />
           <div className="flex items-center justify-center">
-            {/* <Pagination
-              currentPage={page ? Number(page) : 1}
-              totalPages={5}
-              onPageChange={(value) => console.log(value)}
-            /> */}
             <Pagination
               defaultCurrent={page ? Number(page) : 1}
               total={total}

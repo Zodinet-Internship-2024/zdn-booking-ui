@@ -7,7 +7,6 @@ import Pagination from '@/components/pagination/Pagination';
 import { useEffect, useMemo } from 'react';
 
 const PopularList = () => {
-  console.log('PopularList render');
   const searchParams = useSearchParams();
 
   const page = searchParams.get('popular-page') ?? 1;

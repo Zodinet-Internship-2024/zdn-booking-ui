@@ -9,7 +9,6 @@ import { useSearchParams } from 'next/navigation';
 const SportFieldManagement = () => {
   const searchParams = useSearchParams();
   const typeId = searchParams.get('type') ?? 'all';
-  console.log(typeId);
   const { fields, isLoading, error } = useSportFields({
     page: 1,
     size: 10,

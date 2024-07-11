@@ -38,10 +38,10 @@ export default function BookingModal({ isOpen, data, onClose }: BookingProps) {
     <div
       className={cn(
         styles.modal,
-        `${isOpen ? 'absolute flex' : 'hidden'} right-0 top-0 z-[999] h-full w-full items-center justify-center transition`,
+        `${isOpen ? 'fixed flex' : 'hidden'} right-0 top-0 z-[999] h-full w-full items-center justify-center transition`,
       )}
     >
-      <div className="absolute inset-0 bg-black opacity-40"></div>
+      <div className="fixed inset-0 bg-black opacity-40"></div>
       <div className={`${isOpenQR ? 'hidden' : 'flex'} flex-wrap`}>
         <div className={`z-10 rounded-[40px] bg-white px-10 py-6 md:w-[740px]`}>
           <div className="flex items-center justify-between">

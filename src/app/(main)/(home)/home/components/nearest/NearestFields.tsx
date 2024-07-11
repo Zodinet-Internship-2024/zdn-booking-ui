@@ -1,12 +1,9 @@
 'use client';
+import useSearchSportFields from '@/hooks/useSearchSportFields';
 import NearestCard from './NearestCard';
 import NearestImage from './NearestImage';
-import { getSportFields } from '@/libs/api/sport-field.api';
-import useGetLocation from '@/hooks/useGetLocation';
-import useSearchSportFields from '@/hooks/useSearchSportFields';
 
 const NearestFields = () => {
-  console.log('NearestFields render');
   const query = {
     distanceOrder: 'ASC',
   };

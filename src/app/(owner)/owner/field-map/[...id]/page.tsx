@@ -12,7 +12,6 @@ export default async function page({ params }: FieldDetailPageProps) {
 
   const sportField = res?.data || {};
 
-  console.log(sportField, 'sportField');
   return (
     <div className="">
       <FieldMap sportField={sportField} />

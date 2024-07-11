@@ -24,8 +24,6 @@ const SearchList = () => {
     typeId: type,
   });
 
-  console.log({ sportFields, isLoading, totalPage });
-
   if (isLoading) {
     return <SearchListSkeleton />;
   }

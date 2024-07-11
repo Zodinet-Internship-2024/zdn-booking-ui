@@ -15,7 +15,6 @@ const useField = (fieldId?: string | null) => {
       setIsLoading(true);
       try {
         const response = await getFieldById(fieldId);
-        console.log('response', response);
         if (response) {
           setField(response.data);
         }
@@ -27,8 +26,6 @@ const useField = (fieldId?: string | null) => {
     };
     fetchField();
   }, [fieldId]);
-
-  console.log('field USEFIELD', field);
 
   return { field, isLoading, error };
 };

@@ -33,7 +33,6 @@ const OwnerHomePage = ({ searchParams }: OwnerHomePageProps) => {
 
   const nameSportField = sportFieldData.data.name;
 
-  console.log('sportFieldData', sportFieldData);
   const field: FieldResponse = sportFieldData.data;
 
   return (

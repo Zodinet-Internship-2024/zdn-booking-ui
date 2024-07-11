@@ -5,7 +5,6 @@ import { cn } from '@/libs/utils';
 import { Button, message } from 'antd';
 import QRBooking from './QRBooking';
 import {
-  createBookingByOwner,
   CreateBookingByOwnerDto,
   getBookingById,
   removeBookingById,
@@ -14,6 +13,8 @@ import { useRouter } from 'next/navigation';
 import { mutate } from 'swr';
 import RangePickerComponent from '@/components/common/RangePickerComponent';
 import dayjs, { Dayjs } from 'dayjs';
+import { createBookingByOwner } from '@/libs/api/booking.api';
+import { errorMessageMapping } from '@/constants/constant';
 
 type ReservationBookingProps = {
   isDeleteForm: boolean;
@@ -57,14 +58,13 @@ export default function ReservationBooking({
     dayjs(bookingTime?.startTime),
     dayjs(bookingTime?.endTime),
   ]);
-  console.log({ bookings });
   const [amount, setAmount] = useState(field.sportField.price ?? 0);
   const [isLoading, setIsLoading] = useState(false);
-    const [isSuccess, setIsSuccess] = useState(false);
-    const [bookingSuccess, setBookingSuccess] = useState<string>();
-    const route = useRouter();
-    const id = useId();
-    const [fullName, setFullName] = useState('');
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [bookingSuccess, setBookingSuccess] = useState<string>();
+  const route = useRouter();
+  const id = useId();
+  const [fullName, setFullName] = useState('');
   const [phone, setPhone] = useState('');
   const [error, setError] = useState('');
 
@@ -90,7 +90,9 @@ export default function ReservationBooking({
       if (res) {
         message.error('Xóa thành công');
         mutate(
-          (key) => typeof key === 'string' && key.startsWith('/booking/user?'),
+          (key) =>
+            typeof key === 'string' &&
+            key.startsWith('/booking/owner-schedule?'),
         );
         onClose();
         route.push(`table-booking?fieldId=${field.id}&id=${id}` as any);
@@ -122,20 +124,24 @@ export default function ReservationBooking({
         phone,
       };
 
-      console.log(data);
-      const res = await createBookingByOwner(data);
-      console.log(res);
-      if (res) {
+      const res: any = await createBookingByOwner(data);
+      if (res.status === 201) {
         message.success('Đặt sân thành công');
         setBookingSuccess(res.data.id);
         setIsSuccess(true);
         // onClose();
         mutate(
-          (key) => typeof key === 'string' && key.startsWith('/booking/user?'),
+          (key) =>
+            typeof key === 'string' &&
+            key.startsWith('/booking/owner-schedule?'),
         );
         route.push(`table-booking?fieldId=${field.id}&id=${id}` as any);
+      } else {
+        message.error(
+          errorMessageMapping[res?.response?.data?.message] ?? 'Tạo thất bại',
+        );
       }
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
       message.error('Tạo thất bại');
     } finally {
@@ -164,7 +170,6 @@ export default function ReservationBooking({
   };
 
   let booking = bookings.find((item) => item.id === bookingId);
-  console.log(time);
   return (
     <div
       className={cn(

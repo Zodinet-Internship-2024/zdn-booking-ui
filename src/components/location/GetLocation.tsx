@@ -63,7 +63,7 @@ const GetLocation: React.FC = () => {
   }, []);
 
   return (
-    <div>
+    <div className="hidden">
       {permissionStatus === 'prompt' && (
         <p>Requesting location permission...</p>
       )}
