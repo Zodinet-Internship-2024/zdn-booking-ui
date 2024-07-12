@@ -1,7 +1,7 @@
 import { CloseOutlined, EditOutlined } from '@ant-design/icons';
 import styles from './ScheduleTable.module.scss';
 import React, { useEffect, useId, useState } from 'react';
-import { cn } from '@/libs/utils';
+import { cn, formatCurrency } from '@/libs/utils';
 import { Button, message } from 'antd';
 import QRBooking from './QRBooking';
 import {
@@ -71,6 +71,7 @@ export default function ReservationBooking({
   const [fullName, setFullName] = useState('');
   const [phone, setPhone] = useState('');
   const [error, setError] = useState('');
+  console.log(field.sportField);
 
   const validatePhone = (value: string) => {
     const phoneRegex = /^\d{10}$/;
@@ -128,7 +129,7 @@ export default function ReservationBooking({
       const res: any = await createBookingByOwner(data);
       if (res.status === 201) {
         message.success('Đặt sân thành công');
-        setBookingSuccess(res.data.id);
+        setBookingSuccess(res.data.data.id);
         setIsSuccess(true);
         // onClose();
         mutate(
@@ -200,7 +201,6 @@ export default function ReservationBooking({
   };
 
   let booking = bookings.find((item) => item.id === bookingId);
-
   return (
     <div
       className={cn(
@@ -323,10 +323,12 @@ export default function ReservationBooking({
                 <EditOutlined className="mr-3" />
                 Note
               </span>
-              <div className="mt-3 flex text-sm font-medium leading-5">
+              <div className="mt-3 flex items-center text-sm font-medium leading-5">
                 Tổng tiền{' '}
                 <p className="ml-3 text-base font-bold text-primary-600">
-                  {isDeleteForm ? booking?.amount : amount}
+                  {isDeleteForm
+                    ? formatCurrency(booking?.amount ?? 0)
+                    : formatCurrency(amount)}
                 </p>
               </div>
             </div>
