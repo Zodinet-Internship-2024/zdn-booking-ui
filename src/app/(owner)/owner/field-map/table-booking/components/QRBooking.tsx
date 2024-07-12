@@ -23,6 +23,7 @@ export default function QRBooking({
   const generateUrl = () => {
     if (isOpacity && bookingId) {
       const url = `${process.env.NEXT_PUBLIC_HOST}/booking-qr/${bookingId}`;
+      console.log(url);
       setQrValue(url);
     }
   };
