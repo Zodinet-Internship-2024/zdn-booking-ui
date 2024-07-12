@@ -72,16 +72,7 @@ export default function ReservationBooking({
   const [fullName, setFullName] = useState('');
   const [phone, setPhone] = useState('');
   const [error, setError] = useState('');
-  console.log(field.sportField);
 
-  // const validatePhone = (value: string) => {
-  //   const phoneRegex = /^\d{10}$/;
-  //   if (!phoneRegex.test(value)) {
-  //     setError('Số điện thoại phải là 10  số.');
-  //   } else {
-  //     setError('');
-  //   }
-  // };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     if (/^\d*$/.test(value)) {
@@ -141,8 +132,9 @@ export default function ReservationBooking({
         );
         route.push(`table-booking?fieldId=${field.id}&id=${id}` as any);
       } else {
+        console.log(res.response.data);
         message.error(
-          errorMessageMapping[res.response.data.message[0]] ?? 'Tạo thất bại',
+          errorMessageMapping[res.response.data.message] ?? 'Tạo thất bại',
         );
       }
     } catch (error: any) {
