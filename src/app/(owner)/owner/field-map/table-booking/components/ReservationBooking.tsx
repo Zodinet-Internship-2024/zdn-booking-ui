@@ -126,9 +126,9 @@ export default function ReservationBooking({
       };
 
       const res: any = await createBookingByOwner(data);
-      if (res.status === 201) {
+      if (res?.status === 201) {
         message.success('Đặt sân thành công');
-        setBookingSuccess(res.data.id);
+        setBookingSuccess(res.data?.data?.id);
         setIsSuccess(true);
         // onClose();
         mutate(
