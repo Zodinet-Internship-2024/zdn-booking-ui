@@ -70,4 +70,5 @@ export const errorMessageMapping: Record<string, string> = {
   'Invalid booking time': 'Thời gian đặt sân không hợp lệ',
   'The field is not working at this time.':
     'Sân không hoạt động vào thời gian này',
+  'Phone number is invalid': 'Số điện thoại không hợp lệ',
 };

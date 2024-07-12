@@ -18,6 +18,7 @@ import {
   validateBookingTime,
 } from '@/libs/api/booking.api';
 import { errorMessageMapping } from '@/constants/constant';
+import { validatePhone } from '@/utils/validate';
 
 type ReservationBookingProps = {
   isDeleteForm: boolean;
@@ -73,19 +74,20 @@ export default function ReservationBooking({
   const [error, setError] = useState('');
   console.log(field.sportField);
 
-  const validatePhone = (value: string) => {
-    const phoneRegex = /^\d{10}$/;
-    if (!phoneRegex.test(value)) {
-      setError('Số điện thoại phải là 10 chữ số.');
-    } else {
-      setError('');
-    }
-  };
+  // const validatePhone = (value: string) => {
+  //   const phoneRegex = /^\d{10}$/;
+  //   if (!phoneRegex.test(value)) {
+  //     setError('Số điện thoại phải là 10  số.');
+  //   } else {
+  //     setError('');
+  //   }
+  // };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     if (/^\d*$/.test(value)) {
       setPhone(value);
-      validatePhone(value);
+      const errorMessage = validatePhone(value);
+      setError(errorMessage);
     }
   };
   const handleDeleteBooking = async () => {
@@ -140,7 +142,7 @@ export default function ReservationBooking({
         route.push(`table-booking?fieldId=${field.id}&id=${id}` as any);
       } else {
         message.error(
-          errorMessageMapping[res?.response?.data?.message] ?? 'Tạo thất bại',
+          errorMessageMapping[res.response.data.message[0]] ?? 'Tạo thất bại',
         );
       }
     } catch (error: any) {
