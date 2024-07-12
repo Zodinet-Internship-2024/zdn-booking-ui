@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   description: 'Zodinet Booking - Profile: Manage Your Profile with Ease',
 }
 
+export const maxDuration = 60;
 const ProfilePage = () => {
   return (
     <div className="w-full flex justify-center my-5">

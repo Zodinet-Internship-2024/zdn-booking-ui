@@ -2,6 +2,7 @@ import { getLocation } from '../../apis/create-sport-field.api';
 import { getSportField, getSportFieldTypes } from '../../apis/sport-field.api';
 import SportFieldForm from '../../create-sport-field/components/SportFieldForm';
 
+export const maxDuration = 60;
 async function EditSportField({ params }: { params: { slug: string } }) {
   const { provinces, districts, wards } = await getLocation();
 

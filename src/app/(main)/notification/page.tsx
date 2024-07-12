@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   description: 'Thông báo',
 };
 
+export const maxDuration = 60;
 const NotificationPage = () => {
   return (
     <div className="h-1 w-full flex-grow bg-primary-100">

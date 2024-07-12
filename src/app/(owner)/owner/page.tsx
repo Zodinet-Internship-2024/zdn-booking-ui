@@ -17,6 +17,7 @@ type OwnerHomePageProps = {
   searchParams?: { [key: string]: string | string[] | undefined };
 };
 
+export const maxDuration = 60;
 const OwnerHomePage = async ({ searchParams }: OwnerHomePageProps) => {
 
   const typeId = searchParams?.type;

@@ -1,6 +1,7 @@
 import BookingPage from './components/BookingPage';
 import BookingStatusFilter from './components/BookingStatusFilter';
 
+export const maxDuration = 60;
 function Page() {
   return (
     <section className="flex h-full w-full flex-grow bg-primary-100">

@@ -9,6 +9,8 @@ type SearchPageProps = {
     page: string;
   };
 };
+
+export const maxDuration = 60;
 const SearchPage = async ({ searchParams }: SearchPageProps) => {
   return (
     <div className="container mx-auto py-12" id="search-result">
