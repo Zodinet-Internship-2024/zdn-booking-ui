@@ -24,6 +24,7 @@ const SearchList = () => {
     typeId: type,
   });
 
+
   if (isLoading) {
     return <SearchListSkeleton />;
   }

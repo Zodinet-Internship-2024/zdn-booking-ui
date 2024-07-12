@@ -18,7 +18,6 @@ import { useRouter } from 'next/navigation';
 import iconUpImage from '/public/images/icons_add_image.png';
 import CustomNumberInput from './CustomNumberInput';
 import RangePickerComponent from '@/components/common/RangePickerComponent';
-// import { District, Province, Ward } from '@/types/location.type';
 import { uploadImage } from '../../apis/upload-img.api';
 import { postData } from '../../apis/create-sport-field.api';
 import styles from './SportFieldForm.module.scss';
@@ -28,10 +27,9 @@ import { CATEGORY_MAPPING, CRUD_ACTIONS } from '@/constants/constant';
 import { cn } from '@/libs/utils';
 import { isObject } from 'util';
 import { ArrowLeftOutlined } from '@ant-design/icons';
+import AddressSearch from './AddressSearch';
 
 const { TextArea } = Input;
-const { Option } = Select;
-
 const MAX_IMAGE_COUNT = 5;
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
@@ -75,6 +73,7 @@ const SportFieldForm: React.FC<SportFieldFormProps> = ({
   const [selectedWard, setSelectedWard] = useState<string | undefined>(
     undefined,
   );
+  const [address, setAddress] = useState<string>('');
 
   const [fileList, setFileList] = useState<UploadFile[]>(
     defaultValues?.sportFieldImages.map((img) => {
@@ -86,9 +85,7 @@ const SportFieldForm: React.FC<SportFieldFormProps> = ({
       };
     }) || [],
   );
-
   const [removeFile, setRemoveFile] = useState<string[]>([]);
-
   const [loading, setLoading] = useState<boolean>(false);
 
   const router = useRouter();
@@ -122,7 +119,7 @@ const SportFieldForm: React.FC<SportFieldFormProps> = ({
   const onFinish: FormProps<any>['onFinish'] = async (values) => {
     setLoading(true);
     message.loading({ content: 'Đang xử lý...', key: 'loading' });
-    const { phone, fields, images, time, ...rest } = values;
+    const { phone, fields, images, time, address, ...rest } = values;
     let uploadImages: any[] = [];
 
     for (let i = 0; i < images.length; i++) {
@@ -133,6 +130,7 @@ const SportFieldForm: React.FC<SportFieldFormProps> = ({
         uploadImages.push(result);
       }
     }
+
     const province = provinces.find((p) => p.id === selectedProvince);
     const district = districts.find((d) => d.id === selectedDistrict);
     const ward = wards.find((w) => w.id === selectedWard);
@@ -140,14 +138,25 @@ const SportFieldForm: React.FC<SportFieldFormProps> = ({
     const startTime = isObject(time[0]) ? time[0].format('HH:mm') : time[0];
     const endTime = isObject(time[1]) ? time[1].format('HH:mm') : time[1];
 
+    const parseAddress = JSON.parse(address);
+
     const location = {
       id: defaultValues?.location?.id,
       provinceId: selectedProvince,
       districtId: selectedDistrict,
       wardId: selectedWard,
-      addressDetail: `${rest.address}, ${ward?.name}, ${district?.name}, ${province?.name}`,
+      addressDetail: `${parseAddress.name.replace(',', '')}, ${ward?.name}, ${district?.name}, ${province?.name}`,
+      latitude: parseAddress.lat,
+      longitude: parseAddress.lon,
     };
 
+    console.log(location);
+    console.log(parseAddress);
+
+    setLoading(false);
+    // if (label === 'edit') {
+    //   return;
+    // }
     const result = await postData(
       {
         id: defaultValues?.id,
@@ -191,7 +200,6 @@ const SportFieldForm: React.FC<SportFieldFormProps> = ({
         name: defaultValues.name,
         sportFieldTypeId: defaultValues.sportFieldTypeId,
         phone: defaultValues.phone,
-        // address: defaultValues.location ? defaultValues.location.address : '',
         price: defaultValues.price,
         rule: defaultValues.rule,
         quantity: defaultValues.quantity,
@@ -200,6 +208,13 @@ const SportFieldForm: React.FC<SportFieldFormProps> = ({
       });
 
       if (defaultValues.location) {
+        const address = JSON.stringify({
+          name: defaultValues.location.addressDetail.split(', ')[0],
+          lat: defaultValues.location.latitude,
+          lon: defaultValues.location.longitude,
+          displayName: defaultValues.location.addressDetail,
+        });
+
         form.setFieldsValue({
           province: defaultValues.location?.provinceId
             ? defaultValues.location.provinceId
@@ -211,11 +226,13 @@ const SportFieldForm: React.FC<SportFieldFormProps> = ({
             ? defaultValues.location.wardId
             : '',
 
-          address: defaultValues.location.addressDetail.split(', ')[0],
+          address: address,
         });
+
         setSelectedProvince(defaultValues.location.provinceId);
         setSelectedDistrict(defaultValues.location.districtId);
         setSelectedWard(defaultValues.location.wardId);
+        setAddress(address);
       }
     } else {
       form.setFieldsValue({
@@ -232,7 +249,7 @@ const SportFieldForm: React.FC<SportFieldFormProps> = ({
     <div
       className={cn(
         styles.createSportFileContainer,
-        '3xl:w-1/2 mx-auto mt-12 flex w-1/2 flex-col gap-8 rounded-form bg-neutral p-10 md:w-11/12 lg:w-4/5 xl:w-3/4 2xl:w-2/3',
+        'mx-auto mt-12 flex w-5/6 flex-col gap-8 rounded-form bg-neutral p-10 lg:w-4/5 xl:w-3/4 2xl:w-2/3',
       )}
     >
       <div className="flex items-center">
@@ -301,8 +318,11 @@ const SportFieldForm: React.FC<SportFieldFormProps> = ({
             </Select>
           </Form.Item>
 
-          <Form.Item label="Địa chỉ">
-            <Space.Compact block>
+          <Form.Item label="Địa chỉ" className={`${styles.spaceContainer}`}>
+            <Space.Compact
+              className="mb-2 !grid grid-cols-1 gap-1 md:grid-cols-3 md:gap-0"
+              block
+            >
               <Form.Item
                 noStyle
                 label="Tỉnh/Thành Phố"
@@ -312,18 +332,20 @@ const SportFieldForm: React.FC<SportFieldFormProps> = ({
                 ]}
               >
                 <Select
+                  showSearch
                   placeholder="Tinh/Thành Phố"
                   onChange={handleProvinceChange}
                   value={selectedProvince}
-                >
-                  {provinces.map((province) => {
-                    return (
-                      <Select.Option key={province.id} value={province.id}>
-                        {province.name}
-                      </Select.Option>
-                    );
-                  })}
-                </Select>
+                  filterOption={(input, option) =>
+                    (option?.label ?? '')
+                      .toLowerCase()
+                      .includes(input.toLowerCase())
+                  }
+                  options={provinces.map((province) => ({
+                    value: province.id,
+                    label: province.name,
+                  }))}
+                />
               </Form.Item>
               <Form.Item
                 label="Quận/Huyện"
@@ -335,22 +357,26 @@ const SportFieldForm: React.FC<SportFieldFormProps> = ({
                 ]}
               >
                 <Select
+                  showSearch
                   disabled={!selectedProvince}
                   placeholder="Quận/Huyện"
                   onChange={handleDistrictChange}
                   value={selectedDistrict}
-                >
-                  {districts
+                  filterOption={(input, option) =>
+                    (option?.label ?? '')
+                      .toLowerCase()
+                      .includes(input.toLowerCase())
+                  }
+                  options={districts
                     .filter(
                       (district) =>
                         district.provinceId === selectedProvince?.toString(),
                     )
-                    .map((district) => (
-                      <Option key={district.id} value={district.id}>
-                        {district.name}
-                      </Option>
-                    ))}
-                </Select>
+                    .map((district) => ({
+                      value: district.id,
+                      label: district.name,
+                    }))}
+                ></Select>
               </Form.Item>
               <Form.Item
                 noStyle
@@ -362,35 +388,43 @@ const SportFieldForm: React.FC<SportFieldFormProps> = ({
                 ]}
               >
                 <Select
+                  showSearch
                   disabled={!selectedDistrict}
                   placeholder="Phường/Xã"
                   value={selectedWard}
                   onChange={(value) => setSelectedWard(value)}
-                >
-                  {wards
+                  filterOption={(input, option) =>
+                    (option?.label ?? '')
+                      .toLowerCase()
+                      .includes(input.toLowerCase())
+                  }
+                  options={wards
                     .filter(
                       (ward) =>
                         ward.districtId === selectedDistrict?.toString(),
                     )
-                    .map((ward) => (
-                      <Option key={ward.id} value={ward.id}>
-                        {ward.name}
-                      </Option>
-                    ))}
-                </Select>
+                    .map((ward) => ({
+                      value: ward.id,
+                      label: ward.name,
+                    }))}
+                ></Select>
               </Form.Item>
             </Space.Compact>
-            <br />
             <Form.Item
               // label="Địa chỉ"
               name="address"
               rules={[
                 { required: true, message: 'Vui lòng nhập Địa chỉ chi tiết' },
               ]}
+              getValueFromEvent={(e) => {
+                return e;
+              }}
             >
-              <Input
-                placeholder="Nhập địa chỉ chi tiết"
-                style={{ width: '100%', borderRadius: '40px' }}
+              <AddressSearch
+                province={provinces.find((p) => p.id === selectedProvince)}
+                district={districts.find((d) => d.id === selectedDistrict)}
+                ward={wards.find((w) => w.id === selectedWard)}
+                defaultValue={address}
               />
             </Form.Item>
           </Form.Item>

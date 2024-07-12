@@ -11,7 +11,7 @@ type PopularItemProps = {
 const PopularItem = ({ sportField }: PopularItemProps) => {
   const imageUrls = sportField.sportFieldImages?.map((image) => image.url);
   return (
-    <div className="grid grid-cols-2 gap-4 pt-6 xl:grid-cols-4">
+    <div className="grid grid-cols-1 gap-4 pt-6 sm:grid-cols-2 xl:grid-cols-4">
       <SportFieldInfoCard sportField={sportField} />
       <Calendar sportField={sportField} />
       <SportFieldRuleCard>

@@ -1,4 +1,5 @@
 'use server';
+import axios from 'axios';
 import { cookies } from 'next/headers';
 
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST;
@@ -63,6 +64,28 @@ export async function getLocation() {
   } finally {
   }
 }
+export const searchSportFieldAddress = async (address: string) => {
+  const auth = `Bearer ${cookies().get('access_token')?.value}`;
+  try {
+    const response = await axios
+      .get(`${API_HOST}/location/address`, {
+        headers: {
+          Authorization: auth,
+        },
+        params: {
+          address,
+        },
+      })
+      .then((res) => res.data);
+    console.log(response);
+    return response;
+  } catch (error) {
+    return {
+      statusCode: 500,
+      message: 'Failed to search address',
+    };
+  }
+};
 
 export const postData = async (data: any, method: string) => {
   const auth = `Bearer ${cookies().get('access_token')?.value}`;

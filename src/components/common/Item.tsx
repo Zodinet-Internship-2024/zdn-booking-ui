@@ -103,7 +103,7 @@ const Item: React.FC<ItemProps> = ({ data, label, onClick }) => {
               </span>
               <DotFrame />
               <span className={`body-5 text-primary-600`}>
-                {timeAgo(addTimezone(new Date(data.createdAt)))}
+                {timeAgo(addTimezone(new Date(data.updatedAt)))}
               </span>
             </div>
           )}

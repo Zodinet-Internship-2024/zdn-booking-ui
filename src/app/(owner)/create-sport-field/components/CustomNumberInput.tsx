@@ -2,7 +2,8 @@
 
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, InputNumber } from 'antd';
-import { use, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import styles from './SportFieldForm.module.scss';
 
 type CustomNumberInputProps = {
   isDisabled?: boolean;
@@ -16,6 +17,11 @@ const CustomNumberInput: React.FC<CustomNumberInputProps> = (props) => {
 
   const handleChange = (num: number) => {
     if (num < 1) return;
+    if (num > 99) {
+      setNumber(99);
+      onChange && onChange(99);
+      return;
+    }
     setNumber(num);
     onChange && onChange(num);
   };
@@ -39,7 +45,9 @@ const CustomNumberInput: React.FC<CustomNumberInputProps> = (props) => {
         icon={<MinusOutlined style={{ color: '#967DDD' }} />}
         onClick={() => handleChange(number - 1)}
       />
-      <div className="flex h-full items-center justify-center">
+      <div
+        className={`${styles.inputNumber} flex h-full items-center justify-center`}
+      >
         <InputNumber
           disabled={isDisabled}
           value={number}
@@ -52,10 +60,11 @@ const CustomNumberInput: React.FC<CustomNumberInputProps> = (props) => {
             width: '44px',
             textAlign: 'center',
           }}
+          max={99}
         />
       </div>
       <Button
-        disabled={isDisabled}
+        disabled={isDisabled || number === 99}
         type="text"
         style={{
           background: '#F4F1FF',

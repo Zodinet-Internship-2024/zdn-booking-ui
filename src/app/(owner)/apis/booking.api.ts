@@ -30,7 +30,6 @@ export const getOwnerBookings = async (page: number) => {
     //   throw new Error('Failed to fetch bookings');
     // }
     // const res = await response.json();
-    // console.log('res', res.data);
     return res.data;
   } catch (error: any) {
     return {

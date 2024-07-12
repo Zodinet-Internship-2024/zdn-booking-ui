@@ -31,3 +31,26 @@
     }
   }
 }
+
+.spaceContainer {
+  :global {
+    .ant-space-item {
+      margin: 0;
+    }
+  }
+}
+
+.inputNumber {
+  :global {
+    input {
+      text-align: center !important;
+    }
+    .ant-input-number-input {
+      align-items: center !important;
+      justify-content: center !important;
+    }
+    .ant-input-number {
+      border-radius: 40px;
+    }
+  }
+}

@@ -21,14 +21,9 @@ const Banner = async () => {
   }
 
   return (
-    <div
-      className={cn(
-        styles.bannerContainer,
-        'h-[520px] bg-primary-100 px-8 py-12',
-      )}
-    >
-      <div className="container mx-auto flex items-center justify-between gap-36">
-        <div className="flex w-[738px] flex-col gap-10">
+    <div className={cn(styles.bannerContainer, 'bg-primary-100 px-8 py-12')}>
+      <div className="container mx-auto grid grid-cols-1 items-center justify-between gap-12 lg:grid-cols-2 xl:gap-36">
+        <div className="flex flex-col gap-4 lg:gap-10">
           <h1 className="font-bold text-primary-600">
             Đặt sân tập ngay hôm nay!
           </h1>
@@ -39,7 +34,7 @@ const Banner = async () => {
           </p>
           <Link href={`/field-reservation/${sportField?.id}`}>
             <Button
-              className="text-h mt-4 flex items-center gap-3"
+              className="text-h mt-2 flex items-center justify-center gap-3 lg:mt-4"
               type="primary"
             >
               Đặt sân ngay
@@ -54,7 +49,7 @@ const Banner = async () => {
         </div>
         <Link
           href={`/field-reservation/${sportField?.id}`}
-          className="relative block h-[424px] w-[612px] overflow-hidden rounded-large transition-all duration-500 ease-in-out hover:scale-[101%] hover:shadow-lg"
+          className="relative block h-60 w-full overflow-hidden rounded-large transition-all duration-500 ease-in-out hover:scale-[101%] hover:shadow-lg sm:h-96 lg:h-full"
         >
           <Image
             src={sportField.sportFieldImages?.[0]?.url}
