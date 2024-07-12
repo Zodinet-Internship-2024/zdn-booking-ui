@@ -35,6 +35,7 @@ const TableSection = (props: TableProps) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
+
   const [startDateSchedule, setStartDateSchedule] = useState<Date>(
     new Date(searchParams.get('startDate') ?? getStartOfWeek(new Date())),
   );
@@ -102,10 +103,9 @@ const TableSection = (props: TableProps) => {
     }
   };
 
-  const onCancel = () => {
-    console.log('onCancel');
+  const handleNavigate = () => {
+    router.push(`/owner/field-map/${props.field.sportFieldId}`);
   };
-
   return (
     <div
       className={cn(
@@ -114,7 +114,11 @@ const TableSection = (props: TableProps) => {
       )}
     >
       <div className="flex items-center">
-        <button className="hover:opacity-75" key="back" onClick={onCancel}>
+        <button
+          className="hover:opacity-75"
+          key="back"
+          onClick={handleNavigate}
+        >
           <ArrowLeftOutlined className="mr-4 text-xl" />
         </button>
         <h4 className="cursor-pointer font-bold">
