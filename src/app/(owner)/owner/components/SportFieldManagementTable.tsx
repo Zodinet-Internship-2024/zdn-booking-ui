@@ -36,15 +36,15 @@ const SportFieldManagementTable: React.FC<SportFieldManagementTableProps> = ({
     },
   ];
   const handleView = (id: string) => {
-    router.push(`owner/field-detail/${id}` as any);
+    router.push(`/owner/field-detail/${id}`);
   };
 
   const handleEdit = (id: string) => {
-    router.push(`edit-sport-field/${id}` as any);
+    router.push(`/edit-sport-field/${id}`);
   };
 
   const handleFieldMap = (id: string) => {
-    router.push(`owner/field-map/${id}` as any);
+    router.push(`/owner/field-map/${id}`);
   };
 
   const dataSource = sportFields?.map((sportField, index) => ({

@@ -11,7 +11,9 @@ const FieldMap = ({ sportField }: { sportField?: SportField }) => {
   const router = useRouter();
 
   const handleButtonClick = (index: number) => {
-    router.push(`table-booking?fieldId=${fieldNames[index].id}` as any);
+    router.push(
+      `/owner/field-map/table-booking?fieldId=${fieldNames[index].id}` as any,
+    );
   };
 
   const onCancel = () => {
