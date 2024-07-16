@@ -14,6 +14,7 @@ import {
   updateBooking as callUpdate,
   getAvailableField,
 } from '../../apis/booking.api';
+import { mutate } from 'swr';
 interface Props {
   booking: any;
   onCancel: () => void;
@@ -64,7 +65,9 @@ const ApproveBookingModal: React.FC<Props> = ({ onCancel, booking }) => {
     if (res.statusCode === 200) {
       setIsLoading(false);
       onCancel();
-      window.location.reload();
+      mutate(
+        (key) => typeof key === 'string' && key.startsWith('/booking/owner?'),
+      );
       message.success(res.message);
     } else {
       message.error(res.message);
@@ -82,7 +85,9 @@ const ApproveBookingModal: React.FC<Props> = ({ onCancel, booking }) => {
     if (res.statusCode === 200) {
       setIsLoading(false);
       onCancel();
-      window.location.reload();
+      mutate(
+        (key) => typeof key === 'string' && key.startsWith('/booking/owner?'),
+      );
       message.success(res.message);
     } else {
       message.error(res.message);
