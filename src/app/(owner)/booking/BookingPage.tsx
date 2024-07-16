@@ -3,7 +3,7 @@
 
 import styles from './page.module.scss';
 import OwnerBooking from './components/Booking';
-import { Pagination, PaginationProps } from 'antd';
+import { Pagination, PaginationProps, Spin } from 'antd';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import useSWR from 'swr';
 import { fetcher } from '@/libs/utils';
@@ -45,9 +45,9 @@ function BookingPage() {
         <h4 className="font-bold text-natural-700">Đặt Chỗ</h4>
       </div>
       {swrLoading ? (
-        <span className="body-3 font-normal text-natural-400">
-          Vui lòng chờ ...
-        </span>
+        <div className="flex w-full justify-center">
+          <Spin />
+        </div>
       ) : (
         <>
           <OwnerBooking bookings={response ? response.data.data : undefined} />

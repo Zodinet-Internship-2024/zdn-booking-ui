@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import type { DatePickerProps, SelectProps } from 'antd';
-import { Button, Checkbox, DatePicker, Select } from 'antd';
+import { Button, Checkbox, DatePicker, Select, Spin } from 'antd';
 import { RightOutlined } from '@ant-design/icons';
 import { cn, formatCurrency, getTime } from '@/libs/utils';
 import s from '@/app/(main)/field-reservation/infoField.module.scss';
@@ -256,7 +256,9 @@ export default function InfoField({ sportField }: InfoFieldProps) {
             </div>
           </div>
           {isLoading ? (
-            <div>Vui lòng chờ ...</div>
+            <div className="flex w-full justify-center">
+              <Spin />
+            </div>
           ) : (
             <div className="gap-x-18 mt-8 grid grid-cols-1 gap-y-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
               {timesWithBooking.map((slot, index) => (
