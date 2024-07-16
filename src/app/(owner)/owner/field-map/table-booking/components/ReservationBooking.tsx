@@ -132,7 +132,6 @@ export default function ReservationBooking({
         );
         route.push(`table-booking?fieldId=${field.id}&id=${id}` as any);
       } else {
-        console.log(res.response.data);
         message.error(
           errorMessageMapping[res.response.data.message] ?? 'Tạo thất bại',
         );

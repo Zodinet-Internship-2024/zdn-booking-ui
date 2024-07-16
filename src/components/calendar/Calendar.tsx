@@ -17,10 +17,8 @@ export default function Calendar({ sportField }: { sportField: SportField }) {
   const fetchBookingEmpty = async () => {
     setIsLoading(true);
     const today = new Date();
-    console.log(today);
     const day = today.getDay();
     const diff = today.getDate() - day + (day === 0 ? -6 : 1);
-    console.log(diff);
     const monday = new Date(today.setDate(diff));
     const sunday = new Date(monday);
     sunday.setDate(monday.getDate() + 6);

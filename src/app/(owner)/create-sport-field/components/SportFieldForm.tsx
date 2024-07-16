@@ -150,13 +150,7 @@ const SportFieldForm: React.FC<SportFieldFormProps> = ({
       longitude: parseAddress.lon,
     };
 
-    console.log(location);
-    console.log(parseAddress);
-
     setLoading(false);
-    // if (label === 'edit') {
-    //   return;
-    // }
     const result = await postData(
       {
         id: defaultValues?.id,
