@@ -20,18 +20,18 @@ const distanceFilter = {
       value: '',
     },
     {
-      label: 'Gan nhat',
+      label: 'Gần nhất',
       value: 'ASC',
     },
     {
-      label: 'Xa nhat',
+      label: 'Xa nhất',
       value: 'DESC',
     },
   ],
 };
 
 const priceFilter = {
-  title: 'Gia ca',
+  title: 'Giá cả',
   name: 'priceOrder',
   options: [
     {
@@ -39,18 +39,18 @@ const priceFilter = {
       value: '',
     },
     {
-      label: 'Thap nhat',
+      label: 'Thấp nhất',
       value: 'ASC',
     },
     {
-      label: 'Cao nhat',
+      label: 'Cao nhất',
       value: 'DESC',
     },
   ],
 };
 
 const timeFilter = {
-  title: 'Thoi gian',
+  title: 'Thời gian',
   name: 'time',
   options: [],
 };
@@ -69,6 +69,7 @@ export const SportFieldFilters: React.FC<FilterProps> = ({
   const searchParams = useSearchParams();
   const [isOpened, setIsOpened] = React.useState<boolean>(isOpen);
   const [isNeedReset, setIsNeedReset] = React.useState<boolean>(false);
+  const [openTab, setOpenTab] = React.useState<string>('distanceOrder');
 
   const [price, setPrice] = React.useState<string>(
     searchParams.get('price') || priceFilter.options[0].value,
@@ -146,9 +147,9 @@ export const SportFieldFilters: React.FC<FilterProps> = ({
           : 'z-0 translate-x-full transform duration-1000'
       }`}
     >
-      <div className="flex w-[400px] flex-col gap-6">
+      <div className="flex w-[400px] flex-col gap-3 2xl:gap-6">
         <div
-          className={`body-1 flex h-[88px] flex-row items-center justify-between py-6 font-bold`}
+          className={`body-1 flex flex-row items-center justify-between py-2 font-bold 2xl:h-[88px] 2xl:py-6`}
         >
           <span>Bộ lọc</span>
           <button
@@ -162,13 +163,15 @@ export const SportFieldFilters: React.FC<FilterProps> = ({
             />
           </button>
         </div>
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-4 2xl:gap-8">
           <FilterItem
             defaultFilter={distance}
             filter={distanceFilter}
             onFilterChange={setDistance}
             isNeedReset={isNeedReset}
             setIsNeedReset={() => setIsNeedReset(false)}
+            openTab={openTab}
+            setOpenTab={setOpenTab}
           ></FilterItem>
 
           <FilterItem
@@ -177,6 +180,8 @@ export const SportFieldFilters: React.FC<FilterProps> = ({
             onFilterChange={setPrice}
             isNeedReset={isNeedReset}
             setIsNeedReset={() => setIsNeedReset(false)}
+            openTab={openTab}
+            setOpenTab={setOpenTab}
           ></FilterItem>
 
           <FilterItem
@@ -184,6 +189,8 @@ export const SportFieldFilters: React.FC<FilterProps> = ({
             onFilterChange={setTimeDate}
             isNeedReset={isNeedReset}
             setIsNeedReset={() => setIsNeedReset(false)}
+            openTab={openTab}
+            setOpenTab={setOpenTab}
           ></FilterItem>
         </div>
       </div>

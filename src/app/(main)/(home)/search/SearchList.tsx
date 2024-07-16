@@ -13,9 +13,19 @@ const SearchList = () => {
   const page = searchParams.get('page') ?? '1';
   const type = searchParams.get('type') ?? 'all';
   const q = searchParams.get('q') ?? '';
+  const date = searchParams.get('date') ?? '';
+  const startTime = searchParams.get('start') ?? '';
+  const endTime = searchParams.get('end') ?? '';
+  const distance = searchParams.get('distance') ?? '';
+  const price = searchParams.get('price') ?? '';
   const size = 6;
   const query = {
     name: q,
+    date,
+    startTime,
+    endTime,
+    distanceOrder: distance,
+    priceOrder: price,
   };
   const { sportFields, isLoading, totalPage } = useSearchSportFields({
     page: +page,
@@ -23,7 +33,6 @@ const SearchList = () => {
     query: JSON.stringify(query),
     typeId: type,
   });
-
 
   if (isLoading) {
     return <SearchListSkeleton />;

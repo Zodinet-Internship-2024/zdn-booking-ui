@@ -86,7 +86,7 @@ export default function ReservationBooking({
       setIsLoading(true);
       const res = await removeBookingById(bookingId);
       if (res) {
-        message.error('Xóa thành công');
+        message.success('Xóa thành công');
         mutate(
           (key) =>
             typeof key === 'string' &&
@@ -289,7 +289,7 @@ export default function ReservationBooking({
               <input
                 type="text"
                 onChange={(e) => setFullName(e.target.value)}
-                disabled={isLoading}
+                disabled={isLoading || isDeleteForm}
                 name="fullName"
                 value={isDeleteForm ? booking?.fullName : fullName}
                 className="mt-2 w-full rounded-large border border-neutral-200 px-4 py-[10px] focus:outline-primary-400"
@@ -301,7 +301,7 @@ export default function ReservationBooking({
               </p>
               <input
                 type="text"
-                disabled={isLoading}
+                disabled={isLoading || isDeleteForm}
                 value={isDeleteForm ? booking?.phone : phone}
                 name="phone"
                 onChange={handleChange}
@@ -313,10 +313,10 @@ export default function ReservationBooking({
           </div>
           <div className="mt-8 flex flex-wrap justify-between">
             <div>
-              <span className="flex cursor-pointer text-sm font-bold leading-5 text-accent-600">
+              {/* <span className="flex cursor-pointer text-sm font-bold leading-5 text-accent-600">
                 <EditOutlined className="mr-3" />
                 Note
-              </span>
+              </span> */}
               <div className="mt-3 flex items-center text-sm font-medium leading-5">
                 Tổng tiền{' '}
                 <p className="ml-3 text-base font-bold text-primary-600">
@@ -327,27 +327,38 @@ export default function ReservationBooking({
               </div>
             </div>
             <div className="submit">
-              <Button
-                onClick={handleSubmit}
-                loading={isLoading}
-                disabled={
-                  isLoading ||
-                  !time ||
-                  !fullName ||
-                  !phone ||
-                  !!error ||
-                  !!timeError
-                }
-                type="primary"
-                {...(isDeleteForm ? { danger: true } : {})}
-              >
-                Xác nhận
-              </Button>
+              {isDeleteForm ? (
+                <Button
+                  onClick={handleSubmit}
+                  loading={isLoading}
+                  disabled={isLoading}
+                  type="primary"
+                  danger={true}
+                >
+                  Xác nhận
+                </Button>
+              ) : (
+                <Button
+                  onClick={handleSubmit}
+                  loading={isLoading}
+                  disabled={
+                    isLoading ||
+                    !time ||
+                    !fullName ||
+                    !phone ||
+                    !!error ||
+                    !!timeError
+                  }
+                  type="primary"
+                >
+                  Xác nhận
+                </Button>
+              )}
             </div>
           </div>
         </div>
         <QRBooking
-          isClose={false}
+          isClose={isDeleteForm}
           isOpacity={isLoading || isSuccess}
           onClose={onClose}
           bookingId={bookingSuccess}
