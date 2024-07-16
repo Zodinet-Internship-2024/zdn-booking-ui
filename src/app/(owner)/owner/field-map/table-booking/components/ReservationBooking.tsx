@@ -319,9 +319,11 @@ export default function ReservationBooking({
               <div className="mt-3 flex items-center text-sm font-medium leading-5">
                 Tổng tiền{' '}
                 <p className="ml-3 text-base font-bold text-primary-600">
-                  {isDeleteForm
-                    ? formatCurrency(booking?.amount ?? 0)
-                    : formatCurrency(amount)}
+                  {amount < 0
+                    ? 'Đang tính toán...'
+                    : isDeleteForm
+                      ? formatCurrency(booking?.amount ?? 0)
+                      : formatCurrency(amount)}
                 </p>
               </div>
             </div>
