@@ -59,6 +59,7 @@ const RangePickerComponent: React.FC<rangePickerProps> = (props) => {
         suffixIcon={
           <ClockCircleOutlined style={{ fontSize: '20px', color: '#939393' }} />
         }
+        allowClear={false}
         separator={<Image src={Arrow} alt="arrow" className={``} />}
         className={`flex flex-grow items-center justify-start gap-3`}
         onCalendarChange={(_, [start, end]) => {
