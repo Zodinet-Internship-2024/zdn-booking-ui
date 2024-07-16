@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { TimePicker, Dropdown, Menu } from 'antd';
+import { TimePicker, Dropdown, Menu, Button } from 'antd';
 import dayjs from 'dayjs';
 import {
   ArrowRightOutlined,
@@ -30,6 +30,8 @@ interface FilterItemProps {
   onFilterChange: (filter: any) => void;
   isNeedReset: boolean;
   setIsNeedReset: () => void;
+  openTab?: string;
+  setOpenTab?: (value: string) => void;
 }
 
 export const FilterItem: React.FC<FilterItemProps> = ({
@@ -38,6 +40,8 @@ export const FilterItem: React.FC<FilterItemProps> = ({
   isNeedReset,
   setIsNeedReset,
   defaultFilter = '',
+  openTab,
+  setOpenTab,
 }) => {
   const [activeTab, setActiveTab] = useState(defaultFilter);
   const [open, setOpen] = useState(true);
@@ -92,14 +96,16 @@ export const FilterItem: React.FC<FilterItemProps> = ({
   }, [isNeedReset]);
 
   return (
-    <div className={`flex w-full flex-col gap-5`}>
+    <div className={`flex w-full flex-col gap-2 2xl:gap-5`}>
       <div className={`flex flex-row justify-between`}>
         <span className={`body-3 w-full font-bold text-natural-700`}>
           {filter.title}
         </span>
-        <CaretDownFilled onClick={() => setOpen(!open)} />
+        <Button onClick={() => setOpenTab && setOpenTab(filter.name)}>
+          <CaretDownFilled />
+        </Button>
       </div>
-      {open &&
+      {openTab === filter.name &&
         (filter.name === 'time' ? (
           <div className={`flex w-full flex-col gap-3`}>
             <DatePickerComponent
@@ -128,7 +134,7 @@ export const FilterItem: React.FC<FilterItemProps> = ({
           </div>
         ))}
       {filter.name !== 'time' && (
-        <span className="w-full border-b border-natural-200 pt-3"></span>
+        <span className="w-full border-b border-natural-200 pt-2 2xl:pt-3"></span>
       )}
     </div>
   );

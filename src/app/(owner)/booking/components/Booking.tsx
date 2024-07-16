@@ -35,7 +35,7 @@ const OwnerBooking: React.FC<BookingProps> = ({ filter, bookings }) => {
   };
 
   useEffect(() => {
-    setGroupBookings(groupBookingsByDay(bookings));
+    bookings && setGroupBookings(groupBookingsByDay(bookings));
   }, [bookings]);
 
   return (

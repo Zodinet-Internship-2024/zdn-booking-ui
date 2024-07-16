@@ -13,7 +13,7 @@ const NearestCard = () => {
           </p>
         </div>
         <Link
-          href="#"
+          href="/search?distance=ASC"
           className="flex w-fit items-center border-b-2 border-accent-600 text-accent-600"
         >
           <span className="body-3 font-bold">Xem tất cả</span>

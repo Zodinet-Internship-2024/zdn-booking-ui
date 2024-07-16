@@ -145,7 +145,7 @@ const SportFieldForm: React.FC<SportFieldFormProps> = ({
       provinceId: selectedProvince,
       districtId: selectedDistrict,
       wardId: selectedWard,
-      addressDetail: `${parseAddress.name.replace(',', '')}, ${ward?.name}, ${district?.name}, ${province?.name}`,
+      addressDetail: `${parseAddress.name.replace(',', '')}, ${ward ? `${ward.name},` : ','} ${district?.name}, ${province?.name}`,
       latitude: parseAddress.lat,
       longitude: parseAddress.lon,
     };

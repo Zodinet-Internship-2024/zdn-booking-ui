@@ -13,7 +13,7 @@ type SearchPageProps = {
 export const maxDuration = 60;
 const SearchPage = async ({ searchParams }: SearchPageProps) => {
   return (
-    <div className="container mx-auto py-12" id="search-result">
+    <div className="container mx-auto px-8 py-12" id="search-result">
       <SearchBreadcrumb />
 
       <div className="mb-8 flex items-center justify-between">
