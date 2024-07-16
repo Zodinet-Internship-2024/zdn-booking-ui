@@ -73,7 +73,6 @@ export default function ReservationBooking({
   const [phone, setPhone] = useState('');
   const [error, setError] = useState('');
 
-  console.log(isDeleteForm);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     if (/^\d*$/.test(value)) {
