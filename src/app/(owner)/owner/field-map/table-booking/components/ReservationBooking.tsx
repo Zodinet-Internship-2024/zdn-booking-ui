@@ -132,7 +132,6 @@ export default function ReservationBooking({
         );
         route.push(`table-booking?fieldId=${field.id}&id=${id}` as any);
       } else {
-        console.log(res.response.data);
         message.error(
           errorMessageMapping[res.response.data.message] ?? 'Tạo thất bại',
         );
@@ -202,14 +201,14 @@ export default function ReservationBooking({
         `${isOpen ? 'absolute flex' : 'hidden'} right-0 top-0 z-[999] h-full w-full items-center justify-center rounded-[20px] transition`,
       )}
     >
-      <div className="absolute inset-0 bg-black opacity-40"></div>
+      <div className="fixed inset-0 bg-black opacity-40"></div>
       <div className="flex flex-wrap">
         <div
           className={`z-10 max-w-[534px] rounded-l-[20px] ${isDeleteForm ? 'rounded-r-[20px]' : ''} bg-white px-10 py-6 md:w-[534px]`}
         >
           <div className="flex items-center justify-between">
             <span className="text-xl font-bold leading-5 text-natural-700">
-              Đặt chỗ
+              {isDeleteForm ? 'Hủy đặt chỗ' : 'Đặt chỗ'}
             </span>
             {isDeleteForm ? (
               <CloseOutlined
@@ -320,9 +319,11 @@ export default function ReservationBooking({
               <div className="mt-3 flex items-center text-sm font-medium leading-5">
                 Tổng tiền{' '}
                 <p className="ml-3 text-base font-bold text-primary-600">
-                  {isDeleteForm
-                    ? formatCurrency(booking?.amount ?? 0)
-                    : formatCurrency(amount)}
+                  {amount < 0
+                    ? 'Đang tính toán...'
+                    : isDeleteForm
+                      ? formatCurrency(booking?.amount ?? 0)
+                      : formatCurrency(amount)}
                 </p>
               </div>
             </div>

@@ -5,6 +5,7 @@ import { cn } from '@/libs/utils';
 import RangePickerComponent from '../common/RangePickerComponent';
 import CustomRangePicker from '../common/CustomRangePicker';
 import { useState } from 'react';
+import dayjs from 'dayjs';
 
 type CustomTimePickerProps = {
   onsubmit: (data: any) => void;
@@ -12,8 +13,10 @@ type CustomTimePickerProps = {
 
 const CustomTimePicker = ({ onsubmit }: CustomTimePickerProps) => {
   const [value, setValue] = useState<any>({
-    start: '',
-    end: '',
+    start: dayjs().format('HH:mm'),
+    end: dayjs()
+      .set('hour', dayjs().get('hour') + 1)
+      .format('HH:mm'),
   });
   const onChange = (value: any) => {
     setValue({
@@ -26,7 +29,10 @@ const CustomTimePicker = ({ onsubmit }: CustomTimePickerProps) => {
   };
   return (
     <div className={cn(styles.timePickerContainer, 'flex flex-row gap-2')}>
-      <CustomRangePicker onChange={onChange} />
+      <CustomRangePicker
+        defaultValue={[value.start, value.end]}
+        onChange={onChange}
+      />
       <Button type="primary" onClick={handleSubmit}>
         Tìm kiếm
       </Button>

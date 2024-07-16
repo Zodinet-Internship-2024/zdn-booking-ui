@@ -110,7 +110,7 @@ export const SportFieldFilters: React.FC<FilterProps> = ({
       params.delete('price');
     }
 
-    router.push(`${pathname}?${params.toString()}` as any);
+    router.push(`${pathname}?${params.toString()}` as any, { scroll: false });
 
     if (date && start && end) handleCloseFilter(false);
     if (date === '' && start === '' && end === '') handleCloseFilter(false);

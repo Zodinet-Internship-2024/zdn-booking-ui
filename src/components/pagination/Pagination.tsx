@@ -31,7 +31,7 @@ const Pagination = ({
     if (nextPage <= totalPages) {
       const params = new URLSearchParams(searchParams);
       params.set(name, nextPage.toString());
-      router.push(`${pathname}?${params.toString()}${scrollToId}` as any);
+      router.replace(`${pathname}?${params.toString()}${scrollToId}` as any);
     }
   };
 
@@ -40,7 +40,7 @@ const Pagination = ({
     if (prevPage >= 1) {
       const params = new URLSearchParams(searchParams);
       params.set(name, prevPage.toString());
-      router.push(`${pathname}?${params.toString()}${scrollToId}` as any);
+      router.replace(`${pathname}?${params.toString()}${scrollToId}` as any);
     }
   };
 

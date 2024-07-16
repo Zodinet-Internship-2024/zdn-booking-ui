@@ -34,7 +34,6 @@ export default function TimeRow({
 }) {
   const timeSlots = generateTimeSlots({ startTime, endTime });
 
-  console.log(timeSlots.length);
   return (
     <div className="mt-4 flex h-6 flex-col items-center gap-4">
       {timeSlots.map((time, index) => (

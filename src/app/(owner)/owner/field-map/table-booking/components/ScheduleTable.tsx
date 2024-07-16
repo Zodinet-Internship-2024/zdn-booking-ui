@@ -1,5 +1,5 @@
 import { cn, fetcher, parseDateFromString } from '@/libs/utils';
-import { Button, Tooltip } from 'antd';
+import { Button, Spin, Tooltip } from 'antd';
 import { useSearchParams } from 'next/navigation';
 import React, { useState } from 'react';
 import useSWR from 'swr';
@@ -64,7 +64,11 @@ const ScheduleTable = (props: ScheduleTableProps) => {
   );
 
   if (!bookingData || bookingLoading) {
-    return <div>Vui lòng chờ ...</div>;
+    return (
+      <div className="flex w-full justify-center">
+        <Spin />
+      </div>
+    );
   }
 
   const bookingResponse = bookingData.data;

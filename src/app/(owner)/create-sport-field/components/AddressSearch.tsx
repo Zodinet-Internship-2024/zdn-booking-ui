@@ -69,7 +69,6 @@ const AddressSearch: React.FC<AddressSearchProps> = ({
   const handleSearch = async () => {
     setIsLoading(true);
     if (!address) {
-      console.log('address is empty');
       setIsLoading(false);
       return;
     }
@@ -77,16 +76,12 @@ const AddressSearch: React.FC<AddressSearchProps> = ({
     const fullAddress = `${address.trim()}, ${ward?.name}, ${district?.name}, ${province?.name}`;
 
     try {
-      console.log('searching address', fullAddress);
-
       const [locations, searchings] = await Promise.all([
         beSearch(fullAddress),
         streetMapSearch(fullAddress),
       ]);
 
       const results = [...locations, ...searchings];
-      console.log(locations);
-      console.log(searchings);
 
       setSearchAddress(results);
     } catch (error) {
@@ -100,7 +95,6 @@ const AddressSearch: React.FC<AddressSearchProps> = ({
   };
 
   useEffect(() => {
-    console.log('address changed');
     handleSearch();
   }, [address]);
 

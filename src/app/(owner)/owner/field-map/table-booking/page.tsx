@@ -3,6 +3,7 @@
 import { fetcher } from '@/libs/utils';
 import useSWR from 'swr';
 import TableSection from './components/TableSection';
+import { Spin } from 'antd';
 
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST;
 
@@ -25,7 +26,11 @@ const OwnerHomePage = ({ searchParams }: OwnerHomePageProps) => {
   });
 
   if (!sportFieldData || sportFieldLoading) {
-    return <div>Vui lòng chờ ...</div>;
+    return (
+      <div className="flex w-full justify-center">
+        <Spin />
+      </div>
+    );
   }
 
   const { startTime: startTimeSportField, endTime: endTimeSportField } =

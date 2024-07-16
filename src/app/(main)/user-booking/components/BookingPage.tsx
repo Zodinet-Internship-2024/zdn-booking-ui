@@ -1,6 +1,6 @@
 //
 'use client';
-import { Pagination, PaginationProps } from 'antd';
+import { Pagination, PaginationProps, Spin } from 'antd';
 import BookingList from './BookingList';
 import { useEffect, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
@@ -46,9 +46,9 @@ function BookingPage() {
   return (
     <>
       {isLoading ? (
-        <span className="body-3 font-normal text-natural-400">
-          Vui lòng chờ ...
-        </span>
+        <div className="flex w-full justify-center">
+          <Spin />
+        </div>
       ) : (
         <div className="flex flex-col gap-4 xl:gap-6">
           <BookingList bookings={bookings} />
