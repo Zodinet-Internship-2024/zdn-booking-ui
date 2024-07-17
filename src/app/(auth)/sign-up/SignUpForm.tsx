@@ -4,7 +4,7 @@ import {
   EyeInvisibleOutlined,
   EyeTwoTone,
 } from '@ant-design/icons';
-import { Button, Input, message } from 'antd';
+import { Button, Input, message, notification } from 'antd';
 import { useEffect, useState } from 'react';
 
 import { cn } from '@/libs/utils';
@@ -27,7 +27,8 @@ import { signUpUser } from '../apis/auth.api';
 type SignUpSchemaType = z.infer<typeof SignUpSchema>;
 
 export default function SignUpForm() {
-  const [messageApi, contextHolder] = message.useMessage();
+  const [api, contextHolder] = notification.useNotification();
+
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -68,13 +69,20 @@ export default function SignUpForm() {
 
     const res = await signUpUser(dataBody);
     if (res.status === 'Success') {
-      messageApi.success('Đăng kí thành công');
+      api.success({
+        message: 'Đăng ký tài khoản thành công',
+        description: 'Vui lòng đăng nhập để sử dụng dịch vụ',
+        duration: 3,
+        showProgress: true,
+      });
 
       router.push(`login?role=${role}` as any);
     } else {
-      messageApi.open({
-        type: 'error',
-        content: res.message,
+      api.error({
+        message: res.message,
+        description: 'Vui lòng thử lại',
+        duration: 3,
+        showProgress: true,
       });
       setLoading(false);
     }

@@ -5,7 +5,7 @@ import DatePickerComponent from '@/components/common/DatePickerComponent';
 import RangePickerComponent from '@/components/common/RangePickerComponent';
 import AccentButton from '@/components/common/components/AccentButton';
 import { CloseOutlined } from '@ant-design/icons';
-import { Input, message } from 'antd';
+import { Input, message, notification } from 'antd';
 import styles from './styles/ApproveBookingModal.module.scss';
 import { use, useEffect, useState } from 'react';
 import SuggestBooking from './SuggestBooking';
@@ -31,6 +31,8 @@ function formatPhoneNumber(phone: string): string {
 }
 
 const ApproveBookingModal: React.FC<Props> = ({ onCancel, booking }) => {
+  const [api, contextHolder] = notification.useNotification();
+
   const [updateBooking, setUpdateBooking] = useState(booking);
   const [isWarning, setIsWarning] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -68,9 +70,19 @@ const ApproveBookingModal: React.FC<Props> = ({ onCancel, booking }) => {
       mutate(
         (key) => typeof key === 'string' && key.startsWith('/booking/owner?'),
       );
-      message.success(res.message);
+      api.success({
+        message: res.message,
+        description: 'Duyệt đặt chỗ thành công',
+        duration: 3,
+        showProgress: true,
+      });
     } else {
-      message.error(res.message);
+      api.error({
+        message: res.message,
+        description: 'Duyệt đặt chỗ thất bại. Vui lòng thử lại!',
+        duration: 3,
+        showProgress: true,
+      });
       setIsLoading(false);
       onCancel();
     }
@@ -88,9 +100,19 @@ const ApproveBookingModal: React.FC<Props> = ({ onCancel, booking }) => {
       mutate(
         (key) => typeof key === 'string' && key.startsWith('/booking/owner?'),
       );
-      message.success(res.message);
+      api.success({
+        message: res.message,
+        description: 'Hủy đặt chỗ thành công',
+        duration: 3,
+        showProgress: true,
+      });
     } else {
-      message.error(res.message);
+      api.error({
+        message: res.message,
+        description: 'Hủy đặt chỗ thất bại. Vui lòng thử lại!',
+        duration: 3,
+        showProgress: true,
+      });
       setIsLoading(false);
       onCancel();
     }
@@ -125,6 +147,7 @@ const ApproveBookingModal: React.FC<Props> = ({ onCancel, booking }) => {
 
   return (
     <div className={`${styles.modalContainer}`}>
+      {contextHolder}
       <div className="flex flex-row items-center justify-between py-6">
         <span className="body-1 font-bold text-natural-700">Duyệt đặt chỗ</span>
         <button className="hover:text-accent-600" onClick={onCancel}>

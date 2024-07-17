@@ -9,6 +9,7 @@ import {
   Space,
   Upload,
   message,
+  notification,
 } from 'antd';
 import ImgCrop from 'antd-img-crop';
 import Image from 'next/image';
@@ -37,11 +38,21 @@ type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 const beforeUpload = (file: FileType) => {
   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
   if (!isJpgOrPng) {
-    message.error('You can only upload JPG/PNG file!');
+    notification.error({
+      message: 'Tải lên hình ảnh không thành công',
+      description: 'Bạn chỉ có thể tải lên tệp JPG/PNG!',
+      duration: 2,
+      showProgress: true,
+    });
   }
   const isLt2M = file.size / 1024 / 1024 < 2;
   if (!isLt2M) {
-    message.error('Image must smaller than 2MB!');
+    notification.error({
+      message: 'Tải lên hình ảnh không thành công',
+      description: 'Hình ảnh phải nhỏ hơn 2MB!',
+      duration: 2,
+      showProgress: true,
+    });
   }
 
   return (isJpgOrPng && isLt2M) || Upload.LIST_IGNORE;
@@ -64,6 +75,8 @@ const SportFieldForm: React.FC<SportFieldFormProps> = ({
   defaultValues,
   label = 'create',
 }) => {
+  const [api, contextHolder] = notification.useNotification();
+
   const [selectedProvince, setSelectedProvince] = useState<string | undefined>(
     undefined,
   );
@@ -118,7 +131,12 @@ const SportFieldForm: React.FC<SportFieldFormProps> = ({
 
   const onFinish: FormProps<any>['onFinish'] = async (values) => {
     setLoading(true);
-    message.loading({ content: 'Đang xử lý...', key: 'loading' });
+    api.info({
+      message: 'Đang xử lý...',
+      description: 'Vui lòng  đợi trong giây lát',
+      duration: 0,
+      key: 'loading',
+    });
     const { phone, fields, images, time, address, ...rest } = values;
     let uploadImages: any[] = [];
 
@@ -145,12 +163,11 @@ const SportFieldForm: React.FC<SportFieldFormProps> = ({
       provinceId: selectedProvince,
       districtId: selectedDistrict,
       wardId: selectedWard,
-      addressDetail: `${parseAddress.name.replace(',', '')}, ${ward ? `${ward.name},` : ','} ${district?.name}, ${province?.name}`,
+      addressDetail: `${parseAddress.name.replace(',', '')}, ${ward ? `${ward.name},` : ''} ${district?.name}, ${province?.name}`,
       latitude: parseAddress.lat,
       longitude: parseAddress.lon,
     };
 
-    setLoading(false);
     const result = await postData(
       {
         id: defaultValues?.id,
@@ -172,20 +189,38 @@ const SportFieldForm: React.FC<SportFieldFormProps> = ({
     );
 
     if (result.statusCode === 201 || result.statusCode === 200) {
-      setLoading(false);
-      message.success(result.message);
-      router.push('/owner?type=all');
+      api.destroy('loading');
+      api.success({
+        message: result.message,
+        description: `${result.statusCode === 201 ? 'Tạo' : 'Cập nhật'} sân thành công`,
+        duration: 2,
+        showProgress: true,
+      });
 
-      // } else if (result.status === 200) {
-      //   message.success(result.message);
-    } else {
+      setTimeout(() => {
+        router.push('/owner?type=all');
+      }, 500);
       setLoading(false);
-      message.error(result.message);
+    } else {
+      api.destroy('loading');
+      api.error({
+        showProgress: true,
+        message: result.message,
+        description: 'Vui lòng thử lại!',
+        duration: 2,
+      });
+
+      setLoading(false);
     }
   };
 
   const onFinishFailed: FormProps<any>['onFinishFailed'] = (errorInfo) => {
-    message.error('Lỗi: ' + errorInfo);
+    api.error({
+      message: 'Lỗi' + errorInfo,
+      description: 'Vui lòng kiểm tra lại thông tin!',
+      duration: 2,
+      showProgress: true,
+    });
   };
 
   useEffect(() => {
@@ -246,6 +281,7 @@ const SportFieldForm: React.FC<SportFieldFormProps> = ({
         'mx-auto mt-12 flex w-5/6 flex-col gap-8 rounded-form bg-neutral p-10 lg:w-4/5 xl:w-3/4 2xl:w-2/3',
       )}
     >
+      {contextHolder}
       <div className="flex items-center">
         <button className="hover:opacity-75" key="back" onClick={onCancel}>
           <ArrowLeftOutlined className="mr-4 text-xl" />

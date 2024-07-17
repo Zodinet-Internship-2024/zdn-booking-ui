@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
-import { Flex, message, Upload } from "antd";
-import type { GetProp, UploadProps } from "antd";
-import ImgCrop from "antd-img-crop";
-import Image from "next/image";
+import { Flex, message, notification, Upload } from 'antd';
+import type { GetProp, UploadProps } from 'antd';
+import ImgCrop from 'antd-img-crop';
+import Image from 'next/image';
 import { uploadImage } from '@/services/firebase/upload-avatar';
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
@@ -11,16 +11,28 @@ type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 const beforeUpload = (file: FileType) => {
   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
   if (!isJpgOrPng) {
-    message.error('You can only upload JPG/PNG file!');
+    notification.error({
+      message: 'Tải lên hình ảnh không thành công',
+      description: 'Bạn chỉ có thể tải lên tệp JPG/PNG!',
+      duration: 2,
+      showProgress: true,
+    });
   }
   const isLt2M = file.size / 1024 / 1024 < 2;
   if (!isLt2M) {
-    message.error('Image must smaller than 2MB!');
+    notification.error({
+      message: 'Tải lên hình ảnh không thành công',
+      description: 'Hình ảnh phải nhỏ hơn 2MB!',
+      duration: 2,
+      showProgress: true,
+    });
   }
   return isJpgOrPng && isLt2M;
 };
 
 const UploadAvatar: React.FC = () => {
+  const [api, contextHolder] = notification.useNotification();
+
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string>('');
 
@@ -46,6 +58,7 @@ const UploadAvatar: React.FC = () => {
 
   return (
     <Flex gap="middle" wrap>
+      {contextHolder}
       <ImgCrop rotationSlider>
         <Upload
           name="avatar"

@@ -2,7 +2,7 @@ import { CloseOutlined, EditOutlined } from '@ant-design/icons';
 import styles from './ScheduleTable.module.scss';
 import React, { useEffect, useId, useState } from 'react';
 import { cn, formatCurrency } from '@/libs/utils';
-import { Button, message } from 'antd';
+import { Button, message, notification } from 'antd';
 import QRBooking from './QRBooking';
 import {
   CreateBookingByOwnerDto,
@@ -58,6 +58,7 @@ export default function ReservationBooking({
   bookingTime,
   bookings,
 }: ReservationBookingProps) {
+  const [api, contextHolder] = notification.useNotification();
   const [time, setTime] = useState<[Dayjs, Dayjs]>([
     dayjs(bookingTime?.startTime),
     dayjs(bookingTime?.endTime),
@@ -86,7 +87,12 @@ export default function ReservationBooking({
       setIsLoading(true);
       const res = await removeBookingById(bookingId);
       if (res) {
-        message.success('Xóa thành công');
+        api.success({
+          message: 'Xóa thành công',
+          placement: 'top',
+          showProgress: true,
+          duration: 3,
+        });
         mutate(
           (key) =>
             typeof key === 'string' &&
@@ -96,7 +102,12 @@ export default function ReservationBooking({
         route.push(`table-booking?fieldId=${field.id}&id=${id}` as any);
       }
     } catch (error) {
-      message.error('Xóa thất bại');
+      api.error({
+        message: 'Xóa thất bại',
+        placement: 'top',
+        showProgress: true,
+        duration: 3,
+      });
     } finally {
       setIsLoading(false);
     }
@@ -105,7 +116,13 @@ export default function ReservationBooking({
     try {
       setIsLoading(true);
       if (!time) {
-        message.error('Vui lòng chọn thời gian');
+        api.error({
+          message: 'Đặt sân thất bại',
+          description: 'Vui lòng chọn thời gian!',
+          placement: 'top',
+          showProgress: true,
+          duration: 3,
+        });
         return;
       }
       const { startTime, endTime } = setBookingTimeRange(bookingTime, time);
@@ -121,7 +138,12 @@ export default function ReservationBooking({
 
       const res: any = await createBookingByOwner(data);
       if (res?.status === 201) {
-        message.success('Đặt sân thành công');
+        api.success({
+          message: 'Đặt sân thành công',
+          description: 'Vui lòng liên hệ với khách hàng!',
+          duration: 3,
+          showProgress: true,
+        });
         setBookingSuccess(res.data?.data?.id);
         setIsSuccess(true);
         // onClose();
@@ -132,13 +154,22 @@ export default function ReservationBooking({
         );
         route.push(`table-booking?fieldId=${field.id}&id=${id}` as any);
       } else {
-        message.error(
-          errorMessageMapping[res.response.data.message] ?? 'Tạo thất bại',
-        );
+        api.error({
+          message: 'Vui lòng  thử lại!',
+          description:
+            errorMessageMapping[res.response.data.message] ?? 'Tạo thất bại',
+          duration: 3,
+          showProgress: true,
+        });
       }
     } catch (error: any) {
       console.log(error);
-      message.error('Tạo thất bại');
+      api.error({
+        message: 'Vui lòng thử lại!',
+        description: 'Tạo thất bại',
+        duration: 3,
+        showProgress: true,
+      });
     } finally {
       setIsLoading(false);
     }
@@ -201,6 +232,7 @@ export default function ReservationBooking({
         `${isOpen ? 'absolute flex' : 'hidden'} right-0 top-0 z-[999] h-full w-full items-center justify-center rounded-[20px] transition`,
       )}
     >
+      {contextHolder}
       <div className="fixed inset-0 bg-black opacity-40"></div>
       <div className="flex flex-wrap">
         <div

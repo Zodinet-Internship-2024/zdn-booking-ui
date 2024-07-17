@@ -25,6 +25,22 @@ type BookingTime = {
   amount: number;
 };
 
+function convertDateFormat(dateStr: string): string {
+  const pattern = /^(\w+) - (\d{1,2})\/(\d{1,2})\/(\d{4})$/;
+  const match = dateStr.match(pattern);
+
+  if (!match) {
+    throw new Error(
+      "Date format is incorrect. Expected format: '<prefix> - dd/mm/yyyy'",
+    );
+  }
+  const prefix = match[1];
+  const day = match[2];
+  const month = match[3];
+
+  return `${prefix} - ${day}/${month}`;
+}
+
 const ScheduleTable = (props: ScheduleTableProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [bookingId, setBookingId] = useState('');
@@ -122,9 +138,13 @@ const ScheduleTable = (props: ScheduleTableProps) => {
     inputTime.setHours(Number(time.split(':')[0]), Number(time.split(':')[1]));
 
     // return inputDate < currentDate && inputTime < currentTime;
-    if (startDateSchedule.getFullYear() < inputDate.getFullYear()) {
+    if (inputDate.getFullYear() < currentDate.getFullYear()) {
       return true;
     }
+    if (inputDate.getFullYear() > currentDate.getFullYear()) {
+      return false;
+    }
+    if (inputDate.getFullYear() > currentDate.getFullYear()) return false;
     if (inputDate.getTime() < currentDate.getTime()) {
       return true;
     } else if (inputDate.getTime() === currentDate.getTime()) {
@@ -161,7 +181,7 @@ const ScheduleTable = (props: ScheduleTableProps) => {
           {labelRows.map((labelRow) => (
             <tr key={labelRow} className="min-h-10">
               <td className="body-3 absolute z-[99] w-24 truncate bg-white font-medium">
-                {labelRow}
+                {convertDateFormat(labelRow)}
               </td>
               <td
                 className="min-w-24 border-none"

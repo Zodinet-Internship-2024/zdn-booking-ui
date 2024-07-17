@@ -17,6 +17,7 @@ export default function BookingQRModal({
   onClose: () => void;
   data: ModalData;
 }) {
+  const [api, contextHolder] = notification.useNotification();
   const [isSuccess, setIsSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState<string>();
@@ -35,19 +36,30 @@ export default function BookingQRModal({
       );
 
       if (res.status === 201) {
-        message.success('Đặt sân thành công');
+        api.success({
+          message: 'Đặt sân thành công',
+          description: 'Vui lòng chờ xác nhận từ chủ sân',
+          duration: 3,
+          showProgress: true,
+        });
         setBookingSuccess(res.data.data.id);
         setIsSuccess(true);
       } else {
-        notification.error({
+        api.error({
           message:
             errorMessageMapping[res?.response?.data?.message] ?? 'Tạo thất bại',
+          description: 'Vui lòng thử lại',
+          duration: 3,
+          showProgress: true,
         });
       }
     } catch (error) {
       console.error(error);
-      notification.error({
-        message: 'Đặt sân thất bại. Vui lòng thử lại sau.',
+      api.error({
+        message: 'Đặt sân thất bại',
+        description: 'Vui lòng thử lại',
+        duration: 3,
+        showProgress: true,
       });
     } finally {
       setIsLoading(false);
@@ -64,6 +76,7 @@ export default function BookingQRModal({
         `${isOpen ? 'absolute flex' : 'hidden'} right-0 top-0 z-[999] h-full w-full items-center justify-center transition`,
       )}
     >
+      {contextHolder}
       <div className="fixed inset-0 bg-black opacity-40"></div>
       <div className="flex flex-wrap">
         <div
