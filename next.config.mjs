@@ -2,6 +2,7 @@
 
 
 const nextConfig = {
+  output: 'standalone',
   webpack: (config, options) => {
     if (!options.dev) {
       config.devtool = options.isServer ? false : 'eval-source-map';
