@@ -7,6 +7,7 @@ import { ModalData } from './BookingModal';
 import { createBookingByUser } from '@/libs/api/booking.api';
 import QRBooking from '@/app/(owner)/owner/field-map/table-booking/components/QRBooking';
 import { errorMessageMapping } from '@/constants/constant';
+import dayjs from '@/utils/dayjs.util';
 
 export default function BookingQRModal({
   isOpen,
@@ -30,8 +31,8 @@ export default function BookingQRModal({
       setIsLoading(true);
       const res: any = await createBookingByUser(
         field.id,
-        data.startTime.format(),
-        data.endTime.format(),
+        dayjs.utc(data.startTime).format(),
+        dayjs.utc(data.endTime).format(),
         data.amount,
       );
 
