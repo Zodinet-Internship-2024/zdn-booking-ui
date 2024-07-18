@@ -18,32 +18,38 @@ export const signUpUser = async (signUpInfo: any): Promise<any> => {
   }
 };
 export const signIn = async (username: string, password: string) => {
-  const res = await axios.post(
-    `${API_HOST}/v1/auth/login`,
-    {
-      email: username,
-      password,
-    },
-    {
-      headers: {
-        'Content-Type': 'application/json',
+  try {
+    const res = await axios.post(
+      `${API_HOST}/v1/auth/login`,
+      {
+        email: username,
+        password,
       },
-      withCredentials: true,
-    },
-  );
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      },
+    );
+    const accessToken: string = res.data?.access_token
+      ? res.data.access_token
+      : '';
 
-  const accessToken: string = res.data?.access_token
-    ? res.data.access_token
-    : '';
+    const refreshToken: string = res.data?.refresh_token
+      ? res.data.refresh_token
+      : '';
 
-  const refreshToken: string = res.data?.refresh_token
-    ? res.data.refresh_token
-    : '';
+    cookies().set('access_token', accessToken);
+    cookies().set('refresh_token', refreshToken);
 
-  cookies().set('access_token', accessToken);
-  cookies().set('refresh_token', refreshToken);
+    return res.data;
+  } catch (error) {
+    console.log('error', error);
+  }
 
-  return res.data;
+
+  
 };
 
 export const createSocialUser = async (accessToken: string, role: string) => {
