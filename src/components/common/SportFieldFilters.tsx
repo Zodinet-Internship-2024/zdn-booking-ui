@@ -9,7 +9,7 @@ import {
   useRouter,
   useSearchParams,
 } from 'next/navigation';
-import { message } from 'antd';
+import { message, notification } from 'antd';
 
 const distanceFilter = {
   title: 'Khoảng cách',
@@ -64,6 +64,8 @@ export const SportFieldFilters: React.FC<FilterProps> = ({
   isOpen,
   onClick,
 }) => {
+  const [api, contextHolder] = notification.useNotification();
+
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -110,13 +112,18 @@ export const SportFieldFilters: React.FC<FilterProps> = ({
       params.delete('price');
     }
 
-    router.push(`${pathname}?${params.toString()}` as any);
+    router.push(`${pathname}?${params.toString()}` as any, { scroll: false });
 
     if (date && start && end) handleCloseFilter(false);
     if (date === '' && start === '' && end === '') handleCloseFilter(false);
     if (date)
       if (start === '' || end === '')
-        message.error('Vui lòng chọn thời gian bắt đầu và kết thúc');
+        api.error({
+          message: 'Lỗi thời gian',
+          description: 'Vui lòng chọn thời gian bắt đầu và kết thúc',
+          duration: 3,
+          showProgress: true,
+        });
   };
 
   const handleClearFilter = () => {
@@ -147,6 +154,7 @@ export const SportFieldFilters: React.FC<FilterProps> = ({
           : 'z-0 translate-x-full transform duration-1000'
       }`}
     >
+      {contextHolder}
       <div className="flex w-[400px] flex-col gap-3 2xl:gap-6">
         <div
           className={`body-1 flex flex-row items-center justify-between py-2 font-bold 2xl:h-[88px] 2xl:py-6`}

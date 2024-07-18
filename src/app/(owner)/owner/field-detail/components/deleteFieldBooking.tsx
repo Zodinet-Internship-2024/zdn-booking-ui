@@ -82,7 +82,7 @@ export default function DeleteFieldBooking({
     if (fieldBooking && fieldBooking?.length > 0) {
       await removeBookingOfSportField(sportField.id);
       api.success({
-        message: 'Xóa lịch đặt chỗ  thành công ',
+        message: 'Xóa lịch đặt chỗ thành công ',
         placement: 'top',
         showProgress: true,
         pauseOnHover: false,
@@ -93,14 +93,22 @@ export default function DeleteFieldBooking({
   const handleDeleteBookings = async () => {
     if (fieldBooking && fieldBooking.length > 0) {
       api.error({
-        message: 'Bạn  phải xóa lịch đặt c của sân',
+        message: 'Bạn phải xóa lịch đặt chỗ của sân',
         placement: 'top',
         showProgress: true,
         pauseOnHover: false,
+        duration: 3,
       });
     } else {
       await removeSportField(sportField.id);
-      message.success('Xóa sân thành công');
+      api.success({
+        message: 'Xóa sân thành công',
+        placement: 'top',
+        showProgress: true,
+        pauseOnHover: false,
+        duration: 3,
+      });
+
       onClose();
       route.refresh();
       route.push('/owner?type=all');
@@ -134,7 +142,7 @@ export default function DeleteFieldBooking({
         className={`${isOpen ? 'absolute flex' : 'hidden'} right-0 top-0 z-[999] h-full w-full items-center justify-center rounded-[20px] transition`}
       >
         <div
-          className="z-9 absolute inset-0 h-full bg-black opacity-40"
+          className="z-9 fixed inset-0 h-full bg-black opacity-40"
           onClick={handleBackgroundClick}
         ></div>
         <div className="py relative z-10 w-[740px] rounded-2xl bg-white px-10 py-6 shadow-lg">

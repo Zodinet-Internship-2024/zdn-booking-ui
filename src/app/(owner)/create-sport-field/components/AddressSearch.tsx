@@ -44,14 +44,6 @@ async function streetMapSearch(address: string): Promise<Location[]> {
   return response.data as Location[];
 }
 
-// async function geocodeSearch(address: string): Promise<Location[]> {
-//   const api_key = process.env.NEXT_PUBLIC_GEOCODE_API_KEY || '';
-//   const response = await axios.get(
-//     `https://geocode.maps.co/search?q=${address}&api_key=${api_key}`,
-//   );
-//   return response.data as Location[];
-// }
-
 const AddressSearch: React.FC<AddressSearchProps> = ({
   province = null,
   district = null,
@@ -62,34 +54,40 @@ const AddressSearch: React.FC<AddressSearchProps> = ({
   const [address, setAddress] = useState<string>(''); // input value
   const [defaultAddress, setDefaultAddress] = useState<string>('');
   const [searchAddress, setSearchAddress] = useState<Location[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [selectedAddress, setSelectedAddress] = useState<string>('');
   const debouncedAddress = useCallback(debounce(setAddress, 500), []);
 
   const handleSearch = async () => {
-    setIsLoading(true);
     if (!address) {
-      console.log('address is empty');
-      setIsLoading(false);
       return;
     }
 
-    const fullAddress = `${address.trim()}, ${ward?.name}, ${district?.name}, ${province?.name}`;
+    const fullAddress = `${address.trim()}, ${ward ? `${ward.name},` : ''} ${district?.name}, ${province?.name}`;
 
     try {
-      console.log('searching address', fullAddress);
-
       const [locations, searchings] = await Promise.all([
         beSearch(fullAddress),
         streetMapSearch(fullAddress),
       ]);
 
       const results = [...locations, ...searchings];
-      console.log(locations);
-      console.log(searchings);
 
+      if (results.length === 0) {
+        results.push({
+          name: fullAddress,
+          lat: 0,
+          lon: 0,
+        });
+      }
       setSearchAddress(results);
     } catch (error) {
+      setSearchAddress([
+        {
+          name: fullAddress,
+          lat: 0,
+          lon: 0,
+        },
+      ]);
       console.error(error);
     }
   };
@@ -100,13 +98,8 @@ const AddressSearch: React.FC<AddressSearchProps> = ({
   };
 
   useEffect(() => {
-    console.log('address changed');
     handleSearch();
   }, [address]);
-
-  useEffect(() => {
-    setIsLoading(false);
-  }, [searchAddress]);
 
   useEffect(() => {
     if (defaultValue) {
@@ -115,8 +108,9 @@ const AddressSearch: React.FC<AddressSearchProps> = ({
         addressObj.displayName || addressObj.display_name || addressObj.name,
       );
       setSelectedAddress(defaultValue);
+      setSearchAddress([addressObj]);
+      onChange && onChange(defaultValue);
     }
-    onChange && onChange(defaultValue);
   }, [defaultValue]);
 
   useLayoutEffect(() => {
@@ -137,8 +131,9 @@ const AddressSearch: React.FC<AddressSearchProps> = ({
         value={selectedAddress}
         // onSelect={handleSelect}
         onChange={handleSelect}
+        filterOption={false}
       >
-        {!isLoading && searchAddress.length > 0 ? (
+        {searchAddress.length > 0 ? (
           searchAddress?.map((item: Location, index: number) => {
             return (
               <Select.Option key={index} value={JSON.stringify(item)}>
@@ -151,22 +146,7 @@ const AddressSearch: React.FC<AddressSearchProps> = ({
             );
           })
         ) : (
-          // <AddressSelection selections={searchAddress} />
-          <Select.Option key={0} value={selectedAddress}>
-            {defaultAddress}
-          </Select.Option>
-        )}
-        {address && !isLoading && (
-          <Select.Option
-            key={0}
-            value={JSON.stringify({
-              name: address,
-              lat: 0,
-              lng: 0,
-            })}
-          >
-            {address}
-          </Select.Option>
+          <></>
         )}
       </Select>
     </div>

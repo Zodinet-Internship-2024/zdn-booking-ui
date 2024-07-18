@@ -77,7 +77,6 @@ export const searchSportFieldAddress = async (address: string) => {
         },
       })
       .then((res) => res.data);
-    console.log(response);
     return response;
   } catch (error) {
     return {

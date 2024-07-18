@@ -84,7 +84,7 @@ export function generateRows(startDateSchedule: Date) {
       .toLocaleDateString('vi', { weekday: 'short' })
       .replace('.', '');
     const formattedWeekday = weekdayShort.replace('Th ', 'T'); // Remove space after 'Th'
-    return `${formattedWeekday} - ${day.getDate()}/${day.getMonth() + 1}`;
+    return `${formattedWeekday} - ${day.getDate()}/${day.getMonth() + 1}/${day.getFullYear()}`;
   });
 }
 
@@ -99,10 +99,7 @@ export function parseDateFromString(dateStr: string) {
   }
 
   // Extract the day and month
-  const [day, month] = parts[1].split('/').map(Number); // Convert day and month to numbers
-
-  // Get the current year to use it in the date object
-  const year = new Date().getFullYear();
+  const [day, month, year] = parts[1].split('/').map(Number); // Convert day and month to numbers
 
   // Create a new Date object in UTC
   const date = new Date(Date.UTC(year, month - 1, day));

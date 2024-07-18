@@ -2,7 +2,7 @@
 
 import useFetchNotifications from '@/hooks/useNotifications';
 import { groupNotificationsByDay } from '@/libs/utils';
-import { Pagination } from 'antd';
+import { Pagination, Spin } from 'antd';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import NotificationItem from './NotificationItem';
 
@@ -33,9 +33,9 @@ const NotificationList = () => {
   return (
     <div>
       {isLoading ? (
-        <span className="body-3 font-normal text-natural-400">
-          Vui lòng chờ ...
-        </span>
+        <div className="flex w-full justify-center">
+          <Spin />
+        </div>
       ) : (
         <>
           <div className="flex flex-col gap-8">

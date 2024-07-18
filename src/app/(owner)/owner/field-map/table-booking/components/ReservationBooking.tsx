@@ -2,7 +2,7 @@ import { CloseOutlined, EditOutlined } from '@ant-design/icons';
 import styles from './ScheduleTable.module.scss';
 import React, { useEffect, useId, useState } from 'react';
 import { cn, formatCurrency } from '@/libs/utils';
-import { Button, message } from 'antd';
+import { Button, message, notification } from 'antd';
 import QRBooking from './QRBooking';
 import {
   CreateBookingByOwnerDto,
@@ -58,6 +58,7 @@ export default function ReservationBooking({
   bookingTime,
   bookings,
 }: ReservationBookingProps) {
+  const [api, contextHolder] = notification.useNotification();
   const [time, setTime] = useState<[Dayjs, Dayjs]>([
     dayjs(bookingTime?.startTime),
     dayjs(bookingTime?.endTime),
@@ -86,7 +87,12 @@ export default function ReservationBooking({
       setIsLoading(true);
       const res = await removeBookingById(bookingId);
       if (res) {
-        message.success('Xóa thành công');
+        api.success({
+          message: 'Xóa thành công',
+          placement: 'top',
+          showProgress: true,
+          duration: 3,
+        });
         mutate(
           (key) =>
             typeof key === 'string' &&
@@ -96,7 +102,12 @@ export default function ReservationBooking({
         route.push(`table-booking?fieldId=${field.id}&id=${id}` as any);
       }
     } catch (error) {
-      message.error('Xóa thất bại');
+      api.error({
+        message: 'Xóa thất bại',
+        placement: 'top',
+        showProgress: true,
+        duration: 3,
+      });
     } finally {
       setIsLoading(false);
     }
@@ -105,7 +116,13 @@ export default function ReservationBooking({
     try {
       setIsLoading(true);
       if (!time) {
-        message.error('Vui lòng chọn thời gian');
+        api.error({
+          message: 'Đặt sân thất bại',
+          description: 'Vui lòng chọn thời gian!',
+          placement: 'top',
+          showProgress: true,
+          duration: 3,
+        });
         return;
       }
       const { startTime, endTime } = setBookingTimeRange(bookingTime, time);
@@ -121,7 +138,12 @@ export default function ReservationBooking({
 
       const res: any = await createBookingByOwner(data);
       if (res?.status === 201) {
-        message.success('Đặt sân thành công');
+        api.success({
+          message: 'Đặt sân thành công',
+          description: 'Vui lòng liên hệ với khách hàng!',
+          duration: 3,
+          showProgress: true,
+        });
         setBookingSuccess(res.data?.data?.id);
         setIsSuccess(true);
         // onClose();
@@ -132,14 +154,22 @@ export default function ReservationBooking({
         );
         route.push(`table-booking?fieldId=${field.id}&id=${id}` as any);
       } else {
-        console.log(res.response.data);
-        message.error(
-          errorMessageMapping[res.response.data.message] ?? 'Tạo thất bại',
-        );
+        api.error({
+          message: 'Vui lòng  thử lại!',
+          description:
+            errorMessageMapping[res.response.data.message] ?? 'Tạo thất bại',
+          duration: 3,
+          showProgress: true,
+        });
       }
     } catch (error: any) {
       console.log(error);
-      message.error('Tạo thất bại');
+      api.error({
+        message: 'Vui lòng thử lại!',
+        description: 'Tạo thất bại',
+        duration: 3,
+        showProgress: true,
+      });
     } finally {
       setIsLoading(false);
     }
@@ -202,14 +232,15 @@ export default function ReservationBooking({
         `${isOpen ? 'absolute flex' : 'hidden'} right-0 top-0 z-[999] h-full w-full items-center justify-center rounded-[20px] transition`,
       )}
     >
-      <div className="absolute inset-0 bg-black opacity-40"></div>
+      {contextHolder}
+      <div className="fixed inset-0 bg-black opacity-40"></div>
       <div className="flex flex-wrap">
         <div
           className={`z-10 max-w-[534px] rounded-l-[20px] ${isDeleteForm ? 'rounded-r-[20px]' : ''} bg-white px-10 py-6 md:w-[534px]`}
         >
           <div className="flex items-center justify-between">
             <span className="text-xl font-bold leading-5 text-natural-700">
-              Đặt chỗ
+              {isDeleteForm ? 'Hủy đặt chỗ' : 'Đặt chỗ'}
             </span>
             {isDeleteForm ? (
               <CloseOutlined
@@ -320,9 +351,11 @@ export default function ReservationBooking({
               <div className="mt-3 flex items-center text-sm font-medium leading-5">
                 Tổng tiền{' '}
                 <p className="ml-3 text-base font-bold text-primary-600">
-                  {isDeleteForm
-                    ? formatCurrency(booking?.amount ?? 0)
-                    : formatCurrency(amount)}
+                  {amount < 0
+                    ? 'Đang tính toán...'
+                    : isDeleteForm
+                      ? formatCurrency(booking?.amount ?? 0)
+                      : formatCurrency(amount)}
                 </p>
               </div>
             </div>

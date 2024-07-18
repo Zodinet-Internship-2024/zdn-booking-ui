@@ -1,12 +1,14 @@
 'use client';
 import useSearchSportFields from '@/hooks/useSearchSportFields';
 import PopularItem from './PopularItem';
-import { message, Skeleton } from 'antd';
+import { notification, Skeleton } from 'antd';
 import { useSearchParams } from 'next/navigation';
 import Pagination from '@/components/pagination/Pagination';
 import { useEffect, useMemo } from 'react';
 
 const PopularList = () => {
+  const [api, contextHolder] = notification.useNotification();
+
   const searchParams = useSearchParams();
 
   const page = searchParams.get('popular-page') ?? 1;
@@ -39,22 +41,33 @@ const PopularList = () => {
     if (navigator.permissions) {
       navigator.permissions.query({ name: 'geolocation' }).then((result) => {
         if (result.state === 'denied') {
-          message.error(
-            'Người dùng đã từ chối truy cập vị trí. \nVui lòng cấp quyền truy cập vị trí để sử dụng tính năng này.',
-          );
+          api.error({
+            message: 'Lỗi định vị',
+            description:
+              'Người dùng đã từ chối truy cập vị trí. \nVui lòng cấp quyền truy cập vị trí để sử dụng tính năng này.',
+            duration: 0,
+          });
         }
         result.onchange = () => {
           if (result.state === 'granted') {
             window.location.reload();
           } else if (result.state === 'denied') {
-            message.error(
-              'Người dùng đã từ chối truy cập vị trí. \nVui lòng cấp quyền truy cập vị trí để sử dụng tính năng này.',
-            );
+            api.error({
+              message: 'Lỗi định vị',
+              description:
+                'Người dùng đã từ chối truy cập vị trí. \nVui lòng cấp quyền truy cập vị trí để sử dụng tính năng này.',
+              duration: 0,
+            });
           }
         };
       });
     } else {
-      message.error('Định vị không được hỗ trợ trên trình duyệt của bạn.');
+      api.error({
+        message: 'Lỗi định vị',
+        description: 'Định vị không được hỗ trợ trên trình duyệt của bạn.',
+        duration: 3,
+        showProgress: true,
+      });
     }
   }, []);
 
@@ -66,6 +79,7 @@ const PopularList = () => {
   }
   return (
     <div>
+      {contextHolder}
       <div className="mb-6 mt-8 flex flex-col gap-6 divide-y xl:divide-y-0">
         {sportFields.map((sportField) => (
           <PopularItem key={sportField.id} sportField={sportField} />

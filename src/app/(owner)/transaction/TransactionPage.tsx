@@ -2,7 +2,7 @@
 
 import Transaction from './components/Transaction';
 import FieldTypeFilter from '@/components/common/FieldTypeFilter';
-import { Select, Input, Pagination, PaginationProps } from 'antd';
+import { Select, Input, Pagination, PaginationProps, Spin } from 'antd';
 import { BOOKING_STATUS, BOOKING_STATUS_MAPPING } from '@/constants/constant';
 import styles from './page.module.scss';
 import RangePickerComponent from '@/components/common/RangePickerComponent';
@@ -127,9 +127,9 @@ function TransactionPage() {
         </div>
       </div>
       {isLoading ? (
-        <span className="body-3 font-normal text-natural-400">
-          Vui lòng chờ ...
-        </span>
+        <div className="flex w-full justify-center">
+          <Spin />
+        </div>
       ) : (
         <>
           <Transaction bookings={bookings} />
