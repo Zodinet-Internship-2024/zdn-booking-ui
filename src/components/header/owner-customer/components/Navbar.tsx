@@ -4,6 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import { cn } from '@/libs/utils';
 import { usePathname } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 const links = [
   { href: '/home', label: 'Kênh người thuê', hidden: true },
@@ -37,6 +38,7 @@ const NavbarLink = ({
 );
 
 const Navbar = () => {
+  const { data: session } = useSession();
   const pathname = usePathname();
   return (
     <div className="body-3 mx-auto flex w-fit items-center justify-between py-4 font-medium md:gap-3 lg:gap-4 xl:gap-5">
@@ -50,9 +52,9 @@ const Navbar = () => {
         )}
       >
         <Image
-          src="/images/avt.png"
+          src={session?.user?.imageUrl || '/images/avatar.png'}
           alt="avatar"
-          className="rounded-xl"
+          className="rounded-full"
           width={44}
           height={44}
           priority
