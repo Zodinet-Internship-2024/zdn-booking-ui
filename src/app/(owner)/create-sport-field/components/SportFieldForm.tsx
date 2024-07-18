@@ -504,6 +504,7 @@ const SportFieldForm: React.FC<SportFieldFormProps> = ({
                 type: 'number',
                 required: true,
                 message: 'Vui lòng nhập Giá tiền',
+                min: 0,
               },
             ]}
           >

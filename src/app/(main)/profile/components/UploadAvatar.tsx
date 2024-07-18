@@ -30,22 +30,44 @@ const beforeUpload = (file: FileType) => {
   return isJpgOrPng && isLt2M;
 };
 
-const UploadAvatar: React.FC = () => {
+interface UploadAvatarProps {
+  imageUrl: string;
+  setImageUrl: (url: string) => void;
+}
+
+const UploadAvatar: React.FC<UploadAvatarProps> = ({
+  imageUrl,
+  setImageUrl,
+}) => {
   const [api, contextHolder] = notification.useNotification();
 
   const [loading, setLoading] = useState(false);
-  const [imageUrl, setImageUrl] = useState<string>('');
-
   const handleChange: UploadProps['onChange'] = (info) => {
     if (info.file.status === 'uploading') {
       setLoading(true);
       return;
     }
     if (info.file.status === 'done' || true) {
-      uploadImage(info.file.originFileObj as File).then((res) => {
-        setLoading(false);
-        setImageUrl(`${res}?alt=media`);
-      });
+      uploadImage(info.file.originFileObj as File)
+        .then((res) => {
+          setLoading(false);
+          setImageUrl(`${res.url}?alt=media`);
+          api.success({
+            message: 'Tải ảnh lên thành công',
+            description: 'Ảnh của bạn đã được cập nhật',
+            duration: 2,
+            showProgress: true,
+          });
+        })
+        .catch((err) => {
+          setLoading(false);
+          api.error({
+            message: 'Vui lòng thử lại sau!',
+            description: 'Tải ảnh lên không thành công',
+            duration: 2,
+            showProgress: true,
+          });
+        });
     }
   };
 
@@ -59,7 +81,7 @@ const UploadAvatar: React.FC = () => {
   return (
     <Flex gap="middle" wrap>
       {contextHolder}
-      <ImgCrop rotationSlider>
+      <ImgCrop rotationSlider cropShape="round">
         <Upload
           name="avatar"
           listType="picture-circle"

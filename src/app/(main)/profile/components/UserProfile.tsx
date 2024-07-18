@@ -1,10 +1,10 @@
 "use client";
 import Image from "next/image";
-import { Button, Modal } from "antd";
-import { useState } from "react";
-import styles from "./profile.module.scss";
-import { cn } from "@/libs/utils";
-import EditProfile from "./EditProfile";
+import { Avatar, Button, Modal } from 'antd';
+import { useState } from 'react';
+import styles from './profile.module.scss';
+import { cn } from '@/libs/utils';
+import EditProfile from './EditProfile';
 import { signOut, useSession } from 'next-auth/react';
 import { removeTokens } from '@/app/(auth)/apis/auth.api';
 
@@ -39,8 +39,8 @@ export default function UserProfile() {
       >
         <div className="relative h-[84px] w-[84px]">
           <Image
-            src="/images/avt.png"
-            className="rounded-xl"
+            src={session?.user?.imageUrl || '/images/avatar.png'}
+            className="rounded-full"
             alt="avatar"
             fill
           />
@@ -102,7 +102,12 @@ export default function UserProfile() {
           <div className={cn(styles.modalContainer)}>{node}</div>
         )}
       >
-        <EditProfile onCancel={handleCancel} />
+        <EditProfile
+          onCancel={handleCancel}
+          img={session?.user?.imageUrl || ''}
+          name={session?.user?.name || ''}
+          phoneNum={session?.user?.phone || ''}
+        />
       </Modal>
     </>
   );

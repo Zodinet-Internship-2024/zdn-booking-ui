@@ -8,6 +8,7 @@ import { useSession } from 'next-auth/react';
 import useUnreadNotificationCount from '@/hooks/useUnreadNotificationCount';
 
 const Navbar = () => {
+  const { data: session } = useSession();
   const pathname = usePathname();
   const { count = 0, setCount } = useUnreadNotificationCount();
 
@@ -33,8 +34,8 @@ const Navbar = () => {
       </Link>
       <Link className="text-natural-700 hover:text-natural-400" href="/profile">
         <Image
-          src="/images/avt.png"
-          className="rounded-xl"
+          src={session?.user?.imageUrl || '/images/avatar.png'}
+          className="rounded-full"
           alt="avatar"
           width={44}
           height={44}
