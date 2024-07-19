@@ -14,9 +14,11 @@ const Navbar = () => {
 
   return (
     <div className="body-3 mx-auto flex w-fit items-center justify-between gap-3 py-4 font-medium lg:gap-5 xl:gap-10">
-      <Link className="text-natural-700 hover:text-natural-400" href="/owner">
-        Kênh chủ sân
-      </Link>
+      {session?.user?.role === 'owner' && (
+        <Link className="text-natural-700 hover:text-natural-400" href="/owner">
+          Kênh chủ sân
+        </Link>
+      )}
       <Link
         className={cn(
           'text-natural-700 hover:text-natural-400',
