@@ -77,7 +77,7 @@ export default function InfoFieldDetail({
           <p className="mb-6 text-base font-normal leading-6 text-natural-500">
             Danh mục{' '}
             <span className="ml-3 font-bold text-natural-700">
-              Sân bóng đá{' '}
+              {sportField?.sportFieldType?.name ?? 'Chưa cập nhật'}
             </span>
           </p>
           <p className="mb-6 text-base font-normal leading-6 text-natural-500">
@@ -108,12 +108,6 @@ export default function InfoFieldDetail({
             </span>
           </p>
           <div className="mb-6 flex items-center text-base font-normal leading-6 text-natural-700">
-            <div>
-              <p className="mb-4 text-base font-medium text-natural-500">
-                Khung giờ
-              </p>
-              <span className="font-bold">Cả ngày</span>
-            </div>
             <div className="ml-10">
               <p
                 className="mb-4 text-base font-medium text-natural-500"
@@ -125,7 +119,7 @@ export default function InfoFieldDetail({
               </p>
               <span className="font-bold">
                 {' '}
-                {formatCurrency(sportField.price)}/ tiếng
+                {formatCurrency(sportField.price)}/ 30p
               </span>
             </div>
           </div>
