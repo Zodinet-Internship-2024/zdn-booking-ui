@@ -108,7 +108,7 @@ export default function InfoFieldDetail({
             </span>
           </p>
           <div className="mb-6 flex items-center text-base font-normal leading-6 text-natural-700">
-            <div className="ml-10">
+            <div className="">
               <p
                 className="mb-4 text-base font-medium text-natural-500"
                 text-base
