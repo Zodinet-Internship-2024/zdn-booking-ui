@@ -1,16 +1,21 @@
 'use client';
 import { useSession } from 'next-auth/react';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 type PrivateRouteProps = {
   children: React.ReactNode;
 };
 const PrivateRoute = ({ children }: PrivateRouteProps) => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+  const router = useRouter();
 
-  if (session?.user?.role !== 'owner') {
-    redirect('/home');
-  }
+  useEffect(() => {
+    if (status === 'loading') return;
+    if (!session?.user || session.user.role !== 'owner') {
+      router.replace('/home');
+    }
+  }, [status, session, router]);
 
   return <>{children}</>;
 };

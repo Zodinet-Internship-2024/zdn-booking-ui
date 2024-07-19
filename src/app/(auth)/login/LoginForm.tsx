@@ -26,7 +26,10 @@ export default function LoginForm() {
     const updateSearchParams = () => {
       if (!VALID_ROLES.includes(role as string)) {
         const params = getValidRole(role as string);
-        router.push(`login?role=${params.toString()}` as any);
+        const newParams = new URLSearchParams(searchParams);
+        newParams.set('role', params);
+
+        router.push(`/login?${newParams.toString()}`);
       }
     };
 
@@ -44,7 +47,8 @@ export default function LoginForm() {
   const { data: session } = useSession();
 
   if (session?.user) {
-    router.push(`home` as any);
+    const redirect = searchParams.get('redirect') ?? '/home';
+    router.push(redirect as any);
   }
 
   async function onFocus() {

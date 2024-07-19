@@ -32,11 +32,23 @@ function TransactionPage() {
   const type = searchParams.get('type');
 
   const fetchBookings = async () => {
+    const startTime = time?.[0] ? time?.[0].format('HH:mm') : undefined;
+    const endTime = time?.[1] ? time?.[1].format('HH:mm') : undefined;
     const fetchedBookings = await getTransactions({
       status,
       date: date ? date.format('YYYY-MM-DD') : undefined,
-      startTime: time?.[0] ? time?.[0].format('HH:mm') : undefined,
-      endTime: time?.[1] ? time?.[1].format('HH:mm') : undefined,
+      startTime:
+        startTime && endTime
+          ? startTime < endTime
+            ? startTime
+            : endTime
+          : undefined,
+      endTime:
+        startTime && endTime
+          ? startTime < endTime
+            ? endTime
+            : startTime
+          : undefined,
       name: input ? input : undefined,
       type: type ? type : undefined,
       page: page ? Number(page) : 1,
