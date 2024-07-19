@@ -51,7 +51,7 @@ const RangePickerComponent: React.FC<rangePickerProps> = (props) => {
             ? [dayjs(defaultValue[0], 'HH:mm'), dayjs(defaultValue[1], 'HH:mm')]
             : undefined
         }
-        value={defaultValue ? time : undefined}
+        value={defaultValue ? (time ? time : undefined) : undefined}
         minuteStep={30}
         format="HH:mm"
         use12Hours={false}
@@ -59,7 +59,6 @@ const RangePickerComponent: React.FC<rangePickerProps> = (props) => {
         suffixIcon={
           <ClockCircleOutlined style={{ fontSize: '20px', color: '#939393' }} />
         }
-        allowClear={false}
         separator={<Image src={Arrow} alt="arrow" className={``} />}
         className={`flex flex-grow items-center justify-start gap-3`}
         onCalendarChange={(_, [start, end]) => {
