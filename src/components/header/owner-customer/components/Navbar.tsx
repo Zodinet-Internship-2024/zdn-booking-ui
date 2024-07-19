@@ -11,7 +11,7 @@ const links = [
   { href: '/owner', label: 'Quản lý sân' },
   { href: '/create-sport-field', label: 'Tạo sân' },
   { href: '/transaction', label: 'Lịch sử giao dịch' },
-  { href: '/booking', label: 'Đặt chỗ (12)' },
+  { href: '/booking', label: 'Đặt chỗ' },
 ];
 
 const NavbarLink = ({

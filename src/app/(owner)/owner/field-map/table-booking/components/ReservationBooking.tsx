@@ -229,12 +229,12 @@ export default function ReservationBooking({
     <div
       className={cn(
         styles.modal,
-        `${isOpen ? 'absolute flex' : 'hidden'} right-0 top-0 z-[999] h-full w-full items-center justify-center rounded-[20px] transition`,
+        `${isOpen ? 'absolute flex' : 'hidden'} right-0 top-6 z-[999] h-full w-full items-center justify-center rounded-[20px] transition`,
       )}
     >
       {contextHolder}
       <div className="fixed inset-0 bg-black opacity-40"></div>
-      <div className="flex flex-wrap">
+      <div className="flex">
         <div
           className={`z-10 max-w-[534px] rounded-l-[20px] ${isDeleteForm ? 'rounded-r-[20px]' : ''} bg-white px-10 py-6 md:w-[534px]`}
         >

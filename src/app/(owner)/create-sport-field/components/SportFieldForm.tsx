@@ -509,7 +509,13 @@ const SportFieldForm: React.FC<SportFieldFormProps> = ({
             ]}
           >
             <InputNumber
-              suffix="VND/giờ"
+              formatter={(value) =>
+                `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+              }
+              parser={(value) =>
+                value?.replace(/\$\s?|(,*)/g, '') as unknown as number
+              }
+              suffix="VNĐ/30p"
               maxLength={10}
               style={{ width: '120%', borderRadius: '40px' }}
             />
@@ -517,7 +523,7 @@ const SportFieldForm: React.FC<SportFieldFormProps> = ({
         </div>
 
         <div className="flex w-full flex-col">
-          <p className="body-2 mb-5 font-bold text-natural-700">Quy đinh sân</p>
+          <p className="body-2 mb-5 font-bold text-natural-700">Quy định sân</p>
           <Form.Item
             name="rule"
             rules={[{ required: true, message: 'Vui lòng nhập Quy định sân' }]}

@@ -215,7 +215,7 @@ export const SportFieldFilters: React.FC<FilterProps> = ({
           className={`border-b-2 border-natural-400 text-natural-400 hover:border-accent-600 hover:text-accent-600`}
           onClick={handleClearFilter}
         >
-          <span className="w body-3 w-fit font-bold">Xoa bo loc</span>
+          <span className="w body-3 w-fit font-bold">Xóa bộ lọc</span>
         </button>
       </div>
     </div>
